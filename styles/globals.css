@@ -1,9 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Gothicb;
+  src: url('/font/gothicb.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Varela;
+  src: url('/font/Varela.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Mashanzheng;
+  src: url('/font/mashanzheng.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: zcool;
+  src: url('/font/zcool.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 1.05em;
+  font-family: "zcool"
 }
 
 a {
@@ -13,4 +46,11 @@ a {
 
 * {
   box-sizing: border-box;
+  /* background-color: beige; */
+}
+
+li {
+  display: inline;
+  padding: 0 1em;
+  font-size: 1.5em;
 }

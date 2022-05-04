@@ -1,0 +1,26 @@
+
+.cart {
+    font-size: 2.2em;
+    margin: 0 0.5em 0 0.5em;
+    cursor: pointer;
+    position:relative;
+    top: 0.35em;
+    
+    /* position:relative; */
+}
+
+.number {
+    /* position: relative; */
+    font-size: 1em;
+    width: fit-content;
+    min-width: 1em;
+    color: #000;
+    background: rgb(248, 48, 48);
+    border-radius:50%;
+    padding: 0 5px;
+    position:relative;
+    left: 2.5em;
+    top: -1.8em;
+    opacity:0.9;
+
+}
