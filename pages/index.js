@@ -6,11 +6,11 @@ import { useEffect, useRef } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
+import { useRouter } from 'next/router'
 
-// TODO: Fix image starts at weird position after refresh
 export default function Home() {
+  const router = useRouter();
   const { t } = useTranslation("common");
-
   const mainImg = useRef();
   useEffect(() => {
     const mainImgCur = mainImg.current;
@@ -33,7 +33,7 @@ export default function Home() {
       </div>
       <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
         <div className="text-center font-bold text-[4em] underline">
-          <h2>{t("products")}</h2>
+          <h2 id="product">{t("products")}</h2>
         </div>
         <div className={styles.itemList}>
           <Item url="/images/tiao.jpg" title="Bird's Nest 100g dry"></Item>
@@ -60,12 +60,14 @@ export default function Home() {
             title="Large Dry Bird's Nest 100g"
           ></Item>
           <Item url="/images/tiao30g.jpg" title="Bird's Nest 30g Dry"></Item>
+          <div className={styles.masker} onClick={() => alert("asdasdasdsad")}> {t("show_more")} </div>
         </div>
       </div>
     </div>
   );
 }
 
+// have to do this every single page :/ 
 export async function getStaticProps({ locale }) {
   return {
     props: {

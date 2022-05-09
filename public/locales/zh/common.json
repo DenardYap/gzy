@@ -31,5 +31,10 @@
   "disclaimer_warn": "本网站目前只接受来自马来西亚的订单, 来自中国或其他地区的客户请通过微信，邮件，电话，或其他社交媒体联系我们！",
   "connected": "在社交网络上关注我们吧！",
   "main_text2": "100% 上等纯燕窝",
-  "main_text": "珍贵与纯真"
+  "main_text": "珍贵与纯真",
+  "no_item": "购物车目前是空的",
+  "items_in_cart": "物品数量: ",
+  "view_cart": "查看购物车",
+  "checkout": "准备结账",
+  "show_more": "显示更多"
 }

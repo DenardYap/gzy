@@ -31,5 +31,10 @@
   "disclaimer_warn": "本網站目前只接受來自馬來西亞的訂單, 來自中國或其他地區的客戶請通過微信，郵件，電話，或其他社交媒體聯繫我們！",
   "connected": "在社交網絡上關注我們吧！",
   "main_text2": "100% 上等純燕窩",
-  "main_text":  "珍貴與純真"
+  "main_text":  "珍貴與純真",
+  "no_item": "購物車目前是空的",
+  "items_in_cart": "物品數量: ",
+  "view_cart": "查看購物車",
+  "checkout": "準備結賬",
+  "show_more": "顯示更多"
 }

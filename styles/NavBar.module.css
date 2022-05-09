@@ -1,5 +1,25 @@
 
+.cartContainer {
+    position: relative;
+    cursor: pointer;
+    /* display: inline-block; */
+
+}
+.userContainer {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+
+}
+
+.user {
+    margin-left: 0.5em;
+    margin-right: 1em;
+    font-size: 2rem;
+
+}
 .cart {
+    display: inline-block;
     font-size: 2.2em;
     margin: 0 0.5em 0 0.5em;
     cursor: pointer;
@@ -8,6 +28,89 @@
     
     /* position:relative; */
 }
+
+.cartText {
+
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+    overflow-wrap: break-word;
+    width: 20em;
+    min-height: 10em;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 0.5em 1em;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+    top: 4em;
+    right: -2em;
+
+    
+    /* --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); */
+    
+  }
+
+  
+.userText {
+
+    /* display: flex; */
+    /* flex-direction: column; */
+    cursor: default;
+    visibility: hidden;
+    overflow-wrap: break-word;
+    width: 6em;
+    height: fit-content;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 0.5em 1em;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+    top: 3em;
+    right: -0em;
+  }
+
+
+  .cartText::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%; /* At the bottom of the tooltip */
+    left: 80%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+    
+  }
+  
+.userText::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+  }
+
+.userContainer:hover .userText {
+    visibility: visible;
+}
+
+.cartContainer:hover .cartText {
+    visibility: visible;
+  }
 
 .number {
     /* position: relative; */

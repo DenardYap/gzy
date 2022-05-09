@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import navStyles from "../styles/NavBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineShoppingCart, AiOutlineFrown } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
@@ -14,7 +14,11 @@ import { useRouter } from "next/router";
  * 7) Unknown key passed via urlObject into url.format: current
  */
 
+
 const NavBar = () => {
+  // const [currentLocale, setCurrentLocale] = useState("en");
+  const [refresh, setRefresh] = useState(true);
+  const [items, setItems] = useState(0);
   const { t } = useTranslation("common");
   const router = useRouter();
 
@@ -23,23 +27,40 @@ const NavBar = () => {
   const dropdownBox = useRef();
   const navBarRef = useRef();
 
-  let refreshLink = useRef("#");
+  let curPage = useRef("#");
 
-  useEffect(() => {
-    // to prevent the null error thigns in Next
-    const dropdownBoxCur = dropdownBox.current;
-    const lgBtnCur = lgBtn.current;
-
-    // logic for dropdown
-    const cur_link = navBarRef.current.querySelectorAll(
+  function refresher(e) {
+    const curRef = navBarRef.current.querySelectorAll(
+      
       'a[href="' + window.location.pathname + '"]'
     );
 
-    refreshLink = window.location.href;
+    curRef.forEach((link) => {
 
-    cur_link.forEach((link) => {
+      // link.className += "md:border-transparent";
+      link.classList.remove("md:border-amber-400");
+    })
+    e.currentTarget.className += " md:border-amber-400";
+  }
+
+  useEffect(() => {
+    // to prevent the null error thigns in Next
+    // localStorage["locale"] ? setCurrentLocale(localStorage["locale"]) 
+    //                        : setCurrentLocale("en");
+    const dropdownBoxCur = dropdownBox.current;
+    const lgBtnCur = lgBtn.current;
+    // logic for dropdown
+    const curRef = navBarRef.current.querySelectorAll(
+      
+      'a[href="' + window.location.pathname + '"]'
+    );
+    curPage = window.location.href;
+    curRef.forEach((link) => {
+      
+      // link.classList.remove("md:border-transparent");
       link.className += " md:border-amber-400";
     });
+
     function handleDropDown() {
       if (dropdownBtn.current.classList.contains("hidden")) {
         dropdownBtn.current.classList.remove("hidden");
@@ -58,30 +79,31 @@ const NavBar = () => {
     lgBtnCur.addEventListener("click", handleDropDown);
     dropdownBoxCur.addEventListener("mouseleave", handleDropDownLeave);
     return () => {
+      
       dropdownBoxCur.removeEventListener("mouseleave", handleDropDownLeave);
       lgBtnCur.removeEventListener("click", handleDropDown);
     };
-  }, []);
+  }, [refresh]);
   return (
     <nav
       ref={navBarRef}
       className="	 bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 sticky top-0 z-10 shadow-lg"
     >
-      <div className="container flex flex-wrap justify-between items-center mx-auto ">
+      <div className="container flex justify-between items-center mx-auto">
         <a href="/" className="flex items-center ml-[1em]">
           <Image
             alt="gzy-logo"
-            className=" h-6 sm:h-9"
+            className=" h-6"
             src="/logo/logo_main_slate.jpg"
             width={70}
             height={70}
           />
         </a>
 
-        <div className="flex md:order-2 items-center ">
+        <div className="flex md:order-2 items-center">
           <div className="h-[3em] mt-3" ref={dropdownBox}>
             <button
-              className="transition-all mr-[1em] text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="transition-all mr-[1em] whitespace-nowrap text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               type="button"
               id="lg-button"
               ref={lgBtn}
@@ -107,20 +129,22 @@ const NavBar = () => {
               id="lg-dropdown"
               ref={dropdownBtn}
             >
-              <Link locale="en" href={refreshLink}>
-                <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  {t("english")}
-                </h3>
+              <Link locale="en" href={curPage}>
+                  
+                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {t("english")}
+                  </h3>
               </Link>
-              <Link locale="zh" href={refreshLink}>
-                <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  {t("zh")}
-                </h3>
+              <Link locale="zh" href={curPage}>
+                
+                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {t("zh")}
+                  </h3>
               </Link>
-              <Link locale="zhc" href={refreshLink}>
-                <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  {t("zhc")}
-                </h3>
+              <Link locale="zhc" href={curPage}>
+                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {t("zhc")}
+                  </h3>
               </Link>
             </div>
           </div>
@@ -145,29 +169,46 @@ const NavBar = () => {
               type="text"
               id="email-address-icon"
               className="block p-2 pl-10 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search..."
+              placeholder= {t('search')}
             />
           </div>
-          <div className="relative cursor-pointer">
+          <div className={navStyles.cartContainer}>
             <AiOutlineShoppingCart
-              className={navStyles.cart}
-              data-tooltip-target="tooltip-default"
-            />
+              className={navStyles.cart}>
+            </AiOutlineShoppingCart>
+            <div className={navStyles.cartText}> 
+              {items == 0 ? 
+              <div className="justify-center items-center flex flex-col shadow-2xl"> 
+              <AiOutlineFrown className="text-[6.5em]"></AiOutlineFrown> 
+              <h3 className="text-[2em]">{t("no_item")}</h3>
+              </div> 
+              : 
+              <div className="text-xl flex flex-col">  
+               <h3 className="mb-[0.25em]"> {t("items_in_cart")} {items} </h3>
+               <div className="min-h-[8em] max-h-[15em] mb-[0.5em] bg-slate-100 overflow-y-scroll text-black">
+                 Testing!
+               </div>
+               <div className="flex justify-around items-center">
+               <button className="p-2 m-2 rounded bg-slate-200 text-slate-700 w-full"> {t("view_cart")} </button>
+               <button className="p-2 m-2 rounded bg-slate-200 text-slate-700  w-full"> {t("checkout")} </button>
+                 </div>
+              </div>
+              }
+              {/* Display a nice interface if empty cart/ */}
+              {/* Subtotal: View Cart: Checkout */}
 
-            <div className={navStyles.number}>2</div>
+            </div>
+
+            <div className={navStyles.number}>{items}</div>
           </div>
-          <div
-            id="tooltip-default"
-            role="tooltip"
-            className="inline-block absolute invisible z-20 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
-          >
-            Tooltip content
-            <div className="tooltip-arrow" data-popper-arrow></div>
+          
+          <div className={navStyles.userContainer}>
+
+            <FaRegUserCircle
+              className={navStyles.user}
+            />
+            <div className={navStyles.userText}> {t("acc")} </div>
           </div>
-          <FaRegUserCircle
-            className="text-[2em] ml-[0.5em] mr-[1em] cursor-pointer"
-            data-tooltip-target="tooltip-user"
-          />
 
           {/* Burger Menu! */}
           <button
@@ -208,39 +249,61 @@ const NavBar = () => {
           className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
           id="mobile-menu-3"
         >
-          <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-[1em] md:font-medium">
+          <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-[1.3em] md:font-medium whitespace-nowrap">
             <li>
-              <a
+              <Link
                 href="/"
-                className="transition-all block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent md:border-0 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                aria-current="page"
-              >
-                {t("home")}
-              </a>
+                locale = {router.locale}
+                >
+                <a
+                  onClick= {(e) => refresher(e)}
+                  className="transition-all hidden sm:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                  aria-current="page"
+                >
+                  {t("home")}
+                </a>
+              </Link>
             </li>
             <li>
-              <a
+              
+              <Link
                 href="/product"
-                className="transition-all block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent md:border-0 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                {t("products")}
-              </a>
+                locale = {router.locale}
+                >
+                <a
+                  onClick= {(e) => refresher(e)}
+                  className="transition-all hidden md:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  {t("products")}
+                </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/about"
-                className="transition-all block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent md:border-0 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              <Link
+              href="/about"
+              locale = {router.locale}
               >
-                {t("about")}
-              </a>
+                <a
+                  onClick= {(e) => refresher(e)}
+                  className="transition-all hidden lg:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  {t("about")}
+                </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/factory"
-                className="transition-all block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent md:border-0 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              <Link
+              href="/factory"
+              locale = {router.locale}
               >
-                {t("factory")}
-              </a>
+
+                <a
+                  onClick= {(e) => refresher(e)}
+                  className="transition-all hidden xl:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  {t("factory")}
+                </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -248,5 +311,6 @@ const NavBar = () => {
     </nav>
   );
 };
+
 
 export default NavBar;

@@ -31,5 +31,10 @@
   "disclaimer_warn": "This website currently only accepts orders from Malaysia and Malaysia only, customers from other regions such as China, please contact us via Wechat, Facebook, Instagram, email, or phone!",
   "connected": "Get connected with us on social networks!",
   "main_text": "Renowned | Prestige | Pure",
-  "main_text2": "100% Natural Bird's Nest"
+  "main_text2": "100% Natural Bird's Nest",
+  "no_item": "No items... yet",
+  "items_in_cart": "Items in cart: ",
+  "view_cart": "VIEW CART",
+  "checkout": "CHECK OUT",
+  "show_more": "Show More"
 }
