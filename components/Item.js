@@ -33,7 +33,7 @@ const Item = ({ url, title, alt }) => {
         ></hr>
         <div className="flex-col ">
           <div className="flex items-center justify-evenly">
-            <label class="form-label text-slate-700 mr-1 ">{t("qty")}</label>
+            <label className="form-label text-slate-700 mr-1 ">{t("qty")}</label>
             <input
               id="qty"
               type="number"

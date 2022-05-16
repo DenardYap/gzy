@@ -8,10 +8,10 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 /** Todo
- * 2) Dark Mode
- * 3) Larger Burger menu
- * 5) Tooltip
- * 7) Unknown key passed via urlObject into url.format: current
+ * 1) Dark Mode
+ * 2) Larger Burger menu
+ * 3) Fix clicking on logo the border stays at bottom
+ * 4) Unknown key passed via urlObject into url.format: current
  */
 
 
@@ -90,15 +90,17 @@ const NavBar = () => {
       className="	 bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 sticky top-0 z-10 shadow-lg"
     >
       <div className="container flex justify-between items-center mx-auto">
-        <a href="/" className="flex items-center ml-[1em]">
-          <Image
-            alt="gzy-logo"
-            className=" h-6"
-            src="/logo/logo_main_slate.jpg"
-            width={70}
-            height={70}
-          />
-        </a>
+        <Link href="/" locale = {router.locale}>
+          <a className="flex items-center ml-[1em]">
+            <Image
+              alt="gzy-logo"
+              className=" h-6"
+              src="/logo/logo_main_slate.jpg"
+              width={70}
+              height={70}
+            />
+          </a>
+        </Link>
 
         <div className="flex md:order-2 items-center">
           <div className="h-[3em] mt-3" ref={dropdownBox}>
@@ -129,19 +131,19 @@ const NavBar = () => {
               id="lg-dropdown"
               ref={dropdownBtn}
             >
-              <Link locale="en" href={curPage}>
+              <Link locale="en" href={curPage} passHref>
                   
                   <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                     {t("english")}
                   </h3>
               </Link>
-              <Link locale="zh" href={curPage}>
+              <Link locale="zh" href={curPage} passHref>
                 
                   <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                     {t("zh")}
                   </h3>
               </Link>
-              <Link locale="zhc" href={curPage}>
+              <Link locale="zhc" href={curPage} passHref>
                   <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                     {t("zhc")}
                   </h3>
