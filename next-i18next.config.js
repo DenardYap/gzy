@@ -6,4 +6,5 @@ module.exports = {
     locales: ["en", "zh", "zhc"],
   },
   react: { useSuspense: false },
+  target: "experimental-serverless-trace",
 };
