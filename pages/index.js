@@ -35,6 +35,8 @@ export default function Home() {
         <div className="text-center font-bold text-[4em] underline">
           <h2 id="product">{t("products")}</h2>
         </div>
+        {/* TODO: for now I am just hardcoding the items, gonna import it
+                  later on with a real database + a forEach or smtg */}
         <div className={styles.itemList}>
           <Item url="/images/tiao.jpg" title="Bird's Nest 100g dry"></Item>
           <Item

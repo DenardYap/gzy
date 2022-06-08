@@ -35,7 +35,7 @@ export default function ProductList() {
             title="Large Dry Bird's Nest 100g"
           ></Item>
           <Item url="/images/tiao30g.jpg" title="Bird's Nest 30g Dry"></Item>
-          <div className={styles.masker} onClick={() => alert("asdasdasdsad")}> {t("show_more")} </div>
+          <div className={styles.masker} > {t("show_more")} </div>
         </div>
       </div>
   );
