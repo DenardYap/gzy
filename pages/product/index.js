@@ -2,6 +2,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import styles from "../../styles/Home.module.css";
 import Item from "../../components/Item";
+import nextI18nextConfig from "../../next-i18next.config";
 
 export default function ProductList() {
   const { t } = useTranslation("common");
@@ -44,7 +45,7 @@ export default function ProductList() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
       // Will be passed to the page component as props
     },
   };

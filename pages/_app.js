@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import Layout from "../components/Layout";
 import { appWithTranslation } from "next-i18next";
+import nextI18nextConfig from "../next-i18next.config";
 /** Todo
  * 1) How to disable navbar or common layout
  *    at pages that don't need them?
@@ -21,4 +22,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default appWithTranslation(MyApp);
+export default appWithTranslation(MyApp, nextI18nextConfig);
