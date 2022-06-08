@@ -5,4 +5,5 @@ module.exports = {
     defaultLocale: "zh",
     locales: ["en", "zh", "zhc"],
   },
+  react: { useSuspense: false },
 };
