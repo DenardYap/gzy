@@ -49,6 +49,7 @@ export default function Home(props) {
           {props.data.map((item) => {
             return (
               <Item
+                key={item.productID}
                 url={"data:image/jpeg;base64," + item.image.toString("base64")}
                 title={item.imageTitle}
                 max_={item.quantity}
