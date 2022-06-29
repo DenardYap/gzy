@@ -184,7 +184,6 @@ Product.insertMany([
 //   ObjectId = mongo.ObjectID,
 //   Binary = mongo.Binary;
 // const uri =
-//   "mongodb+srv://bernard:mymother123456@clustergzy.uek5wfa.mongodb.net/?retryWrites=true&w=majority";
 // const client = new MongoClient(uri, {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
