@@ -6,10 +6,17 @@ import { useEffect, useRef } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import nextI18nextConfig from "../next-i18next.config";
+import { connectToDatabase } from "../util/mongodb";
 
-export default function Home() {
+export default function Home(props) {
+  // console.log(props);
+  <Head>
+    <title>Next App</title>
+    <link rel="icon" href="/favicon.ico" />
+  </Head>;
+
   const router = useRouter();
   const { t } = useTranslation("common");
   const mainImg = useRef();
@@ -39,7 +46,16 @@ export default function Home() {
         {/* TODO: for now I am just hardcoding the items, gonna import it
                   later on with a real database + a forEach or smtg */}
         <div className={styles.itemList}>
-          <Item url="/images/tiao.jpg" title="Bird's Nest 100g dry"></Item>
+          {props.data.map((item) => {
+            return (
+              <Item
+                url={"data:image/jpeg;base64," + item.image.toString("base64")}
+                title={item.imageTitle}
+                max_={item.quantity}
+              ></Item>
+            );
+          })}
+          {/* <Item url="/images/tiao.jpg" title="Bird's Nest 100g dry"></Item>
           <Item
             url="/images/100ml.jpg"
             title="Delicious 100ml Bird's Nest"
@@ -62,20 +78,29 @@ export default function Home() {
             url="/images/datiao100g.jpg"
             title="Large Dry Bird's Nest 100g"
           ></Item>
-          <Item url="/images/tiao30g.jpg" title="Bird's Nest 30g Dry"></Item>
-          <div className={styles.masker} onClick={() => alert("asdasdasdsad")}> {t("show_more")} </div>
+          <Item url="/images/tiao30g.jpg" title="Bird's Nest 30g Dry"></Item> */}
+          <div className={styles.masker}> {t("show_more")} </div>
         </div>
       </div>
     </div>
   );
 }
 
-// have to do this every single page :/ 
+// have to do this every single page :/
 export async function getStaticProps({ locale }) {
+  const { db } = await connectToDatabase();
+  // find everything for now, might consider split rendering in the future
+  // but we only have so few items for now it's fine to just load them all I guess
+  let data = await db.collection("product").find().toArray();
+  data = JSON.parse(JSON.stringify(data));
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
+      data,
+
       // Will be passed to the page component as props
     },
+    revalidate: 15,
   };
 }

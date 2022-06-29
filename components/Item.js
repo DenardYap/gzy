@@ -7,7 +7,7 @@ import { useTranslation } from "next-i18next";
 // Componenet for each item
 // Todo: 1) Make hover image
 
-const Item = ({ url, title, alt }) => {
+const Item = ({ url, title, max_, alt }) => {
   const { t } = useTranslation("common");
   return (
     <div className={styles.container}>
@@ -33,12 +33,14 @@ const Item = ({ url, title, alt }) => {
         ></hr>
         <div className="flex-col ">
           <div className="flex items-center justify-evenly">
-            <label className="form-label text-slate-700 mr-1 ">{t("qty")}</label>
+            <label className="form-label text-slate-700 mr-1 ">
+              {t("qty")}
+            </label>
             <input
               id="qty"
               type="number"
               min="0"
-              max="99"
+              max={max_}
               defaultValue="0"
               step="1"
               className="text-left w-fit
@@ -63,10 +65,12 @@ const Item = ({ url, title, alt }) => {
   );
 };
 
+// TODO: change to better default values, for now it's just testing
 Item.defaultProps = {
   url: "/images/tiao.jpg",
   title: "asd",
   alt: "gzy bird's nest",
+  max_: "99", // change to 0 in  the future
 };
 
 export default Item;
