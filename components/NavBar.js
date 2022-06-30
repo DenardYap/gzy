@@ -14,7 +14,6 @@ import { useRouter } from "next/router";
  * 4) Unknown key passed via urlObject into url.format: current
  */
 
-
 const NavBar = () => {
   // const [currentLocale, setCurrentLocale] = useState("en");
   const [refresh, setRefresh] = useState(true);
@@ -31,32 +30,32 @@ const NavBar = () => {
 
   function refresher(e) {
     const curRef = navBarRef.current.querySelectorAll(
-      
       'a[href="' + window.location.pathname + '"]'
     );
 
     curRef.forEach((link) => {
-
       // link.className += "md:border-transparent";
+      console.log("Resetting: ", link);
       link.classList.remove("md:border-amber-400");
-    })
+    });
+    // console.log("Class name is:", window.location.href);
+    // if (window.location.href !== "http://localhost:3000/en/about#product") {
     e.currentTarget.className += " md:border-amber-400";
+    // }
   }
 
   useEffect(() => {
     // to prevent the null error thigns in Next
-    // localStorage["locale"] ? setCurrentLocale(localStorage["locale"]) 
+    // localStorage["locale"] ? setCurrentLocale(localStorage["locale"])
     //                        : setCurrentLocale("en");
     const dropdownBoxCur = dropdownBox.current;
     const lgBtnCur = lgBtn.current;
     // logic for dropdown
     const curRef = navBarRef.current.querySelectorAll(
-      
       'a[href="' + window.location.pathname + '"]'
     );
     curPage = window.location.href;
     curRef.forEach((link) => {
-      
       // link.classList.remove("md:border-transparent");
       link.className += " md:border-amber-400";
     });
@@ -79,7 +78,6 @@ const NavBar = () => {
     lgBtnCur.addEventListener("click", handleDropDown);
     dropdownBoxCur.addEventListener("mouseleave", handleDropDownLeave);
     return () => {
-      
       dropdownBoxCur.removeEventListener("mouseleave", handleDropDownLeave);
       lgBtnCur.removeEventListener("click", handleDropDown);
     };
@@ -90,9 +88,10 @@ const NavBar = () => {
       className="	 bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 sticky top-0 z-10 shadow-lg"
     >
       <div className="container flex justify-between items-center mx-auto">
-        <Link href="/" locale = {router.locale}>
+        <Link href="/" locale={router.locale}>
           <a className="flex items-center ml-[1em]">
             <Image
+              onClick={(e) => refresher(e)}
               alt="gzy-logo"
               className=" h-6"
               src="/logo/logo_main_slate.jpg"
@@ -132,21 +131,19 @@ const NavBar = () => {
               ref={dropdownBtn}
             >
               <Link locale="en" href={curPage} passHref>
-                  
-                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    {t("english")}
-                  </h3>
+                <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  {t("english")}
+                </h3>
               </Link>
               <Link locale="zh" href={curPage} passHref>
-                
-                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    {t("zh")}
-                  </h3>
+                <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  {t("zh")}
+                </h3>
               </Link>
               <Link locale="zhc" href={curPage} passHref>
-                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    {t("zhc")}
-                  </h3>
+                <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  {t("zhc")}
+                </h3>
               </Link>
             </div>
           </div>
@@ -171,44 +168,49 @@ const NavBar = () => {
               type="text"
               id="email-address-icon"
               className="block p-2 pl-10 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder= {t('search')}
+              placeholder={t("search")}
             />
           </div>
           <div className={navStyles.cartContainer}>
             <AiOutlineShoppingCart
-              className={navStyles.cart}>
-            </AiOutlineShoppingCart>
-            <div className={navStyles.cartText}> 
-              {items == 0 ? 
-              <div className="justify-center items-center flex flex-col shadow-2xl"> 
-              <AiOutlineFrown className="text-[6.5em]"></AiOutlineFrown> 
-              <h3 className="text-[2em]">{t("no_item")}</h3>
-              </div> 
-              : 
-              <div className="text-xl flex flex-col">  
-               <h3 className="mb-[0.25em]"> {t("items_in_cart")} {items} </h3>
-               <div className="min-h-[8em] max-h-[15em] mb-[0.5em] bg-slate-100 overflow-y-scroll text-black">
-                 Testing!
-               </div>
-               <div className="flex justify-around items-center">
-               <button className="p-2 m-2 rounded bg-slate-200 text-slate-700 w-full"> {t("view_cart")} </button>
-               <button className="p-2 m-2 rounded bg-slate-200 text-slate-700  w-full"> {t("checkout")} </button>
-                 </div>
-              </div>
-              }
+              className={navStyles.cart}
+            ></AiOutlineShoppingCart>
+            <div className={navStyles.cartText}>
+              {items == 0 ? (
+                <div className="justify-center items-center flex flex-col shadow-2xl">
+                  <AiOutlineFrown className="text-[6.5em]"></AiOutlineFrown>
+                  <h3 className="text-[2em]">{t("no_item")}</h3>
+                </div>
+              ) : (
+                <div className="text-xl flex flex-col">
+                  <h3 className="mb-[0.25em]">
+                    {" "}
+                    {t("items_in_cart")} {items}{" "}
+                  </h3>
+                  <div className="min-h-[8em] max-h-[15em] mb-[0.5em] bg-slate-100 overflow-y-scroll text-black">
+                    Testing!
+                  </div>
+                  <div className="flex justify-around items-center">
+                    <button className="p-2 m-2 rounded bg-slate-200 text-slate-700 w-full">
+                      {" "}
+                      {t("view_cart")}{" "}
+                    </button>
+                    <button className="p-2 m-2 rounded bg-slate-200 text-slate-700  w-full">
+                      {" "}
+                      {t("checkout")}{" "}
+                    </button>
+                  </div>
+                </div>
+              )}
               {/* Display a nice interface if empty cart/ */}
               {/* Subtotal: View Cart: Checkout */}
-
             </div>
 
             <div className={navStyles.number}>{items}</div>
           </div>
-          
-          <div className={navStyles.userContainer}>
 
-            <FaRegUserCircle
-              className={navStyles.user}
-            />
+          <div className={navStyles.userContainer}>
+            <FaRegUserCircle className={navStyles.user} />
             <div className={navStyles.userText}> {t("acc")} </div>
           </div>
 
@@ -253,12 +255,9 @@ const NavBar = () => {
         >
           <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-[1.3em] md:font-medium whitespace-nowrap">
             <li>
-              <Link
-                href="/"
-                locale = {router.locale}
-                >
+              <Link href="/" locale={router.locale}>
                 <a
-                  onClick= {(e) => refresher(e)}
+                  onClick={(e) => refresher(e)}
                   className="transition-all hidden sm:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
                   aria-current="page"
                 >
@@ -267,13 +266,13 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              
               <Link
                 href="/product"
-                locale = {router.locale}
-                >
+                // href="#product"
+                locale={router.locale}
+              >
                 <a
-                  onClick= {(e) => refresher(e)}
+                  onClick={(e) => refresher(e)}
                   className="transition-all hidden md:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("products")}
@@ -281,12 +280,9 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link
-              href="/about"
-              locale = {router.locale}
-              >
+              <Link href="/about" locale={router.locale}>
                 <a
-                  onClick= {(e) => refresher(e)}
+                  onClick={(e) => refresher(e)}
                   className="transition-all hidden lg:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("about")}
@@ -294,13 +290,9 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link
-              href="/factory"
-              locale = {router.locale}
-              >
-
+              <Link href="/factory" locale={router.locale}>
                 <a
-                  onClick= {(e) => refresher(e)}
+                  onClick={(e) => refresher(e)}
                   className="transition-all hidden xl:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("factory")}
@@ -313,6 +305,5 @@ const NavBar = () => {
     </nav>
   );
 };
-
 
 export default NavBar;

@@ -80,7 +80,7 @@ export default function Home(props) {
             title="Large Dry Bird's Nest 100g"
           ></Item>
           <Item url="/images/tiao30g.jpg" title="Bird's Nest 30g Dry"></Item> */}
-          <div className={styles.masker}> {t("show_more")} </div>
+          {/* <div className={styles.masker}> {t("show_more")} </div> */}
         </div>
       </div>
     </div>
@@ -99,7 +99,6 @@ export async function getStaticProps({ locale }) {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
       data,
-
       // Will be passed to the page component as props
     },
     // revalidate: 15,
