@@ -8,6 +8,15 @@ const nextConfig = {
 };
 
 module.exports = {
+  env: {
+    mongoURI: process.env.mongoURI,
+    mongoCART: process.env.mongoCART,
+    mongoUSER: process.env.mongoUSER,
+    mongoPRODUCT: process.env.mongoPRODUCT,
+    mongoDatabaseName: process.env.mongoDatabaseName,
+    databaseUsername: process.env.databaseUsername,
+    databasePassword: process.env.databasePassword,
+  },
   nextConfig,
   i18n,
 };
