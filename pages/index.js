@@ -46,7 +46,7 @@ export default function Home(props) {
         {/* TODO: for now I am just hardcoding the items, gonna import it
                   later on with a real database + a forEach or smtg */}
         <div className={styles.itemList}>
-          {/* {props.data.map((item) => {
+          {props.data.map((item) => {
             return (
               <Item
                 key={item.productID}
@@ -55,7 +55,7 @@ export default function Home(props) {
                 max_={item.quantity}
               ></Item>
             );
-          })} */}
+          })}
           {/* <Item url="/images/tiao.jpg" title="Bird's Nest 100g dry"></Item>
           <Item
             url="/images/100ml.jpg"
@@ -89,16 +89,16 @@ export default function Home(props) {
 
 // have to do this every single page :/
 export async function getStaticProps({ locale }) {
-  // const { db } = await connectToDatabase();
+  const { db } = await connectToDatabase();
   // find everything for now, might consider split rendering in the future
   // but we only have so few items for now it's fine to just load them all I guess
-  // let data = await db.collection("product").find().toArray();
-  // data = JSON.parse(JSON.stringify(data));
+  let data = await db.collection("product").find().toArray();
+  data = JSON.parse(JSON.stringify(data));
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
-      // data,
+      data,
 
       // Will be passed to the page component as props
     },
