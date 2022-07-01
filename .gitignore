@@ -36,3 +36,4 @@ yarn-error.log*
 
 # testing
 test.js
+upload_test.js

@@ -17,7 +17,7 @@ export default function ProductList(props) {
           return (
             <Item
               key={item.productID}
-              url={"data:image/jpeg;base64," + item.image.toString("base64")}
+              url={item.image}
               title={item.imageTitle}
               max_={item.quantity}
             ></Item>

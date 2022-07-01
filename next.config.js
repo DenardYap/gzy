@@ -8,6 +8,9 @@ const nextConfig = {
 };
 
 module.exports = {
+  images: {
+    domains: [process.env.cloudFrontURL],
+  },
   env: {
     mongoURI: process.env.mongoURI,
     mongoCART: process.env.mongoCART,

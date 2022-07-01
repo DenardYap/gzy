@@ -12,6 +12,7 @@ const Item = ({ url, title, max_, alt }) => {
   return (
     <div className={styles.container}>
       <Image
+        loading="lazy"
         className={styles.imager}
         src={url}
         alt={alt}

@@ -33,6 +33,14 @@ export default function Home(props) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // let imageList = ["/images/100ml.jpg",
+  //                 "/images/600ml.png",
+  //                 "/images/120mlx3.jpg",
+  //                 "/images/compressed1.jpg",
+  //                 "/images/tiao30g.jpg",
+  //                 "/images/datiao100g.jpg"
+  //                   ]
   return (
     <div>
       <div className={styles.container} ref={mainImg}>
@@ -43,14 +51,13 @@ export default function Home(props) {
         <div className="text-center font-bold text-[4em] underline">
           <h2 id="product">{t("products")}</h2>
         </div>
-        {/* TODO: for now I am just hardcoding the items, gonna import it
-                  later on with a real database + a forEach or smtg */}
         <div className={styles.itemList}>
           {props.data.map((item) => {
             return (
               <Item
                 key={item.productID}
-                url={"data:image/jpeg;base64," + item.image.toString("base64")}
+                url={item.image}
+                // url="/images/100ml.jpg"
                 title={item.imageTitle}
                 max_={item.quantity}
               ></Item>
