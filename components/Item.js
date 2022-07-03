@@ -40,6 +40,7 @@ const Item = ({ productID, url, title, max_, alt }) => {
           "cartItem",
           JSON.stringify([
             {
+              imageAlt: alt,
               imageTitle: title,
               image: url,
               productID,
@@ -72,6 +73,7 @@ const Item = ({ productID, url, title, max_, alt }) => {
         }
         if (!exists) {
           curData.push({
+            imageAlt: alt,
             imageTitle: title,
             image: url,
             productID,

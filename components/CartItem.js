@@ -26,7 +26,13 @@ const CartItem = ({ data }) => {
   return (
     <div className={`${styles.cart}`}>
       <div className={styles.imageBox}>
-        <Image src={data.image} width={"125%"} height={"125%"}></Image>
+        <Image
+          loading="eager"
+          src={data.image}
+          alt={data.alt}
+          width={"125%"}
+          height={"125%"}
+        ></Image>
       </div>
       <div className={styles.titleBox}>{data.imageTitle}</div>
       <div className={styles.subtitleBox}>

@@ -213,7 +213,9 @@ const NavBar = () => {
                   <div className="min-h-[8em] max-h-[15em] mb-[0.5em] bg-slate-100 overflow-y-scroll text-black">
                     {items.map((item) => {
                       // console.log(item);
-                      return <CartItem data={item}></CartItem>;
+                      return (
+                        <CartItem key={item.productID} data={item}></CartItem>
+                      );
                     })}
                   </div>
                   <div className="flex justify-around items-center">
