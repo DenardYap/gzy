@@ -64,6 +64,7 @@ const Item = ({ productID, url, title, max_, alt }) => {
               alert(
                 `Please make sure the quantity of this item in your shopping cart is no more than ${itemRef.current.max}, we cannot sell you more!`
               );
+              itemRef.current.value = "0";
               return;
             }
             curData[i].quantity += parseInt(itemRef.current.value);
@@ -84,6 +85,7 @@ const Item = ({ productID, url, title, max_, alt }) => {
         toggleCart();
       }
     }
+    itemRef.current.value = "0";
   }
   return (
     <div className={styles.container}>
