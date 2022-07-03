@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import Layout from "../components/Layout";
 import { appWithTranslation } from "next-i18next";
 import nextI18nextConfig from "../next-i18next.config";
+import React, { useState } from "react";
 /** Todo
  * 1) How to disable navbar or common layout
  *    at pages that don't need them?
@@ -13,12 +14,19 @@ import nextI18nextConfig from "../next-i18next.config";
  * 3) getStaticpath -> dynamically generate path??
  *
  */
+export const cartContext = React.createContext();
 function MyApp({ Component, pageProps }) {
+  const [cartToggle, setToggle] = useState(false);
+  function toggleCart() {
+    cartToggle ? setToggle(false) : setToggle(true);
+  }
   return (
-    <Layout>
-      {/* all of our page components */}
-      <Component {...pageProps} />
-    </Layout>
+    <cartContext.Provider value={[cartToggle, toggleCart]}>
+      <Layout>
+        {/* all of our page components */}
+        <Component {...pageProps} />
+      </Layout>
+    </cartContext.Provider>
   );
 }
 

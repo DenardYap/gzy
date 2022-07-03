@@ -56,6 +56,7 @@ export default function Home(props) {
             return (
               <Item
                 key={item.productID}
+                productID={item.productID}
                 url={item.image}
                 // url="/images/100ml.jpg"
                 title={item.imageTitle}

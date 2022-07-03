@@ -4,9 +4,11 @@ import navStyles from "../styles/NavBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AiOutlineShoppingCart, AiOutlineFrown } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import CartItem from "./CartItem";
+import { cartContext } from "../pages/_app";
 /** Todo
  * 1) Dark Mode
  * 2) Larger Burger menu
@@ -15,9 +17,13 @@ import { useRouter } from "next/router";
  */
 
 const NavBar = () => {
-  // const [currentLocale, setCurrentLocale] = useState("en");
+  const [cartToggle, toggleCart] = useContext(cartContext);
+  const rootRoute =
+    process.env.NODE_ENV === "development"
+      ? process.env.NEXT_PUBLIC_productAPIdev
+      : process.env.NEXT_PUBLIC_productAPIpro;
   const [refresh, setRefresh] = useState(true);
-  const [items, setItems] = useState(0);
+  const [items, setItems] = useState([]);
   const { t } = useTranslation("common");
   const router = useRouter();
 
@@ -44,6 +50,23 @@ const NavBar = () => {
     // }
   }
 
+  // loading cart item data from the database
+  let curItem = [];
+  useEffect(() => {
+    if (localStorage.getItem("cartItem")) {
+      // fetch items from local storage and put in an array and update items in cart
+      async function fetchData() {
+        const query = JSON.parse(localStorage.getItem("cartItem"));
+        query.forEach(async (item) => {
+          curItem.push(item); // only 1 item in the list
+        });
+        setItems(curItem);
+      }
+      fetchData();
+    }
+  }, [cartToggle]);
+
+  // handling color bar logic, to be perfected
   useEffect(() => {
     // to prevent the null error thigns in Next
     // localStorage["locale"] ? setCurrentLocale(localStorage["locale"])
@@ -175,8 +198,8 @@ const NavBar = () => {
             <AiOutlineShoppingCart
               className={navStyles.cart}
             ></AiOutlineShoppingCart>
-            <div className={navStyles.cartText}>
-              {items == 0 ? (
+            <div className={`${navStyles.cartText}`}>
+              {items.length === 0 ? (
                 <div className="justify-center items-center flex flex-col shadow-2xl">
                   <AiOutlineFrown className="text-[6.5em]"></AiOutlineFrown>
                   <h3 className="text-[2em]">{t("no_item")}</h3>
@@ -185,17 +208,20 @@ const NavBar = () => {
                 <div className="text-xl flex flex-col">
                   <h3 className="mb-[0.25em]">
                     {" "}
-                    {t("items_in_cart")} {items}{" "}
+                    {t("items_in_cart")} {items.length}{" "}
                   </h3>
                   <div className="min-h-[8em] max-h-[15em] mb-[0.5em] bg-slate-100 overflow-y-scroll text-black">
-                    Testing!
+                    {items.map((item) => {
+                      // console.log(item);
+                      return <CartItem data={item}></CartItem>;
+                    })}
                   </div>
                   <div className="flex justify-around items-center">
-                    <button className="p-2 m-2 rounded bg-slate-200 text-slate-700 w-full">
+                    <button className="p-2 m-2 rounded bg-orange-600 text-slate-100 w-full hover:bg-orange-400 transition-colors">
                       {" "}
                       {t("view_cart")}{" "}
                     </button>
-                    <button className="p-2 m-2 rounded bg-slate-200 text-slate-700  w-full">
+                    <button className="p-2 m-2 rounded bg-orange-600 text-slate-100 w-full hover:bg-orange-400 transition-colors">
                       {" "}
                       {t("checkout")}{" "}
                     </button>
@@ -206,7 +232,7 @@ const NavBar = () => {
               {/* Subtotal: View Cart: Checkout */}
             </div>
 
-            <div className={navStyles.number}>{items}</div>
+            <div className={navStyles.number}>{items.length}</div>
           </div>
 
           <div className={navStyles.userContainer}>

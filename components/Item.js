@@ -1,17 +1,92 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Item.module.css";
 import { useTranslation } from "next-i18next";
+import React, { useEffect, useRef, useContext } from "react";
+import { cartContext } from "../pages/_app";
 
 // Componenet for each item
 // Todo: 1) Make hover image
 
-const Item = ({ url, title, max_, alt }) => {
+const Item = ({ productID, url, title, max_, alt }) => {
+  const [cartToggle, toggleCart] = useContext(cartContext);
+  // console.log("Cart toggle is:", cartToggle);
+  const imageRef = useRef(null);
+  const itemRef = useRef(null);
   const { t } = useTranslation("common");
+
+  function handleBuy() {
+    // make sure the item doesn't exceed the max limit
+    // also make sure the item is not 0
+    if (itemRef.current.value === "0") {
+      alert("Please make sure item quantity is at least 1");
+    } else if (
+      parseInt(itemRef.current.value) > parseInt(itemRef.current.max)
+    ) {
+      console.log(itemRef.current.value, itemRef.current.max);
+      alert(
+        `Please make sure the item quantity is no more than ${itemRef.current.max}`
+      );
+    } else if (itemRef.current.value[0] === "0") {
+      alert("Please make sure the item quantity doesn't start with 0");
+    } else {
+      // do database query here
+
+      // If guest user, we don't even need to store in database, just store in storage or smtg
+      // If normal user, we store shopping cart items in database,
+      // with the user id or smtg as the key
+      if (localStorage.getItem("cartItem") == null) {
+        localStorage.setItem(
+          "cartItem",
+          JSON.stringify([
+            {
+              imageTitle: title,
+              image: url,
+              productID,
+              quantity: itemRef.current.value,
+            },
+          ])
+        );
+        toggleCart();
+      } else {
+        let curData = JSON.parse(localStorage.getItem("cartItem"));
+        /*If exists, update, else, add*/
+        let exists = false;
+        for (let i = 0; i < curData.length; i++) {
+          if (curData[i].productID === productID) {
+            // update
+            curData[i].quantity = parseInt(curData[i].quantity);
+            if (
+              curData[i].quantity + parseInt(itemRef.current.value) >
+              itemRef.current.max
+            ) {
+              alert(
+                `Please make sure the quantity of this item in your shopping cart is no more than ${itemRef.current.max}, we cannot sell you more!`
+              );
+              return;
+            }
+            curData[i].quantity += parseInt(itemRef.current.value);
+            exists = true;
+            break;
+          }
+        }
+        if (!exists) {
+          curData.push({
+            imageTitle: title,
+            image: url,
+            productID,
+            quantity: itemRef.current.value,
+          });
+        }
+        localStorage.setItem("cartItem", JSON.stringify(curData));
+        toggleCart();
+      }
+    }
+  }
   return (
     <div className={styles.container}>
       <Image
+        ref={imageRef}
         loading="lazy"
         className={styles.imager}
         src={url}
@@ -34,10 +109,11 @@ const Item = ({ url, title, max_, alt }) => {
         ></hr>
         <div className="flex-col ">
           <div className="flex items-center justify-evenly">
-            <label className="form-label text-slate-700 mr-1 ">
+            <label className="form-label text-slate-700 mr-1 " htmlFor="qty">
               {t("qty")}
             </label>
             <input
+              ref={itemRef}
               id="qty"
               type="number"
               min="0"
@@ -57,7 +133,10 @@ const Item = ({ url, title, max_, alt }) => {
               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
             />
           </div>
-          <button className="bg-slate-800 text-slate-100 rounded p-1 text-center mb-1 mr-1 hover:bg-slate-600 hover:text-slate-200 transition-all">
+          <button
+            onClick={handleBuy}
+            className="bg-slate-800 text-slate-100 rounded p-1 text-center mb-1 mr-1 hover:bg-slate-600 hover:text-slate-200 transition-all"
+          >
             {t("cart")}
           </button>
         </div>
