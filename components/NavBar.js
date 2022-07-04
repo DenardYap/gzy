@@ -153,17 +153,17 @@ const NavBar = () => {
               id="lg-dropdown"
               ref={dropdownBtn}
             >
-              <Link locale="en" href={curPage} passHref>
+              <Link locale="en" href={curPage}>
                 <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                   {t("english")}
                 </h3>
               </Link>
-              <Link locale="zh" href={curPage} passHref>
+              <Link locale="zh" href={curPage}>
                 <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                   {t("zh")}
                 </h3>
               </Link>
-              <Link locale="zhc" href={curPage} passHref>
+              <Link locale="zhc" href={curPage}>
                 <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                   {t("zhc")}
                 </h3>

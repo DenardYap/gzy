@@ -4,6 +4,7 @@ import styles from "../styles/Item.module.css";
 import { useTranslation } from "next-i18next";
 import React, { useEffect, useRef, useContext } from "react";
 import { cartContext } from "../pages/_app";
+import { useRouter } from "next/router";
 
 // Componenet for each item
 // Todo: 1) Make hover image
@@ -11,6 +12,7 @@ import { cartContext } from "../pages/_app";
 const Item = ({ productID, url, title, max_, alt }) => {
   const [cartToggle, toggleCart] = useContext(cartContext);
   // console.log("Cart toggle is:", cartToggle);
+  const router = useRouter();
   const imageRef = useRef(null);
   const itemRef = useRef(null);
   const { t } = useTranslation("common");
@@ -89,15 +91,19 @@ const Item = ({ productID, url, title, max_, alt }) => {
   }
   return (
     <div className={styles.container}>
-      <Image
-        ref={imageRef}
-        loading="lazy"
-        className={styles.imager}
-        src={url}
-        alt={alt}
-        width={"300%"}
-        height={"300%"}
-      />
+      <Link href={`/product/${productID}`} locale={router.locale}>
+        <a>
+          <Image
+            ref={imageRef}
+            loading="lazy"
+            className={styles.imager}
+            src={url}
+            alt={alt}
+            width={"350%"}
+            height={"350%"}
+          />
+        </a>
+      </Link>
       <div className={styles.bottomContainer}>
         <div className="">
           <h3>{title} </h3>

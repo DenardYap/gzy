@@ -1,0 +1,21 @@
+.mainDiv {
+    /* overflow-wrap: break-word; */
+    /* word-wrap: break-word; */
+
+    word-break: break-word;    
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    background-color: rgb(237, 242, 250);
+    margin: 2em;
+    padding: 2em 2em 2em 0;
+}
+
+  
+.textDiv {
+    display: grid;
+    /* background-color: ; */
+    text-align: left;
+    grid-template-rows:  4em 3.5em 10px 4em 5fr;
+
+}
+

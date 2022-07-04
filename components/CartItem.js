@@ -1,10 +1,13 @@
 import React, { useEffect, useContext } from "react";
 import styles from "../styles/CartItem.module.css";
 import Image from "next/image";
+import Link from "next/link";
 import { cartContext } from "../pages/_app";
+import { useRouter } from "next/router";
 
 const CartItem = ({ data }) => {
   const [cartToggle, toggleCart] = useContext(cartContext);
+  const router = useRouter();
   function handleDelete() {
     // delete item from data and local storage
     // Todo: delete item from data
@@ -26,13 +29,17 @@ const CartItem = ({ data }) => {
   return (
     <div className={`${styles.cart}`}>
       <div className={styles.imageBox}>
-        <Image
-          loading="eager"
-          src={data.image}
-          alt={data.alt}
-          width={"125%"}
-          height={"125%"}
-        ></Image>
+        <Link href={`/product/${data.productID}`} locale={router.locale}>
+          <a>
+            <Image
+              loading="eager"
+              src={data.image}
+              alt={data.alt}
+              width={"125%"}
+              height={"125%"}
+            ></Image>
+          </a>
+        </Link>
       </div>
       <div className={styles.titleBox}>{data.imageTitle}</div>
       <div className={styles.subtitleBox}>

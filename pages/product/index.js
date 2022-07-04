@@ -16,6 +16,7 @@ export default function ProductList(props) {
         {props.data.map((item) => {
           return (
             <Item
+              productID={item.productID}
               key={item.productID}
               url={item.image}
               title={item.imageTitle}
