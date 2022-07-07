@@ -77,7 +77,10 @@ const CartItem = ({
     if (allowClickRef.current) {
       setAllowClick(false);
       await fetch(
-        rootRoute + process.env.NEXT_PUBLIC_BACKENDDELETE + data._id.toString(),
+        rootRoute +
+          process.env.NEXT_PUBLIC_BACKENDDELETE +
+          "/" +
+          data._id.toString(),
         {
           method: "DELETE",
           header: {

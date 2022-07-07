@@ -13,10 +13,13 @@ const CartItemNav = ({ data }) => {
       ? process.env.NEXT_PUBLIC_productAPIpro
       : process.env.NEXT_PUBLIC_productAPIdev;
   async function handleDelete() {
-    await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDDELETE + data._id, {
-      method: "DELETE",
-      "Content-type": "application/json",
-    });
+    await fetch(
+      rootRoute + process.env.NEXT_PUBLIC_BACKENDDELETE + "/" + data._id,
+      {
+        method: "DELETE",
+        "Content-type": "application/json",
+      }
+    );
     toggleCart();
   }
 
