@@ -14,7 +14,7 @@ import { cartContext } from "./_app";
 
 export default function Home(props) {
   <Head>
-    <title>Guan Zhi Yan Bird's Nest</title>
+    <title>Guan Zhi Yan Bird&apos;s Nest</title>
     <link rel="icon" href="/favicon.ico" />
   </Head>;
 

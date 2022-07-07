@@ -109,7 +109,7 @@ const CartItem = ({
       </div>
       <div className={styles.imageRightDiv}>
         <div className=" flex-row text-left items-center border-b-2 border-black w-fit">
-          <h3 className="text-md italic underline pb-1">Item's name</h3>
+          <h3 className="text-md italic underline pb-1">Item&apos;s name</h3>
           <h2 className="text-4xl"> {data.imageTitle}</h2>
         </div>
         <div className={styles.imageRightSubDiv}>

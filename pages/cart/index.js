@@ -49,7 +49,7 @@ const Cart = () => {
       {data.length === 0 ? (
         <div className="flex flex-col m-[2em] rounded text-slate-100 bg-slate-600 items-center">
           <div>
-            <Link href="\" locale={router.locale}>
+            <Link href="\" locale={router.locale} passHref>
               <button className="text-center text-4xl p-2 hover:bg-slate-300 transition-all border-black border-solid border rounded shadow-xl mt-[1em] bg-slate-100 h-fit w-fit text-slate-800">
                 ↩ Home
               </button>
@@ -64,7 +64,7 @@ const Cart = () => {
       ) : (
         <>
           <div className="flex justify-between items-center text-center pt-5 px-[2em]">
-            <Link href="\" locale={router.locale}>
+            <Link href="\" locale={router.locale} passHref>
               <button className="text-2xl p-2 rounded shadow-xl bg-black h-fit w-fit text-slate-100 hover:bg-slate-600 transition-all">
                 ↩ Home
               </button>
