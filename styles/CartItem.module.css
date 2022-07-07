@@ -1,54 +1,52 @@
-
-.cart{
-    border:1px;
-    border-style: solid;
+.mainDiv {
     display: grid;
-    font-size: 12px;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    background-color: rgb(237, 242, 250);
+    padding: 1em;
+    margin: 1.5em 2em;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.imageDiv {
+    /* background-color: orange; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imageRightDiv {
+    display: grid;
     grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-        "image title    title"
-        "image subtitle price";
-        
-    }
-
-.imageBox {
-    padding: 0.5em 1em 0.5em 0;
-    /* margin: 0 0.25em 0 0; */
-    display: grid;
-    place-items: center;
     /* background-color: red; */
-    grid-area: image;
 }
 
-.titleBox{
-    padding-top: 0.25em;
+.imageRightSubDiv {
     display:grid;
-    align-items: start;
-    text-align: left;
-    font-size: 1.5em;
-    font-weight: 550;
-    grid-area: title;
+    grid-template-columns: 1fr 1fr;
+    /* background-color: blue; */
+    /* margin-top: -10px; */
+    font-size: 1.25em;
+    align-items: flex-end;
+
+
 }
 
-.subtitleBox{
-    padding-bottom: 0.25em;
-    display:grid;
-    /* place-items: end; */
-    justify-content: start;
-    align-items: end;
-    text-align: left;
-    /* text-decoration-line: underline; */
-    font-size: 1.4em;
-    font-weight: 400;
-    grid-area: subtitle;
+.quantityDiv {
+    
+    border-left-width: 2px;
+    border-color: black;
+    border-right-width: 2px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    /* background-color: blueviolet; */
+
 }
 
-.priceBox{
-    padding-bottom: 0.25em;
-    display:grid;
-    text-align: left;
-    align-items: end;
-    font-size: 1.5em;
-    grid-area: price;
+.subTotalDiv {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: yellow; */
+
 }

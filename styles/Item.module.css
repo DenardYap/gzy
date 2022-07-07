@@ -36,11 +36,11 @@
 
 .bottomContainer > div:nth-of-type(1) > h3 {
     
-    cursor: pointer;
+    /* cursor: pointer; */
 }
-.bottomContainer > div:nth-of-type(2) {
+/* .bottomContainer > div:nth-of-type(2) {
     text-align: right;
-}
+} */
 
 .imager:hover {
     /* background-image: url('/images/main.jpg'); */

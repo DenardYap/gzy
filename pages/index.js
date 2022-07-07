@@ -2,18 +2,19 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Item from "../components/Item";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import nextI18nextConfig from "../next-i18next.config";
 import { connectToDatabase } from "../util/mongodb";
+import { createClient } from "redis";
+import { cartContext } from "./_app";
 
 export default function Home(props) {
-  // console.log(props);
   <Head>
-    <title>Next App</title>
+    <title>Guan Zhi Yan Bird's Nest</title>
     <link rel="icon" href="/favicon.ico" />
   </Head>;
 
@@ -34,13 +35,6 @@ export default function Home(props) {
     };
   }, []);
 
-  // let imageList = ["/images/100ml.jpg",
-  //                 "/images/600ml.png",
-  //                 "/images/120mlx3.jpg",
-  //                 "/images/compressed1.jpg",
-  //                 "/images/tiao30g.jpg",
-  //                 "/images/datiao100g.jpg"
-  //                   ]
   return (
     <div>
       <div className={styles.container} ref={mainImg}>
@@ -55,40 +49,16 @@ export default function Home(props) {
           {props.data.map((item) => {
             return (
               <Item
-                key={item.productID}
+                key={item._id}
+                id={item._id}
+                prices={item.price}
                 productID={item.productID}
                 url={item.image}
-                // url="/images/100ml.jpg"
                 title={item.imageTitle}
                 max_={item.quantity}
               ></Item>
             );
           })}
-          {/* <Item url="/images/tiao.jpg" title="Bird's Nest 100g dry"></Item>
-          <Item
-            url="/images/100ml.jpg"
-            title="Delicious 100ml Bird's Nest"
-          ></Item>
-          <Item url="/images/200zai.jpg" title="Bird's Nest 200g dry"></Item>
-          <Item url="/images/lihe1.png" title="CNY gift box"></Item>
-          <Item
-            url="/images/600ml.png"
-            title="Delicious 100ml Bird's Nest x6"
-          ></Item>
-          <Item
-            url="/images/120mlx3.jpg"
-            title="Compressed Delicious Bird's Nest x3"
-          ></Item>
-          <Item
-            url="/images/compressed1.jpg"
-            title="Compressed Fresh Bird's Nest"
-          ></Item>
-          <Item
-            url="/images/datiao100g.jpg"
-            title="Large Dry Bird's Nest 100g"
-          ></Item>
-          <Item url="/images/tiao30g.jpg" title="Bird's Nest 30g Dry"></Item> */}
-          {/* <div className={styles.masker}> {t("show_more")} </div> */}
         </div>
       </div>
     </div>
@@ -97,11 +67,38 @@ export default function Home(props) {
 
 // have to do this every single page :/
 export async function getStaticProps({ locale }) {
-  const { db } = await connectToDatabase();
-  // find everything for now, might consider split rendering in the future
-  // but we only have so few items for now it's fine to just load them all I guess
-  let data = await db.collection("product").find().toArray();
-  data = JSON.parse(JSON.stringify(data));
+  const client = createClient({
+    url: process.env.NEXT_PUBLIC_REDIS_ENDPOINT,
+    password: process.env.NEXT_PUBLIC_REDIS_PASSWORD,
+  });
+  client.on("error", (err) => console.log("Redis Client Error", err));
+  await client.connect();
+  let data;
+  try {
+    data = await client.get("mainCache");
+    // get all item
+  } catch (error) {
+    // try
+    console.log("Redis get error", error);
+    // client.quit(); //closing client
+    /*might need to do more here*/
+  } //catch
+  if (data == null) {
+    //empty
+    console.log("cache miss");
+    const { db } = await connectToDatabase();
+    data = await db.collection("product").find().toArray();
+    data = JSON.parse(JSON.stringify(data));
+    // add an amount key to the list for later
+    data = data.map((item) => ({ ...item, amount: 0 }));
+    data = JSON.stringify(data);
+    await client.set("mainCache", data);
+  } //if
+  data = JSON.parse(data);
+
+  console.log("Closing client connection...");
+  await client.quit();
+  console.log("Sending data to front end...");
 
   return {
     props: {

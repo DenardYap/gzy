@@ -7,7 +7,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useEffect, useRef, useState, useContext } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import CartItem from "./CartItem";
+import CartItemNav from "./CartItemNav";
 import { cartContext } from "../pages/_app";
 /** Todo
  * 1) Dark Mode
@@ -16,16 +16,18 @@ import { cartContext } from "../pages/_app";
  * 4) Unknown key passed via urlObject into url.format: current
  */
 
+// this is needed for parsing my JSON object where description have line breaks and stuff
+
 const NavBar = () => {
   const [cartToggle, toggleCart] = useContext(cartContext);
-  const rootRoute =
-    process.env.NODE_ENV === "development"
-      ? process.env.NEXT_PUBLIC_productAPIdev
-      : process.env.NEXT_PUBLIC_productAPIpro;
   const [refresh, setRefresh] = useState(true);
   const [items, setItems] = useState([]);
   const { t } = useTranslation("common");
   const router = useRouter();
+  const rootRoute =
+    process.env.NODE_ENV == "production"
+      ? process.env.NEXT_PUBLIC_productAPIpro
+      : process.env.NEXT_PUBLIC_productAPIdev;
 
   const lgBtn = useRef();
   const dropdownBtn = useRef();
@@ -41,29 +43,29 @@ const NavBar = () => {
 
     curRef.forEach((link) => {
       // link.className += "md:border-transparent";
-      console.log("Resetting: ", link);
       link.classList.remove("md:border-amber-400");
     });
-    // console.log("Class name is:", window.location.href);
     // if (window.location.href !== "http://localhost:3000/en/about#product") {
     e.currentTarget.className += " md:border-amber-400";
     // }
   }
 
   // loading cart item data from the database
-  let curItem = [];
   useEffect(() => {
-    if (localStorage.getItem("cartItem")) {
-      // fetch items from local storage and put in an array and update items in cart
-      async function fetchData() {
-        const query = JSON.parse(localStorage.getItem("cartItem"));
-        query.forEach(async (item) => {
-          curItem.push(item); // only 1 item in the list
-        });
-        setItems(curItem);
+    // fetch items from local storage and put in an array and update items in cart
+    async function fetchData() {
+      let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDGET, {
+        method: "GET",
+        "Content-Type": "application/json",
+      });
+      if (res.status === "404" || res.status === "500") {
+        // todo
+        console.log("Error in NavBar.js with a status code of", res.status);
       }
-      fetchData();
+      res = await res.json();
+      setItems(res.data);
     }
+    fetchData();
   }, [cartToggle]);
 
   // handling color bar logic, to be perfected
@@ -212,21 +214,28 @@ const NavBar = () => {
                   </h3>
                   <div className="min-h-[8em] max-h-[15em] mb-[0.5em] bg-slate-100 overflow-y-scroll text-black">
                     {items.map((item) => {
-                      // console.log(item);
                       return (
-                        <CartItem key={item.productID} data={item}></CartItem>
+                        <CartItemNav key={item._id} data={item}></CartItemNav>
                       );
                     })}
                   </div>
                   <div className="flex justify-around items-center">
-                    <button className="p-2 m-2 rounded bg-orange-600 text-slate-100 w-full hover:bg-orange-400 transition-colors">
-                      {" "}
-                      {t("view_cart")}{" "}
-                    </button>
-                    <button className="p-2 m-2 rounded bg-orange-600 text-slate-100 w-full hover:bg-orange-400 transition-colors">
-                      {" "}
-                      {t("checkout")}{" "}
-                    </button>
+                    <Link href="/cart" locale={router.locale}>
+                      <a>
+                        <button className="p-2 m-2 rounded bg-orange-600 text-slate-100 w-full hover:bg-orange-400 transition-colors">
+                          {" "}
+                          {t("view_cart")}{" "}
+                        </button>
+                      </a>
+                    </Link>
+                    <Link href="/checkout" locale={router.locale}>
+                      <a>
+                        <button className="p-2 m-2 rounded bg-orange-600 text-slate-100 w-full hover:bg-orange-400 transition-colors">
+                          {" "}
+                          {t("checkout")}{" "}
+                        </button>
+                      </a>
+                    </Link>
                   </div>
                 </div>
               )}

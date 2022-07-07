@@ -6,10 +6,14 @@ import Footer from "./Footer";
  * For example, you need a navbar every page
  * and that navbar will stick to everypage.
  */
-const Layout = ({ children }) => {
+const Layout = ({ children, pathName }) => {
   return (
     <>
-      <NavBar />
+      {pathName.includes("/checkout") || pathName.includes("/cart") ? (
+        <></>
+      ) : (
+        <NavBar />
+      )}
       <div className="">
         <main className=""> {children}</main>
       </div>

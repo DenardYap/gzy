@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import styles from "../../styles/Home.module.css";
 import Item from "../../components/Item";
 import nextI18nextConfig from "../../next-i18next.config";
+import { createClient } from "redis";
 import { connectToDatabase } from "../../util/mongodb";
 
 export default function ProductList(props) {
@@ -16,8 +17,10 @@ export default function ProductList(props) {
         {props.data.map((item) => {
           return (
             <Item
+              key={item._id}
+              id={item._id}
+              prices={item.price}
               productID={item.productID}
-              key={item.productID}
               url={item.image}
               title={item.imageTitle}
               max_={item.quantity}
@@ -31,17 +34,44 @@ export default function ProductList(props) {
 }
 // have to do this every single page :/
 export async function getStaticProps({ locale }) {
-  const { db } = await connectToDatabase();
-  // find everything for now, might consider split rendering in the future
-  // but we only have so few items for now it's fine to just load them all I guess
-  let data = await db.collection("product").find().toArray();
-  data = JSON.parse(JSON.stringify(data));
+  const client = createClient({
+    url: process.env.NEXT_PUBLIC_REDIS_ENDPOINT,
+    password: process.env.NEXT_PUBLIC_REDIS_PASSWORD,
+  });
+  client.on("error", (err) => console.log("Redis Client Error", err));
+  await client.connect();
+  let data;
+  try {
+    data = await client.get("mainCache");
+    // get all item
+  } catch (error) {
+    // try
+    console.log("Redis get error", error);
+    // client.quit(); //closing client
+    /*might need to do more here*/
+  } //catch
 
+  if (data == null) {
+    //empty
+    console.log("cache miss");
+    const { db } = await connectToDatabase();
+    data = await db.collection("product").find().toArray();
+    data = JSON.parse(JSON.stringify(data));
+    // add an amount key to the list for later
+    data = data.map((item) => ({ ...item, amount: 0 }));
+    data = JSON.stringify(data);
+    await client.set("mainCache", data);
+  } //if
+  data = JSON.parse(data);
+
+  console.log("Closing client connection...");
+  await client.quit();
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
       data,
       // Will be passed to the page component as props
     },
+    // revalidate: 15,
   };
 }
