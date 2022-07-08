@@ -37,9 +37,11 @@ export default function Home(props) {
 
   return (
     <div>
-      <div className={styles.container} ref={mainImg}>
-        <h2> {t("main_text")}</h2>
-        <h3> {t("main_text2")}</h3>
+      <div className={styles.wrapper}>
+        <div className={styles.container} ref={mainImg}>
+          <h2> {t("main_text")}</h2>
+          <h3> {t("main_text2")}</h3>
+        </div>
       </div>
       <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
         <div className="text-center font-bold text-[4em] underline">
