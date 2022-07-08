@@ -19,9 +19,8 @@ import { cartContext } from "../pages/_app";
 // this is needed for parsing my JSON object where description have line breaks and stuff
 
 const NavBar = () => {
-  const [cartToggle, toggleCart] = useContext(cartContext);
+  const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
   const [refresh, setRefresh] = useState(true);
-  const [items, setItems] = useState([]);
   const { t } = useTranslation("common");
   const router = useRouter();
   const rootRoute =
@@ -67,8 +66,7 @@ const NavBar = () => {
       setItems(res.data);
     }
     fetchData();
-  }, [cartToggle]);
-
+  }, []);
   // handling color bar logic, to be perfected
   useEffect(() => {
     // to prevent the null error thigns in Next
@@ -216,7 +214,11 @@ const NavBar = () => {
                   <div className="min-h-[8em] max-h-[15em] mb-[0.5em] bg-slate-100 overflow-y-scroll text-black">
                     {items.map((item) => {
                       return (
-                        <CartItemNav key={item._id} data={item}></CartItemNav>
+                        <CartItemNav
+                          key={item._id}
+                          data={item}
+                          oriData={items}
+                        ></CartItemNav>
                       );
                     })}
                   </div>

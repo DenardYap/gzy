@@ -9,17 +9,8 @@ import { useRouter } from "next/router";
 // Componenet for each item
 // Todo: 1) Make hover image
 
-export default function Item({
-  id,
-  productID,
-  prices,
-  url,
-  title,
-  description,
-  max_,
-  alt,
-}) {
-  const [cartToggle, toggleCart] = useContext(cartContext);
+export default function Item({ oriData }) {
+  const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
   // console.log("Cart toggle is:", cartToggle);
   // dynamically generate the rootroute based on whether production or dev mode
   const rootRoute =
@@ -31,8 +22,25 @@ export default function Item({
   const itemRef = useRef(null);
   const { t } = useTranslation("common");
 
+  function updateItems(id, amount) {
+    for (let i = 0; i < items.length; i++) {
+      // console.log("items is:", items[i]);
+      if (items[i]._id === id) {
+        console.log("found!");
+        items[i].amount = (
+          parseInt(items[i].amount) + parseInt(amount)
+        ).toString();
+        setItems(items);
+        return;
+      }
+    }
+    // if reach here, items not yet in the cart
+    oriData.amount = amount;
+    items.push(oriData);
+    setItems(items);
+  }
   function increment() {
-    if (parseInt(itemRef.current.value) !== parseInt(max_)) {
+    if (parseInt(itemRef.current.value) !== parseInt(oriData.quantity)) {
       itemRef.current.value = (parseInt(itemRef.current.value) + 1).toString();
     }
   }
@@ -58,10 +66,11 @@ export default function Item({
       // either data is empty, or cached, we just need to update the quantity
       // Make a post request to the backend
       let body = {
-        max: max_,
-        id,
+        max: oriData.quantity,
+        id: oriData._id,
         amount: itemRef.current.value,
       };
+      const curValue = itemRef.current.value;
       itemRef.current.value = "0";
       let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDSET, {
         method: "POST",
@@ -82,20 +91,22 @@ export default function Item({
         return;
       }
       res = await res.json();
+      // toggleCart();
+      updateItems(oriData._id, curValue);
       toggleCart();
       console.log("Done adding to cart!");
     }
   }
   return (
     <div className={styles.container}>
-      <Link href={`/product/${id}`} locale={router.locale}>
+      <Link href={`/product/${oriData._id}`} locale={router.locale}>
         <a>
           <Image
             ref={imageRef}
             loading="lazy"
             className={styles.imager}
-            src={url}
-            alt={alt}
+            src={oriData.image}
+            alt={oriData.alt}
             width={"350%"}
             height={"350%"}
           />
@@ -103,7 +114,7 @@ export default function Item({
       </Link>
       <div className={styles.bottomContainer}>
         <div className="">
-          <h3>{title} </h3>
+          <h3>{oriData.imageTitle} </h3>
         </div>
 
         <hr
@@ -127,7 +138,7 @@ export default function Item({
               id="qty"
               type="number"
               min="0"
-              max={max_}
+              max={oriData.quantity}
               defaultValue="0"
               step="1"
               className="text-center 
@@ -164,9 +175,9 @@ export default function Item({
 }
 
 // TODO: change to better default values, for now it's just testing
-Item.defaultProps = {
-  url: "/images/nan.jpg",
-  title: "Not Available",
-  alt: "error.jpg",
-  max_: "0", // change to 0 in  the future
-};
+// Item.defaultProps = {
+//   url: "/images/nan.jpg",
+//   title: "Not Available",
+//   alt: "error.jpg",
+//   max_: "0", // change to 0 in  the future
+// };

@@ -17,12 +17,13 @@ import React, { useState } from "react";
 export const cartContext = React.createContext();
 function MyApp({ Component, pageProps, ...appProps }) {
   const [cartToggle, setToggle] = useState(false);
+  const [items, setItems] = useState([]);
 
   function toggleCart() {
     cartToggle ? setToggle(false) : setToggle(true);
   }
   return (
-    <cartContext.Provider value={[cartToggle, toggleCart]}>
+    <cartContext.Provider value={[cartToggle, toggleCart, items, setItems]}>
       <Layout pathName={appProps.router.pathname}>
         {/* all of our page components */}
         <Component {...pageProps} />

@@ -11,12 +11,31 @@ import { useContext, useRef, useState } from "react";
 export default function ItemPage(props) {
   const imageRef = useRef(null);
   const itemRef = useRef(null);
-  const [cartToggle, toggleCart] = useContext(cartContext);
+  const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
 
   const rootRoute =
     process.env.NODE_ENV == "production"
       ? process.env.NEXT_PUBLIC_productAPIpro
       : process.env.NEXT_PUBLIC_productAPIdev;
+
+  function updateItems(id, amount) {
+    for (let i = 0; i < items.length; i++) {
+      // console.log("items is:", items[i]);
+      if (items[i]._id === id) {
+        console.log("found!");
+        items[i].amount = (
+          parseInt(items[i].amount) + parseInt(amount)
+        ).toString();
+        setItems(items);
+        return;
+      }
+    }
+    // if reach here, items not yet in the cart
+    props.data[0].amount = amount;
+    items.push(props.data[0]);
+    setItems(items);
+  }
+
   function increment() {
     if (parseInt(itemRef.current.value) !== parseInt(props.data[0].quantity)) {
       itemRef.current.value = (parseInt(itemRef.current.value) + 1).toString();
@@ -47,6 +66,7 @@ export default function ItemPage(props) {
         id: props.data[0]._id,
         amount: itemRef.current.value,
       };
+      const curValue = itemRef.current.value;
       itemRef.current.value = "0";
       let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDSET, {
         method: "POST",
@@ -67,6 +87,7 @@ export default function ItemPage(props) {
         return;
       }
       res = await res.json();
+      updateItems(props.data[0]._id, curValue);
       toggleCart();
       console.log("Done adding to cart!");
     } // else

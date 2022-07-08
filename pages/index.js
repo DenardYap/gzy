@@ -47,17 +47,7 @@ export default function Home(props) {
         </div>
         <div className={styles.itemList}>
           {props.data.map((item) => {
-            return (
-              <Item
-                key={item._id}
-                id={item._id}
-                prices={item.price}
-                productID={item.productID}
-                url={item.image}
-                title={item.imageTitle}
-                max_={item.quantity}
-              ></Item>
-            );
+            return <Item oriData={item} key={item._id}></Item>;
           })}
         </div>
       </div>

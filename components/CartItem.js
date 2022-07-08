@@ -7,10 +7,13 @@ import { Bars } from "react-loading-icons";
 
 const CartItem = ({
   data,
-  setToggle,
+  oriData,
+  setData,
   allowClick,
   setAllowClick,
   allowClickRef,
+  total,
+  setTotal,
 }) => {
   const router = useRouter();
   const inputRef = useRef();
@@ -25,14 +28,29 @@ const CartItem = ({
       ? process.env.NEXT_PUBLIC_productAPIpro
       : process.env.NEXT_PUBLIC_productAPIdev;
 
+  function updateData(id, amount) {
+    for (let i = 0; i < oriData.length; i++) {
+      if (oriData[i]._id === id) {
+        if (amount === "0") {
+          oriData.splice(i, 1);
+        } else {
+          oriData[i].amount = amount;
+          const curPrice =
+            total + parseInt(amount) * parseInt(oriData[i].price);
+          setTotal(curPrice);
+        }
+        setData(oriData);
+        console.log("found");
+        break;
+      }
+    }
+  }
   async function postData(amount) {
-    console.log("hello world");
     let body = {
       id: data._id,
       max: data.quantity,
       amount,
     };
-    console.log("GOODBYE WORLD");
     await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDSET, {
       method: "POST",
       headers: {
@@ -49,8 +67,9 @@ const CartItem = ({
       setAllowClick(false);
       if (inputRef.current.value !== data.quantity.toString()) {
         // allowClick = await postData("1");
-        setAllowClick(await postData("1"));
-        setToggle();
+        await postData("1");
+        updateData(data._id, (parseInt(inputRef.current.value) + 1).toString());
+        setAllowClick(true);
         inputRef.current.value = (
           parseInt(inputRef.current.value) + 1
         ).toString();
@@ -64,11 +83,14 @@ const CartItem = ({
       if (inputRef.current.value !== "0") {
         // allowClick = await postData("-1");
         if (parseInt(inputRef.current.value) - 1 === 0) {
-          console.log("triggered");
           await deleteItem();
         } else {
-          setAllowClick(await postData("-1"));
-          setToggle();
+          await postData("-1");
+          updateData(
+            data._id,
+            (parseInt(inputRef.current.value) - 1).toString()
+          );
+          setAllowClick(true);
           inputRef.current.value = (
             parseInt(inputRef.current.value) - 1
           ).toString();
@@ -78,25 +100,28 @@ const CartItem = ({
   }
 
   async function deleteItem() {
-    if (allowClickRef.current) {
-      setAllowClick(false);
-      await fetch(
-        rootRoute +
-          process.env.NEXT_PUBLIC_BACKENDDELETE +
-          "/" +
-          data._id.toString(),
-        {
-          method: "DELETE",
-          header: {
-            "Content-Type": "application/json",
-            "Acess-control-allow-origin": "https://www.guanzhiyan.com",
-          },
-        }
-      ).then(console.log("Successfuly deleted item"));
-      console.log("reached here");
-      setAllowClick(true);
-      setToggle();
-    }
+    setAllowClick(false);
+    console.log(
+      rootRoute +
+        process.env.NEXT_PUBLIC_BACKENDDELETE +
+        "//" +
+        data._id.toString()
+    );
+    await fetch(
+      rootRoute +
+        process.env.NEXT_PUBLIC_BACKENDDELETE +
+        "//" +
+        data._id.toString(),
+      {
+        method: "DELETE",
+        header: {
+          "Content-Type": "application/json",
+          "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+        },
+      }
+    ).then(console.log("Successfuly deleted item"));
+    setAllowClick(true);
+    updateData(data._id, "0");
   }
   return (
     <div className={styles.mainDiv}>

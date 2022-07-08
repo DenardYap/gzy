@@ -46,13 +46,14 @@ const Cart = () => {
       setTotal(curSum);
     }
     fetchData();
-  }, [toggle]);
+  }, []);
+
   return (
     <>
       {data == null ? (
         <div className="flex flex-col m-[2em] rounded text-slate-100 bg-slate-600 items-center p-5">
           <div className="flex flex-col items-center h-[80vh] justify-center">
-            <LoadingIcons.TailSpin height={400} width={400} />
+            <LoadingIcons.Oval height={400} width={400} />
             <h2 className="mt-[1em] text-4xl">Please wait...</h2>
           </div>
         </div>
@@ -73,6 +74,13 @@ const Cart = () => {
         </div>
       ) : (
         <>
+          {allowClick ? (
+            <></>
+          ) : (
+            <div className="w-full h-full top-0 right-0 bottom-0 left-0 bg-black opacity-50	fixed z-10 flex justify-center items-center">
+              <LoadingIcons.Oval height={300} width={300} />
+            </div>
+          )}
           <div className="flex justify-between items-center text-center pt-5 px-[2em]">
             <Link href="\" locale={router.locale} passHref>
               <button className="text-2xl p-2 rounded shadow-xl bg-black h-fit w-fit text-slate-100 hover:bg-slate-600 transition-all">
@@ -87,16 +95,19 @@ const Cart = () => {
               <h2>Items in cart: {data.length}</h2>
             </div>
           </div>
-          <div className="flex-row">
+          <div className="flex-row ">
             {data.map((item) => {
               return (
                 <CartItem
                   key={item._id}
-                  setToggle={rerender}
+                  setData={setData}
+                  oriData={data}
                   data={item}
                   allowClick={allowClick}
                   setAllowClick={setAllowClick}
                   allowClickRef={allowClickRef}
+                  total={total}
+                  setTotal={setTotal}
                 ></CartItem>
               );
             })}
