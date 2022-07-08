@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/CartItem.module.css";
+import { Bars } from "react-loading-icons";
 
 const CartItem = ({
   data,
@@ -34,7 +35,10 @@ const CartItem = ({
     console.log("GOODBYE WORLD");
     await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDSET, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+      },
       body: JSON.stringify(body),
     });
     return true;
@@ -85,6 +89,7 @@ const CartItem = ({
           method: "DELETE",
           header: {
             "Content-Type": "application/json",
+            "Acess-control-allow-origin": "https://www.guanzhiyan.com",
           },
         }
       ).then(console.log("Successfuly deleted item"));
@@ -97,7 +102,7 @@ const CartItem = ({
     <div className={styles.mainDiv}>
       <div className={styles.imageDiv}>
         {/* image */}
-        <Link href={`/product/${data.productID}`} locale={router.locale}>
+        <Link href={`/product/${data._id}`} locale={router.locale}>
           <a>
             <div className="border-2 border-solid border-black w-fit">
               <Image

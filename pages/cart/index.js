@@ -7,10 +7,12 @@ import CartItem from "../../components/CartItem";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { AiFillFrown } from "react-icons/ai";
+import { Bars } from "react-loading-icons";
+import LoadingIcons from "react-loading-icons";
 
 const Cart = () => {
   const router = useRouter();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [total, setTotal] = useState(0.0);
   const [toggle, setToggle] = useState(false);
   const [allowClick, setAllowClick, allowClickRef] = useState(true);
@@ -28,6 +30,7 @@ const Cart = () => {
       let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDGET, {
         method: "GET",
         "Content-Type": "application/json",
+        "Acess-control-allow-origin": "https://www.guanzhiyan.com",
       });
       if (res.status === "404" || res.status === "500") {
         // todo
@@ -46,7 +49,14 @@ const Cart = () => {
   }, [toggle]);
   return (
     <>
-      {data.length === 0 ? (
+      {data == null ? (
+        <div className="flex flex-col m-[2em] rounded text-slate-100 bg-slate-600 items-center p-5">
+          <div className="flex flex-col items-center h-[80vh] justify-center">
+            <LoadingIcons.TailSpin height={400} width={400} />
+            <h2 className="mt-[1em] text-4xl">Please wait...</h2>
+          </div>
+        </div>
+      ) : data.length === 0 ? (
         <div className="flex flex-col m-[2em] rounded text-slate-100 bg-slate-600 items-center">
           <div>
             <Link href="\" locale={router.locale} passHref>

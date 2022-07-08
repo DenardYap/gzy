@@ -57,6 +57,7 @@ const NavBar = () => {
       let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDGET, {
         method: "GET",
         "Content-Type": "application/json",
+        "Acess-control-allow-origin": "https://www.guanzhiyan.com",
       });
       if (res.status === "404" || res.status === "500") {
         // todo

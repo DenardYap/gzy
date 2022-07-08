@@ -67,6 +67,7 @@ export default function Item({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Acess-control-allow-origin": "https://www.guanzhiyan.com",
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify(body),

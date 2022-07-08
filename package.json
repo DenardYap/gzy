@@ -27,6 +27,7 @@
     "react-dom": "^18.1.0",
     "react-i18next": "^11.16.7",
     "react-icons": "^4.3.1",
+    "react-loading-icons": "^1.1.0",
     "react-usestateref": "^1.0.8",
     "redis": "^4.1.1",
     "redis-server": "^1.2.2",

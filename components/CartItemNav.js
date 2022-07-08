@@ -18,6 +18,7 @@ const CartItemNav = ({ data }) => {
       {
         method: "DELETE",
         "Content-type": "application/json",
+        "Acess-control-allow-origin": "https://www.guanzhiyan.com",
       }
     );
     toggleCart();
