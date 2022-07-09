@@ -116,13 +116,13 @@ const CartItem = ({
     console.log(
       rootRoute +
         process.env.NEXT_PUBLIC_BACKENDDELETE +
-        "//" +
+        "/" +
         data._id.toString()
     );
     await fetch(
       rootRoute +
         process.env.NEXT_PUBLIC_BACKENDDELETE +
-        "//" +
+        "/" +
         data._id.toString(),
       {
         method: "DELETE",

@@ -24,14 +24,16 @@ const CartItemNav = ({ oriData, data }) => {
     }
   }
   async function handleDelete() {
-    await fetch(
-      rootRoute + process.env.NEXT_PUBLIC_BACKENDDELETE + "//" + data._id,
+    const res = await fetch(
+      rootRoute + process.env.NEXT_PUBLIC_BACKENDDELETE + "/" + data._id,
       {
         method: "DELETE",
         "Content-type": "application/json",
-        "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+        // "Acess-control-allow-origin": "https://www.guanzhiyan.com",
       }
     );
+    res = await res.json();
+    console.log("Res error is", res.error);
     updateData(data._id);
     toggleCart();
   }
