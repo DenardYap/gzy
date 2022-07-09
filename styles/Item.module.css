@@ -46,3 +46,23 @@
     /* background-image: url('/images/main.jpg'); */
     cursor: pointer;
 }
+
+
+@media screen and (max-width: 425px){
+    
+    .container {
+        grid-auto-columns: 15em;
+    }
+}
+@media screen and (max-width: 375px){
+    
+    .container {
+        grid-auto-columns: 14em;
+    }
+}
+@media screen and (max-width: 345px){
+    
+    .container {
+        grid-auto-columns: 13em;
+    }
+}

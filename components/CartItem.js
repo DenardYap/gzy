@@ -28,17 +28,23 @@ const CartItem = ({
       ? process.env.NEXT_PUBLIC_productAPIpro
       : process.env.NEXT_PUBLIC_productAPIdev;
 
-  function updateData(id, amount) {
+  function updateData(id, newAmount) {
+    let curPrice;
     for (let i = 0; i < oriData.length; i++) {
       if (oriData[i]._id === id) {
-        if (amount === "0") {
+        if (newAmount === "0") {
+          curPrice =
+            total - parseInt(oriData[i].amount) * parseInt(oriData[i].price);
           oriData.splice(i, 1);
+          // data.amount = "0";
         } else {
-          oriData[i].amount = amount;
-          const curPrice =
-            total + parseInt(amount) * parseInt(oriData[i].price);
-          setTotal(curPrice);
+          curPrice = total + parseInt(newAmount) * parseInt(oriData[i].price);
+          oriData[i].amount = (
+            parseInt(oriData[i].amount) + parseInt(newAmount)
+          ).toString();
+          // data.amount = oriData[i].amount;
         }
+        setTotal(curPrice);
         setData(oriData);
         console.log("found");
         break;
@@ -51,7 +57,8 @@ const CartItem = ({
       max: data.quantity,
       amount,
     };
-    await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDSET, {
+    console.log("herere...");
+    let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDSET, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,37 +66,44 @@ const CartItem = ({
       },
       body: JSON.stringify(body),
     });
-    return true;
+    console.log(res.status);
+    return res;
   }
   async function increment() {
     if (allowClickRef.current) {
       // allowClick = false;
-      setAllowClick(false);
       if (inputRef.current.value !== data.quantity.toString()) {
+        setAllowClick(false);
         // allowClick = await postData("1");
-        await postData("1");
-        updateData(data._id, (parseInt(inputRef.current.value) + 1).toString());
-        setAllowClick(true);
-        inputRef.current.value = (
-          parseInt(inputRef.current.value) + 1
-        ).toString();
+        let res = await postData("1");
+        if (res.status != 200) {
+          res = await res.json();
+          alert(res.error);
+        } else {
+          updateData(data._id, "1");
+          setAllowClick(true);
+          inputRef.current.value = (
+            parseInt(inputRef.current.value) + 1
+          ).toString();
+        }
+      } else {
+        alert(
+          `You have exceeded the max amount of quantity, please make sure you have less than ${data.quantity} in your shopping cart!`
+        );
       }
     }
   }
   async function decrement() {
     if (allowClickRef.current) {
-      setAllowClick(false);
       // allowClick = false;
       if (inputRef.current.value !== "0") {
+        setAllowClick(false);
         // allowClick = await postData("-1");
         if (parseInt(inputRef.current.value) - 1 === 0) {
           await deleteItem();
         } else {
           await postData("-1");
-          updateData(
-            data._id,
-            (parseInt(inputRef.current.value) - 1).toString()
-          );
+          updateData(data._id, "-1");
           setAllowClick(true);
           inputRef.current.value = (
             parseInt(inputRef.current.value) - 1
@@ -123,6 +137,7 @@ const CartItem = ({
     setAllowClick(true);
     updateData(data._id, "0");
   }
+  console.log(data.price, data.amount);
   return (
     <div className={styles.mainDiv}>
       <div className={styles.imageDiv}>
