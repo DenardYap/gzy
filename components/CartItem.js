@@ -57,7 +57,6 @@ const CartItem = ({
       max: data.quantity,
       amount,
     };
-    console.log("herere...");
     let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDSET, {
       method: "POST",
       headers: {
@@ -66,7 +65,6 @@ const CartItem = ({
       },
       body: JSON.stringify(body),
     });
-    console.log(res.status);
     return res;
   }
   async function increment() {

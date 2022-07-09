@@ -187,6 +187,7 @@ export async function getStaticPaths({ locales }) {
   const { db } = await connectToDatabase();
   let data = await db.collection("product").find().toArray();
 
+  // can use cached data here...
   data = JSON.parse(JSON.stringify(data));
 
   /* For dynamic route, i18next need to do this */

@@ -38,6 +38,7 @@ export default async function handler(req, res) {
   let data = [];
   if (req.cookies.cart == null) {
     // cart is empty
+    console.log("Closing connections...");
     await client.quit();
     return res.status(200).json({ data });
   } else {
@@ -53,12 +54,14 @@ export default async function handler(req, res) {
         curData.amount = decrypted[i].amount;
         data.push(curData);
       }
+      console.log("Closing connections...");
       await client.quit();
       console.log("Successfully fetched data at the back end");
       return res.status(200).json({ data });
     } catch (err) {
       console.log("Error in decrypting cart cookie: " + err);
       // reset cookie here
+      console.log("Closing connections...");
       await client.quit();
       // reset toke if it's invalid
       if (err.name == "JsonWebTokenError") {

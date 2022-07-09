@@ -17,6 +17,8 @@ export default async function handler(req, res) {
     return res
       .status(500)
       .json({ invalid: "Please include an id in the body" });
+
+  // TODO: double req.body.amount!
   console.log("Setting cart item...");
   if (req.cookies.cart == null) {
     const body = await JSON.stringify([

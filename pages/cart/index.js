@@ -22,9 +22,6 @@ const Cart = () => {
       ? process.env.NEXT_PUBLIC_productAPIpro
       : process.env.NEXT_PUBLIC_productAPIdev;
 
-  function rerender() {
-    toggle ? setToggle(false) : setToggle(true);
-  }
   useEffect(() => {
     async function fetchData() {
       let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDGET, {
@@ -32,7 +29,7 @@ const Cart = () => {
         "Content-Type": "application/json",
         "Acess-control-allow-origin": "https://www.guanzhiyan.com",
       });
-      if (res.status === "404" || res.status === "500") {
+      if (res.status !== "200") {
         // todo
         console.log("Error in Cart.js with a status code of", res.status);
       }

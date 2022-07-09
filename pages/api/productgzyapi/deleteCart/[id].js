@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   // update the cookies
 
   if (req.cookies.cart == null) {
-    return res.status(404).json({ error: "cart is empty" });
+    return res.status(400).json({ error: "cart is empty" });
   } else {
     try {
       let decrypted = jwt.verify(req.cookies.cart, process.env.secret);
