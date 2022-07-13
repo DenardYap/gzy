@@ -5,7 +5,7 @@ import nextI18nextConfig from "../../next-i18next.config";
 export default function Factory() {
   return <h1 className="font-bold">This is a Factory page</h1>;
 }
-// have to do this every single page :/ 
+// have to do this every single page :/
 export async function getStaticProps({ locale }) {
   return {
     props: {

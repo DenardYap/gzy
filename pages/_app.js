@@ -3,10 +3,6 @@ import Layout from "../components/Layout";
 import { appWithTranslation } from "next-i18next";
 import nextI18nextConfig from "../next-i18next.config";
 import React, { useState } from "react";
-/** Todo
- * 1) How to disable navbar or common layout
- *    at pages that don't need them?
- */
 
 /** Data Fetching
  * 1) getStaticProps -> fetch at build time

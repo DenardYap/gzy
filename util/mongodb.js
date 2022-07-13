@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 
-let uri = process.env.mongoURI;
+let uri = process.env.mongoURImain;
 let dbName = process.env.mongoDatabaseName;
 
 let cachedClient = null;

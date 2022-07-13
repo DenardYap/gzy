@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Item from "../components/Item";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
@@ -11,12 +11,14 @@ import nextI18nextConfig from "../next-i18next.config";
 import { connectToDatabase } from "../util/mongodb";
 import { createClient } from "redis";
 import { cartContext } from "./_app";
+import LoadingIcons from "react-loading-icons";
 
 export default function Home(props) {
   <Head>
     <title>Guan Zhi Yan Bird&apos;s Nest</title>
     <link rel="icon" href="/favicon.ico" />
   </Head>;
+  const [allowClick, setAllowClick] = useState(true);
 
   const router = useRouter();
   const { t } = useTranslation("common");
@@ -36,19 +38,49 @@ export default function Home(props) {
     };
   }, []);
 
+  let soldOutItem = [];
   return (
-    <div>
+    <div className="">
+      {/* layover of the whole page once the button is pressed */}
+      {allowClick ? (
+        <></>
+      ) : (
+        <div className="w-full h-full top-0 right-0 bottom-0 left-0 bg-black opacity-50	fixed z-10 flex justify-center items-center">
+          <LoadingIcons.Oval height={300} width={300} />
+        </div>
+      )}
+
       <div className={styles.container} ref={mainImg}>
         <h2> {t("main_text")}</h2>
         <h3> {t("main_text2")}</h3>
       </div>
-      <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
+      <div className="flex-col bg-orange-50 my-[1.25em] mx-[2em]">
         <div className="text-center font-bold text-[4em] underline">
           <h2 id="product">{t("products")}</h2>
         </div>
         <div className={styles.itemList}>
           {props.data.map((item) => {
-            return <Item oriData={item} key={item._id}></Item>;
+            if (item.quantity === "0") {
+              // Render sold out item last
+              soldOutItem.push(item);
+            } else {
+              return (
+                <Item
+                  oriData={item}
+                  key={item._id}
+                  setAllowClick={setAllowClick}
+                ></Item>
+              );
+            }
+          })}
+          {soldOutItem.map((item) => {
+            return (
+              <Item
+                oriData={item}
+                key={item._id}
+                setAllowClick={setAllowClick}
+              ></Item>
+            );
           })}
         </div>
       </div>
@@ -104,11 +136,12 @@ export async function getStaticProps({ locale }) {
     }
   }
   await fetchData();
-
   console.log("Closing client connection...");
   await client.quit(); // quit
 
   console.log("Sending data to frontend...");
+
+  console.log("updated...");
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),

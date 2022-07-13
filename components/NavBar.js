@@ -9,6 +9,7 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import CartItemNav from "./CartItemNav";
 import { cartContext } from "../pages/_app";
+import LoadingIcons from "react-loading-icons";
 /** Todo
  * 1) Dark Mode
  * 2) Larger Burger menu
@@ -22,6 +23,7 @@ const NavBar = () => {
   const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
   const [refresh, setRefresh] = useState(true);
   const { t } = useTranslation("common");
+  const [allowClick, setAllowClick] = useState(true);
   const router = useRouter();
   const rootRoute =
     process.env.NODE_ENV == "production"
@@ -34,6 +36,32 @@ const NavBar = () => {
   const navBarRef = useRef();
 
   let curPage = useRef("#");
+
+  const paymentRoute =
+    process.env.NODE_ENV === "production"
+      ? process.env.NEXT_PUBLIC_CHECKOUT_APIpro
+      : process.env.NEXT_PUBLIC_CHECKOUT_APIdev;
+  async function handleCheckout() {
+    setAllowClick(false);
+    await fetch(paymentRoute, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        alert("Payment failed, please rety, or contact the seller!");
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then(({ url }) => {
+        window.location = url;
+      })
+      .catch((e) => {
+        alert(e.error);
+        console.log(e.error);
+      });
+  }
 
   function refresher(e) {
     const curRef = navBarRef.current.querySelectorAll(
@@ -111,6 +139,15 @@ const NavBar = () => {
       ref={navBarRef}
       className="	 bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 sticky top-0 z-10 shadow-lg"
     >
+      {/* layover of the whole page once the button is pressed */}
+      {allowClick ? (
+        <></>
+      ) : (
+        <div className="w-full h-full top-0 right-0 bottom-0 left-0 bg-black opacity-50	fixed z-10 flex justify-center items-center">
+          <LoadingIcons.Oval height={300} width={300} />
+        </div>
+      )}
+
       <div className="container flex justify-between items-center mx-auto">
         <Link href="/" locale={router.locale}>
           <a className="flex items-center ml-[1em]">
@@ -222,23 +259,26 @@ const NavBar = () => {
                       );
                     })}
                   </div>
-                  <div className="flex justify-around items-center">
+                  <div className="flex justify-around items-center ">
                     <Link href="/cart" locale={router.locale}>
                       <a>
-                        <button className="p-2 m-2 rounded bg-orange-600 text-slate-100 w-full hover:bg-orange-400 transition-colors">
+                        <button className="p-3 my-2 rounded bg-orange-600 text-xl text-slate-100 w-full hover:bg-orange-400 transition-colors">
                           {" "}
                           {t("view_cart")}{" "}
                         </button>
                       </a>
                     </Link>
-                    <Link href="/checkout" locale={router.locale}>
-                      <a>
-                        <button className="p-2 m-2 rounded bg-orange-600 text-slate-100 w-full hover:bg-orange-400 transition-colors">
-                          {" "}
-                          {t("checkout")}{" "}
-                        </button>
-                      </a>
-                    </Link>
+                    {/* <Link href="/checkout" locale={router.locale}> */}
+                    <a>
+                      <button
+                        onClick={handleCheckout}
+                        className="p-3 my-2 rounded bg-orange-600 text-xl text-slate-100 w-full hover:bg-orange-400 transition-colors"
+                      >
+                        {" "}
+                        {t("checkout")}{" "}
+                      </button>
+                    </a>
+                    {/* </Link> */}
                   </div>
                 </div>
               )}

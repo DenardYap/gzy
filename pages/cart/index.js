@@ -14,13 +14,38 @@ const Cart = () => {
   const router = useRouter();
   const [data, setData] = useState(null);
   const [total, setTotal] = useState(0.0);
-  const [toggle, setToggle] = useState(false);
   const [allowClick, setAllowClick, allowClickRef] = useState(true);
-
   const rootRoute =
-    process.env.NODE_ENV == "production"
+    process.env.NODE_ENV === "production"
       ? process.env.NEXT_PUBLIC_productAPIpro
       : process.env.NEXT_PUBLIC_productAPIdev;
+
+  const paymentRoute =
+    process.env.NODE_ENV === "production"
+      ? process.env.NEXT_PUBLIC_CHECKOUT_APIpro
+      : process.env.NEXT_PUBLIC_CHECKOUT_APIdev;
+  async function handleCheckout() {
+    setAllowClick(false);
+    await fetch(paymentRoute, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        alert("Payment failed, please rety, or contact the seller!");
+        setAllowClick(true);
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then(({ url }) => {
+        window.location = url;
+      })
+      .catch((e) => {
+        alert(e.error);
+        console.log(e.error);
+      });
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -29,7 +54,7 @@ const Cart = () => {
         "Content-Type": "application/json",
         "Acess-control-allow-origin": "https://www.guanzhiyan.com",
       });
-      if (res.status !== "200") {
+      if (res.status !== 200) {
         // todo
         console.log("Error in Cart.js with a status code of", res.status);
       }
@@ -114,7 +139,10 @@ const Cart = () => {
             <h2>
               {`Total (${data.length} items): RM${parseInt(total).toFixed(2)}`}
             </h2>
-            <button className="p-2 bg-orange-600 text-white rounded text-3xl mt-5 w-[100%] hover:bg-orange-400 transition-all ">
+            <button
+              onClick={handleCheckout}
+              className="p-2 bg-orange-600 text-white rounded text-3xl mt-5 w-[100%] hover:bg-orange-400 transition-all "
+            >
               Checkout
             </button>
           </div>

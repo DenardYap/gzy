@@ -9,8 +9,9 @@ import { useRouter } from "next/router";
 // Componenet for each item
 // Todo: 1) Make hover image
 
-export default function Item({ oriData }) {
+export default function Item({ oriData, setAllowClick }) {
   const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
+
   // console.log("Cart toggle is:", cartToggle);
   // dynamically generate the rootroute based on whether production or dev mode
   const rootRoute =
@@ -65,6 +66,7 @@ export default function Item({ oriData }) {
     } else {
       // either data is empty, or cached, we just need to update the quantity
       // Make a post request to the backend
+      setAllowClick(false);
       let body = {
         max: oriData.quantity,
         id: oriData._id,
@@ -84,21 +86,33 @@ export default function Item({ oriData }) {
       if (res.status == 404) {
         res = await res.json();
         alert(res.error);
+        setAllowClick(true);
         return;
       } else if (res.status == 500) {
         //programmer's error
         console.log("500 error, programmer please check");
+        setAllowClick(true);
         return;
       }
       res = await res.json();
       // toggleCart();
       updateItems(oriData._id, curValue);
       toggleCart();
+      setAllowClick(true);
       console.log("Done adding to cart!");
     }
   }
   return (
     <div className={styles.container}>
+      {/* layover if item sold out */}
+      {oriData.quantity === "0" ? (
+        <div className={styles.soldOut}>
+          <h3>Sold out</h3>
+        </div>
+      ) : (
+        <></>
+      )}
+
       <Link href={`/product/${oriData._id}`} locale={router.locale}>
         <a>
           <Image

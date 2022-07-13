@@ -3,21 +3,47 @@ import { useTranslation } from "next-i18next";
 import styles from "../../styles/Home.module.css";
 import Item from "../../components/Item";
 import nextI18nextConfig from "../../next-i18next.config";
+import { useState } from "react";
 import { createClient } from "redis";
 import { connectToDatabase } from "../../util/mongodb";
+import LoadingIcons from "react-loading-icons";
 
 export default function ProductList(props) {
   const { t } = useTranslation("common");
+  const [allowClick, setAllowClick] = useState(true);
+  let soldOutItem = [];
   return (
     <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
+      {/* layover of the whole page once the button is pressed */}
+      {allowClick ? (
+        <></>
+      ) : (
+        <div className="w-full h-full top-0 right-0 bottom-0 left-0 bg-black opacity-50	fixed z-10 flex justify-center items-center">
+          <LoadingIcons.Oval height={300} width={300} />
+        </div>
+      )}
+
       <div className="text-center font-bold text-[4em] underline">
         <h2 id="product">{t("products")}</h2>
       </div>
       <div className={styles.itemList}>
         {props.data.map((item) => {
+          if (item.quantity === "0") {
+            // Render sold out item last
+            soldOutItem.push(item);
+          } else {
+            return (
+              <Item
+                oriData={item}
+                key={item._id}
+                setAllowClick={setAllowClick}
+              ></Item>
+            );
+          }
+        })}
+        {soldOutItem.map((item) => {
           return <Item oriData={item} key={item._id}></Item>;
         })}
-        {/* <div className={styles.masker} > {t("show_more")} </div> */}
       </div>
     </div>
   );

@@ -96,13 +96,15 @@ export default function ItemPage(props) {
     <>
       <div className={styles.mainDiv}>
         <div className="flex justify-center">
-          <div className="border-2 border-solid border-slate-400 shadow-xl h-fit w-fit ">
+          <div className="border-2 border-solid border-slate-400 shadow-xl ">
             <Image
               ref={imageRef}
               src={props.data[0].image}
               quality={100}
-              height={"500%"}
+              // layout="fill"
               width={"500%"}
+              height={"500%"}
+              // objectFit="contain"
               alt={props.data[0].imageAlt}
               loading="lazy"
             ></Image>
