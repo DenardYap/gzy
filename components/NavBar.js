@@ -43,6 +43,7 @@ const NavBar = () => {
       : process.env.NEXT_PUBLIC_CHECKOUT_APIdev;
   async function handleCheckout() {
     setAllowClick(false);
+    console.log(paymentRoute)
     await fetch(paymentRoute, {
       method: "POST",
       headers: {
@@ -52,6 +53,7 @@ const NavBar = () => {
       .then((res) => {
         if (res.ok) return res.json();
         alert("Payment failed, please rety, or contact the seller!");
+        setAllowClick(true);
         return res.json().then((json) => Promise.reject(json));
       })
       .then(({ url }) => {
@@ -59,7 +61,7 @@ const NavBar = () => {
       })
       .catch((e) => {
         alert(e.error);
-        console.log(e.error);
+        console.log(e);
       });
   }
 
