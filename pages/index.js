@@ -20,6 +20,8 @@ export default function Home(props) {
   </Head>;
   const [allowClick, setAllowClick] = useState(true);
 
+  let count = 0;
+  let itemsToDisplay = 3;
   const router = useRouter();
   const { t } = useTranslation("common");
   const mainImg = useRef();
@@ -54,34 +56,58 @@ export default function Home(props) {
         <h2> {t("main_text")}</h2>
         <h3> {t("main_text2")}</h3>
       </div>
-      <div className="flex-col bg-orange-50 my-[1.25em] mx-[2em]">
+      <div className="flex-col flex bg-slate-100 my-[2em] mx-[2em] text-center items-center text-2xl">
+        {/* <div className="text-center font-bold text-[4em] underline">
+          <h2 id="product">{t("guan zhi yan")}</h2>
+        </div> */}
+        {/* <div className="px-4 py-5 shadow-sm">
+          <Image
+            alt="gzy-logo"
+            className=" h-6"
+            src="/logo/logo_main_slate.jpg"
+            width={"800%"}
+            height={"800%"}
+          ></Image>
+        </div> */}
+        <div className="py-5 px-[2em]">
+          <p>
+            Guan Zhi Yan Trading&trade; is one of the most distinguised Bird
+            Nest Seller in Malaysia based in Port Dickson, since 2001. We
+            emphasize on our high quality, extremely clean, and 100% natural
+            Bird Nest. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem
+            Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+            Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+          </p>
+        </div>
+      </div>
+
+      <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
         <div className="text-center font-bold text-[4em] underline">
-          <h2 id="product">{t("products")}</h2>
+          <h2 id="product">{t("Top Sales")}</h2>
         </div>
         <div className={styles.itemList}>
           {props.data.map((item) => {
-            if (item.quantity === "0") {
-              // Render sold out item last
-              soldOutItem.push(item);
-            } else {
-              return (
-                <Item
-                  oriData={item}
-                  key={item._id}
-                  setAllowClick={setAllowClick}
-                ></Item>
-              );
+            if (count != itemsToDisplay) {
+              if (item.quantity === "0") {
+                // Render sold out item last
+                soldOutItem.push(item);
+              } else {
+                count++;
+                return (
+                  <Item
+                    oriData={item}
+                    key={item._id}
+                    setAllowClick={setAllowClick}
+                  ></Item>
+                );
+              }
             }
           })}
-          {soldOutItem.map((item) => {
-            return (
-              <Item
-                oriData={item}
-                key={item._id}
-                setAllowClick={setAllowClick}
-              ></Item>
-            );
-          })}
+        </div>
+      </div>
+      <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
+        <div className="text-center font-bold text-[4em] underline">
+          <h2 id="product">{t("factory")}</h2>
         </div>
       </div>
     </div>

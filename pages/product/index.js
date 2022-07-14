@@ -8,10 +8,24 @@ import { createClient } from "redis";
 import { connectToDatabase } from "../../util/mongodb";
 import LoadingIcons from "react-loading-icons";
 
+const type = {
+  FRESH: "1",
+  CONDENSED: "2",
+  DRY: "3",
+  STRIPS: "4",
+  OTHER: "5",
+  ALL: "0",
+};
 export default function ProductList(props) {
+  const [curType, setCurType] = useState(type.FRESH);
   const { t } = useTranslation("common");
   const [allowClick, setAllowClick] = useState(true);
   let soldOutItem = [];
+
+  function handleDropDown(e) {
+    e.preventDefault();
+    setCurType(e.target.value);
+  }
   return (
     <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
       {/* layover of the whole page once the button is pressed */}
@@ -23,22 +37,59 @@ export default function ProductList(props) {
         </div>
       )}
 
-      <div className="text-center font-bold text-[4em] underline">
-        <h2 id="product">{t("products")}</h2>
+      <div className={`${styles.productFilterTitle} text-center font-bold `}>
+        <div className="flex justify-start items-start">
+          <div className="flex flex-col ml-[4em] mt-[1.5em] items-center justify-center">
+            <label htmlFor="type" className="mr-2 ">
+              Select a type...
+            </label>
+            <select
+              onChange={handleDropDown}
+              name="type"
+              id="type"
+              className="border border-solid border-slate-200 text-slate-800 bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-md px-4 py-2.5 text-left inline-flex items-center shadow-xl"
+            >
+              <option value="1">Fresh</option>
+              <option value="2">Condensed</option>
+              <option value="3">Dry</option>
+              <option value="4">Strips</option>
+              <option value="5">Other</option>
+              <option value="0">All</option>
+            </select>
+          </div>
+        </div>
+        <h2 id="product" className="text-[4em] underline">
+          {t("products")}
+        </h2>
       </div>
       <div className={styles.itemList}>
         {props.data.map((item) => {
-          if (item.quantity === "0") {
-            // Render sold out item last
-            soldOutItem.push(item);
-          } else {
-            return (
-              <Item
-                oriData={item}
-                key={item._id}
-                setAllowClick={setAllowClick}
-              ></Item>
-            );
+          if (item.type == curType) {
+            if (item.quantity === "0") {
+              // Render sold out item last
+              soldOutItem.push(item);
+            } else {
+              return (
+                <Item
+                  oriData={item}
+                  key={item._id}
+                  setAllowClick={setAllowClick}
+                ></Item>
+              );
+            }
+          } else if (curType == type.ALL) {
+            if (item.quantity === "0") {
+              // Render sold out item last
+              soldOutItem.push(item);
+            } else {
+              return (
+                <Item
+                  oriData={item}
+                  key={item._id}
+                  setAllowClick={setAllowClick}
+                ></Item>
+              );
+            }
           }
         })}
         {soldOutItem.map((item) => {
