@@ -167,8 +167,8 @@ export default async function handler(req, res) {
         session.shipping.address.country,
         session.payment_intent
       );
-    // Then define and call a function to handle the event payment_intent.succeeded
-    // break;
+      // Then define and call a function to handle the event payment_intent.succeeded
+      break;
     default:
       console.log(`Unhandled event type ${event.type}`);
     //   res.status(404).json({ message: `Unhandled event type ${event.type}` });
