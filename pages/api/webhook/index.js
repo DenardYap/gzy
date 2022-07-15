@@ -42,7 +42,7 @@ async function sendEmail(
     2
   )}\nCustomer Name: ${name}\nCustomer Email: ${email}\nCustomer Phone: ${phone}\nAddress Line 1: ${line1}\nAddress Line 2: ${line2}\nPostal Code: ${postal_code}\nArea/City: ${city}\nState: ${state}\nCountry: ${country}\n\n\nClick this link https://dashboard.stripe.com/test/payments/${paymentIntentID} for more information`;
   // send mail with defined transport object
-  let to = "bernerd@umich.edu, mameehy@hotmail.com, maggieykw@hotmail.com";
+  let to = "bernerd@umich.edu, mameehy@hotmail.com"; //maggieykw@hotmail.com
 
   let info = await transporter.sendMail({
     from: '"Guan Zhi Yan Bot" <mameehy@hotmail.com>', // sender address
