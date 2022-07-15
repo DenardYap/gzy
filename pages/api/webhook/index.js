@@ -154,19 +154,19 @@ export default async function handler(req, res) {
         token.push({ id: curKey, amount: curVal });
       }
       await updateDatabase(token);
-      await sendEmail(
-        session.amount_total / 100,
-        session.customer_details.email,
-        session.customer_details.name,
-        session.customer_details.phone,
-        session.shipping.address.line1,
-        session.shipping.address.line2,
-        session.shipping.address.postal_code,
-        session.shipping.address.city,
-        session.shipping.address.state,
-        session.shipping.address.country,
-        session.payment_intent
-      );
+      // await sendEmail(
+      //   session.amount_total / 100,
+      //   session.customer_details.email,
+      //   session.customer_details.name,
+      //   session.customer_details.phone,
+      //   session.shipping.address.line1,
+      //   session.shipping.address.line2,
+      //   session.shipping.address.postal_code,
+      //   session.shipping.address.city,
+      //   session.shipping.address.state,
+      //   session.shipping.address.country,
+      //   session.payment_intent
+      // );
       // Then define and call a function to handle the event payment_intent.succeeded
       break;
     default:
