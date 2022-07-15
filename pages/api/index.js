@@ -124,6 +124,7 @@ async function updateDatabase(token) {
 }
 
 export default async function handler(req, res) {
+  //   res.status(200).send(`Webhook Error: ${err.message}`);
   const sig = req.headers["stripe-signature"];
   const buf = await buffer(req);
   console.log("webhooking...");
