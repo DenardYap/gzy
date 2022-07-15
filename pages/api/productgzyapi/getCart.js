@@ -4,7 +4,7 @@ import { serialize } from "cookie";
 import Stripe from "stripe";
 const redis = require("redis");
 const jwt = require("jsonwebtoken");
-const stripe = new Stripe(process.env.SECRET_KEY_TEST);
+const stripe = new Stripe(process.env.SECRET_KEY);
 
 async function checkCaches(client) {
   let mainData;
