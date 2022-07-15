@@ -174,6 +174,9 @@ export default async function handler(req, res) {
       // Then define and call a function to handle the event payment_intent.succeeded
       return;
     // break;
+    case "payment_intent.created":
+      console.log("just testing");
+      return res.status(200).json({ message: "testing success" });
     default:
       console.log(`Unhandled event type ${event.type}`);
     //   res.status(404).json({ message: `Unhandled event type ${event.type}` });
