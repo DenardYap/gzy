@@ -122,10 +122,6 @@ async function updateDatabase(token) {
     );
   }
 }
-// const endpointSecret =
-//   process.env.NODE_ENV == "development"
-//     ? "whsec_34a50072c5f86b2159e747b942a3814dd4c09d5bb7315b88390e7e38ef60174d"
-//     : process.env.NEXT_PUBLIC_END_POINT_SECRET; //to be changed
 
 export default async function handler(req, res) {
   const sig = req.headers["stripe-signature"];
@@ -137,8 +133,7 @@ export default async function handler(req, res) {
     event = stripe.webhooks.constructEvent(
       buf,
       sig,
-      // process.env.NEXT_PUBLIC_END_POINT_SECRET
-      "whsec_34a50072c5f86b2159e747b942a3814dd4c09d5bb7315b88390e7e38ef60174d"
+      process.env.NEXT_PUBLIC_END_POINT_SECRET
     );
   } catch (err) {
     console.log("Error!", err.message);
@@ -177,7 +172,8 @@ export default async function handler(req, res) {
         session.payment_intent
       );
       // Then define and call a function to handle the event payment_intent.succeeded
-      break;
+      return;
+    // break;
     default:
       console.log(`Unhandled event type ${event.type}`);
     //   res.status(404).json({ message: `Unhandled event type ${event.type}` });
