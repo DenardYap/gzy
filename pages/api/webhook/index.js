@@ -143,6 +143,7 @@ export default async function handler(req, res) {
   switch (event.type) {
     case "checkout.session.completed":
       console.log("Handling success payment, updating database...");
+      res.status(200).send(`SUCCESS!`);
       const session = event.data.object;
       let token = [];
 
@@ -168,7 +169,6 @@ export default async function handler(req, res) {
       //   session.payment_intent
       // );
       // Then define and call a function to handle the event payment_intent.succeeded
-      //  res.status(200).send(`SUCCESS!`);
       break;
     default:
       console.log(`Unhandled event type ${event.type}`);
