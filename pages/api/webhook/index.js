@@ -52,9 +52,6 @@ async function sendEmail(
   });
 
   console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-  // Preview only available when sending through an Ethereal account
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
 async function checkCaches(client) {
@@ -156,8 +153,8 @@ export default async function handler(req, res) {
         let curVal = session.metadata[curKey];
         token.push({ id: curKey, amount: curVal });
       }
-      updateDatabase(token);
-      sendEmail(
+      await updateDatabase(token);
+      await sendEmail(
         session.amount_total / 100,
         session.customer_details.email,
         session.customer_details.name,
@@ -170,8 +167,7 @@ export default async function handler(req, res) {
         session.shipping.address.country,
         session.payment_intent
       );
-      // Then define and call a function to handle the event payment_intent.succeeded
-      return;
+    // Then define and call a function to handle the event payment_intent.succeeded
     // break;
     default:
       console.log(`Unhandled event type ${event.type}`);
