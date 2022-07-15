@@ -44,14 +44,14 @@ async function sendEmail(
   // send mail with defined transport object
   let to = "bernerd@umich.edu, mameehy@hotmail.com"; //maggieykw@hotmail.com
 
-  let info = await transporter.sendMail({
+  return await transporter.sendMail({
     from: '"Guan Zhi Yan Bot" <mameehy@hotmail.com>', // sender address
     to, // list of receivers
     subject: "GUAN ZHI YAN NEW ORDER!", // Subject line
     text, // plain text body
   });
 
-  console.log("Message sent: %s", info.messageId);
+  // console.log("Message sent: %s", info.messageId);
 }
 
 async function checkCaches(client) {
@@ -130,7 +130,8 @@ export default async function handler(req, res) {
     event = stripe.webhooks.constructEvent(
       buf,
       sig,
-      process.env.NEXT_PUBLIC_END_POINT_SECRET
+      // process.env.NEXT_PUBLIC_END_POINT_SECRET
+      process.env.NEXT_PUBLIC_END_POINT_SECRET_TEST
     );
   } catch (err) {
     console.log("Error!", err.message);
