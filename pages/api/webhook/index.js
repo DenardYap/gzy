@@ -145,7 +145,6 @@ export default async function handler(req, res) {
   console.log("handling event...");
   switch (event.type) {
     case "checkout.session.completed":
-      res.status(200).send(`Updating database and sending emails...`);
       console.log("Handling success payment, updating database...");
       const session = event.data.object;
       let token = [];
