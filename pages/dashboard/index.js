@@ -42,7 +42,8 @@ const Dashboard = () => {
                   <b>Edit The Website</b>
                 </h3>
                 <h4 className="text-md ">
-                  Change Home Page's image, change top sales' images, etc
+                  Change Home Page&apos;s image, change top sales&apos; images,
+                  etc
                 </h4>
                 <BiEdit className="" size={300}></BiEdit>
               </div>
@@ -80,7 +81,7 @@ const Dashboard = () => {
         </div>
       ) : (
         <div className="h-[80vh] flex justify-center items-center text-3xl ">
-          You don't have permission to view this page
+          You don&apos;t have permission to view this page
         </div>
       )}
     </>

@@ -26,7 +26,7 @@ const Upload = () => {
         <div>Upload</div>
       ) : (
         <div className="h-[80vh] flex justify-center items-center text-3xl ">
-          You don't have permission to view this page
+          You don&apos;t have permission to view this page
         </div>
       )}
     </>

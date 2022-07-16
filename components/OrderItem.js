@@ -20,7 +20,7 @@ const OrderItem = ({ data }) => {
         </Link>
       </div>
       <div className={styles.titleGrid}>{data.imageTitle}</div>
-      <div className={styles.quantityGrid}>{data.amount}</div>
+      <div className={styles.quantityGrid}>{data.amount} pcs</div>
       <div className={styles.priceGrid}>
         RM{parseInt(data.price).toFixed(2)}
       </div>
