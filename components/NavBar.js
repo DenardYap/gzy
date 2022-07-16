@@ -99,7 +99,6 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    console.log("useEffecting...");
     getRedirectResult(auth)
       .then(async (result) => {
         if (!result) {
@@ -109,10 +108,8 @@ const NavBar = () => {
         // This gives you a Google Access Token. You can use it to access Google APIs.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        console.log("Token:", token);
         // The signed-in user info.
         const user = result.user;
-        console.log("User", user);
       })
       .catch((error) => {
         // Handle Errors here.
@@ -374,11 +371,9 @@ const NavBar = () => {
                   ></Image>
                 </div>
                 <div className={navStyles.userText}>
-                  <Link href={"/dashboard"} locale={router.locale}>
-                    <div className="text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center">
-                      Dashboard
-                    </div>
-                  </Link>
+                  <div className="text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center">
+                    Dashboard
+                  </div>
                   <div
                     onClick={handleLogout}
                     className="text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center"

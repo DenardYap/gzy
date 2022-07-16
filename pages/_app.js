@@ -32,12 +32,7 @@ function MyApp({ Component, pageProps, ...appProps }) {
       // https://firebase.google.com/docs/reference/js/firebase.User
       setUser(user);
       /**Do some permission check here */
-      console.log(user);
-      console.log("user is signed in");
       // ...
-    } else {
-      // User is signed out
-      console.log("user is signed out");
     }
   });
 

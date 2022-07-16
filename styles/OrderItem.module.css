@@ -1,0 +1,55 @@
+.topGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    width: 100%;
+    background-color: rgb(30 41 59);
+
+    color: white;
+    text-align: center;
+    padding: 0 5px 0 5px;
+}
+
+.orderGrid {
+    text-align: center;
+    display :grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    width: 100%;
+    grid-template-areas:
+        "image title quantity   price  subtitle";
+        
+  align-items: center;
+    /* height: 3em; */
+    
+}
+
+.imageGrid{
+
+    display: grid;
+    grid-area: image;
+    justify-content: center;
+}
+.titleGrid{
+
+    display: grid;
+    grid-area: title;
+    justify-content: center;
+}
+.quantityGrid{
+    display: grid;
+    grid-area: quantity;
+    justify-content: center;
+
+}
+.priceGrid{
+    display: grid;
+    grid-area: price;
+    justify-content: center;
+
+}
+.subTitleGrid{
+    display: grid;
+    grid-area: subtitle;
+    justify-content: center;
+    align-items: center;
+
+}
