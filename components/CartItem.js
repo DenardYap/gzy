@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/CartItem.module.css";
 import { Bars } from "react-loading-icons";
+import Swal from "sweetalert2";
 
 const CartItem = ({
   data,
@@ -72,6 +73,7 @@ const CartItem = ({
       // allowClick = false;
       if (inputRef.current.value !== data.quantity.toString()) {
         setAllowClick(false);
+
         // allowClick = await postData("1");
         let res = await postData("1");
         if (res.status != 200) {
@@ -80,6 +82,15 @@ const CartItem = ({
         } else {
           updateData(data._id, "1");
           setAllowClick(true);
+          // Swal.fire({
+          //   title: "Done!",
+          //   icon: "success",
+          //   timer: 700,
+          //   timerProgressBar: true,
+          //   color: "#1e293b",
+          //   showConfirmButton: false,
+          //   // confirmButtonColor: "#fb923c",
+          // });
           inputRef.current.value = (
             parseInt(inputRef.current.value) + 1
           ).toString();
@@ -103,6 +114,15 @@ const CartItem = ({
           await postData("-1");
           updateData(data._id, "-1");
           setAllowClick(true);
+          // Swal.fire({
+          //   title: "Done!",
+          //   icon: "success",
+          //   timer: 700,
+          //   timerProgressBar: true,
+          //   color: "#1e293b",
+          //   showConfirmButton: false,
+          //   // confirmButtonColor: "#fb923c",
+          // });
           inputRef.current.value = (
             parseInt(inputRef.current.value) - 1
           ).toString();
@@ -133,6 +153,15 @@ const CartItem = ({
       }
     ).then(console.log("Successfuly deleted item"));
     setAllowClick(true);
+    // Swal.fire({
+    //   title: "Item deleted!",
+    //   icon: "success",
+    //   timer: 700,
+    //   timerProgressBar: true,
+    //   color: "#1e293b",
+    //   showConfirmButton: false,
+    //   // confirmButtonColor: "#fb923c",
+    // });
     updateData(data._id, "0");
   }
   console.log(data.price, data.amount);

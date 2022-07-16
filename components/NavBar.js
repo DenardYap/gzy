@@ -22,8 +22,10 @@ import {
   signOut,
 } from "firebase/auth";
 import { setUserId } from "firebase/analytics";
+import Swal from "sweetalert2";
 
 /** Todo
+
  * 1) Dark Mode
  * 2) Larger Burger menu
  * 3) Fix clicking on logo the border stays at bottom
@@ -72,6 +74,14 @@ const NavBar = () => {
         if (res.ok) return res.json();
         alert("Payment failed, please rety, or contact the seller!");
         setAllowClick(true);
+        Swal.fire({
+          title: "Oops!",
+          text: "An error occurs, please contact the seller!",
+          icon: "error",
+          color: "#1e293b",
+          // showConfirmButton: false,
+          confirmButtonColor: "#1e293b",
+        });
         return res.json().then((json) => Promise.reject(json));
       })
       .then(({ url }) => {
@@ -371,12 +381,14 @@ const NavBar = () => {
                   ></Image>
                 </div>
                 <div className={navStyles.userText}>
-                  <div className="text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center">
-                    Dashboard
-                  </div>
+                  <Link href="/dashboard" locale={router.locale}>
+                    <div className="cursor-pointer text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center">
+                      Dashboard
+                    </div>
+                  </Link>
                   <div
                     onClick={handleLogout}
-                    className="text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center"
+                    className="cursor-pointer text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center"
                   >
                     Log out
                   </div>

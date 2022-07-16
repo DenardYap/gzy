@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import React, { useEffect, useRef, useContext, useState } from "react";
 import { cartContext } from "../pages/_app";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 // Componenet for each item
 // Todo: 1) Make hover image
@@ -85,13 +86,30 @@ export default function Item({ oriData, setAllowClick }) {
       });
       if (res.status == 404) {
         res = await res.json();
-        alert(res.error);
         setAllowClick(true);
+        // swal("Oops!", res.error, "error");
+        Swal.fire({
+          title: "Oops!",
+          text: res.error,
+          icon: "error",
+          color: "#1e293b",
+          // showConfirmButton: false,
+          confirmButtonColor: "#1e293b",
+        });
         return;
       } else if (res.status == 500) {
         //programmer's error
         console.log("500 error, programmer please check");
         setAllowClick(true);
+        // swal("Oops!", "An error occurs, please contact the seller!", "error");
+        Swal.fire({
+          title: "Oops!",
+          text: "An error occurs, please contact the seller!",
+          icon: "error",
+          color: "#1e293b",
+          // showConfirmButton: false,
+          confirmButtonColor: "#1e293b",
+        });
         return;
       }
       res = await res.json();
@@ -99,6 +117,16 @@ export default function Item({ oriData, setAllowClick }) {
       updateItems(oriData._id, curValue);
       toggleCart();
       setAllowClick(true);
+      console.log("hello");
+      Swal.fire({
+        title: "Done!",
+        icon: "success",
+        timer: 700,
+        timerProgressBar: true,
+        color: "#1e293b",
+        showConfirmButton: false,
+        // confirmButtonColor: "#fb923c",
+      });
       console.log("Done adding to cart!");
     }
   }

@@ -152,7 +152,7 @@ const Order = (props) => {
             <h3>Price</h3>
             <h3>Subtotal</h3>
           </div>
-          <div className="flex flex-row justify-around text-xl bg-slate-50 text-slate-800 ">
+          <div className="flex flex-col justify-around text-xl bg-slate-50 text-slate-800 ">
             {data == null ? (
               <></>
             ) : (

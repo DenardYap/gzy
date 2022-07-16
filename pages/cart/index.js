@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { AiFillFrown } from "react-icons/ai";
 import { Bars } from "react-loading-icons";
 import LoadingIcons from "react-loading-icons";
+import Swal from "sweetalert2";
 
 const Cart = () => {
   const router = useRouter();
@@ -36,6 +37,14 @@ const Cart = () => {
         if (res.ok) return res.json();
         alert("Payment failed, please rety, or contact the seller!");
         setAllowClick(true);
+        Swal.fire({
+          title: "Oops!",
+          text: "An error occurs, please contact the seller!",
+          icon: "error",
+          color: "#1e293b",
+          // showConfirmButton: false,
+          confirmButtonColor: "#1e293b",
+        });
         return res.json().then((json) => Promise.reject(json));
       })
       .then(({ url }) => {
