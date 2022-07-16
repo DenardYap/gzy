@@ -226,8 +226,8 @@ export default async function handler(req, res) {
       buf,
       sig,
       // process.env.NEXT_PUBLIC_END_POINT_SECRET
-      // process.env.NEXT_PUBLIC_END_POINT_SECRET_TEST
-      process.env.NEXT_PUBLIC_END_POINT_SECRET_LOCAL
+      process.env.NEXT_PUBLIC_END_POINT_SECRET_TEST
+      // process.env.NEXT_PUBLIC_END_POINT_SECRET_LOCAL
     );
   } catch (err) {
     console.log("Error!", err.message);
