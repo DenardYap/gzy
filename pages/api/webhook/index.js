@@ -14,6 +14,7 @@ const stripe = require("stripe");
 const redis = require("redis");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
+let AWS = require("aws-sdk");
 async function sendEmail(
   amount,
   email,
@@ -28,29 +29,73 @@ async function sendEmail(
   paymentIntentID
 ) {
   console.log("sending email...");
+  AWS.config.update({
+    region: "us-east-2",
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  });
+
   // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    service: "hotmail",
-    auth: {
-      user: process.env.NEXT_PUBLIC_EMAIL,
-      pass: process.env.NEXT_PUBLIC_PASSWORD,
-    },
-  });
 
-  let text = `Total Cost is: RM${parseInt(amount).toFixed(
+  let Data = `Total Cost is: RM${parseInt(amount).toFixed(
     2
-  )}\nCustomer Name: ${name}\nCustomer Email: ${email}\nCustomer Phone: ${phone}\nAddress Line 1: ${line1}\nAddress Line 2: ${line2}\nPostal Code: ${postal_code}\nArea/City: ${city}\nState: ${state}\nCountry: ${country}\n\n\nClick this link https://dashboard.stripe.com/test/payments/${paymentIntentID} for more information`;
+  )}<br>Customer Name: ${name}<br>Customer Email: ${email}<br>Customer Phone: ${phone}<br>Address Line 1: ${line1}<br>Address Line 2: ${line2}<br>Postal Code: ${postal_code}<br>Area/City: ${city}<br>State: ${state}<br>Country: ${country}<br><br><br>Click this link https://dashboard.stripe.com/test/payments/${paymentIntentID} for more information`;
   // send mail with defined transport object
-  let to = "bernerd@umich.edu, mameehy@hotmail.com"; //maggieykw@hotmail.com
+  let ToAddresses = [
+    "bernerd@umich.edu",
+    "mameehy@hotmail.com",
+    "gzypdykl@gmail.com",
+  ]; //maggieykw@hotmail.com
 
-  return await transporter.sendMail({
-    from: '"Guan Zhi Yan Bot" <mameehy@hotmail.com>', // sender address
-    to, // list of receivers
-    subject: "GUAN ZHI YAN NEW ORDER!", // Subject line
-    text, // plain text body
-  });
+  // Create sendEmail params
+  var params = {
+    Destination: {
+      /* required */
+      // CcAddresses: [
+      //   "",
+      //   /* more items */
+      // ],
+      ToAddresses,
+    },
+    Message: {
+      /* required */
+      Body: {
+        /* required */
+        Html: {
+          Charset: "UTF-8",
+          Data,
+        },
+        Text: {
+          Charset: "UTF-8",
+          Data,
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: "GUAN ZHI YAN NEW ORDER!",
+      },
+    },
+    Source: "gzypdykl@gmail.com" /* required */,
+    ReplyToAddresses: [
+      "gzypdykl@gmail.com",
+      /* more items */
+    ],
+  };
+
+  // Create the promise and SES service object
+  var sendPromise = new AWS.SES({ apiVersion: "2010-12-01" })
+    .sendEmail(params)
+    .promise();
+
+  // Handle promise's fulfilled/rejected states
+  sendPromise
+    .then(function (data) {
+      console.log(data.MessageId);
+    })
+    .catch(function (err) {
+      console.log("Error in sending email!");
+      console.error(err, err.stack);
+    });
 
   // console.log("Message sent: %s", info.messageId);
 }
@@ -208,19 +253,19 @@ export default async function handler(req, res) {
       }
       await updateDatabase(token);
       await updateTracking(session, token);
-      // await sendEmail(
-      //   session.amount_total / 100,
-      //   session.customer_details.email,
-      //   session.customer_details.name,
-      //   session.customer_details.phone,
-      //   session.shipping.address.line1,
-      //   session.shipping.address.line2,
-      //   session.shipping.address.postal_code,
-      //   session.shipping.address.city,
-      //   session.shipping.address.state,
-      //   session.shipping.address.country,
-      //   session.payment_intent
-      // );
+      await sendEmail(
+        session.amount_total / 100,
+        session.customer_details.email,
+        session.customer_details.name,
+        session.customer_details.phone,
+        session.shipping.address.line1,
+        session.shipping.address.line2,
+        session.shipping.address.postal_code,
+        session.shipping.address.city,
+        session.shipping.address.state,
+        session.shipping.address.country,
+        session.payment_intent
+      );
       // Then define and call a function to handle the event payment_intent.succeeded
       break;
     default:

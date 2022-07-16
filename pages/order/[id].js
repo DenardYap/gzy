@@ -68,7 +68,7 @@ const Order = (props) => {
         {date ? <h2> Order placed on {formatDate()}</h2> : <></>}
       </div>
       <div className="flex flex-col rounded bg-slate-200 text-gray-400 p-5 mx-[1em] mb-10 min-h-[75vh]">
-        <h2 className="text-6xl  mb-3   text-slate-800">DELIVERY STATUS</h2>
+        <h2 className="text-4xl  mb-3   text-slate-800">DELIVERY STATUS</h2>
         <div className="flex flex-row justify-around text-9xl bg-slate-50 p-5 rounded">
           <div className="flex flex-col  items-center text-center">
             <FaShoppingCart className="text-green-400   "></FaShoppingCart>
@@ -141,7 +141,7 @@ const Order = (props) => {
           </div>
         </div>
 
-        <h2 className="text-4xl underline  mb-3 my-5  text-slate-800">
+        <h2 className="text-4xl underline  mb-3 my-10  text-slate-800">
           YOUR ORDERS
         </h2>
         <div className="flex flex-col">
@@ -165,7 +165,7 @@ const Order = (props) => {
             Total: {data ? <>RM{parseInt(data.amount).toFixed(2)}</> : <>...</>}
           </h2>
         </div>
-        <h2 className="text-4xl underline  mb-3 my-5  text-slate-800">
+        <h2 className="text-4xl underline  mb-3 my-10  text-slate-800">
           CUSTOMER DETAILS
         </h2>
         {data ? (
