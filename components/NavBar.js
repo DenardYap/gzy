@@ -8,8 +8,21 @@ import { useEffect, useRef, useState, useContext } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import CartItemNav from "./CartItemNav";
-import { cartContext } from "../pages/_app";
+import { cartContext, userContext } from "../pages/_app";
 import LoadingIcons from "react-loading-icons";
+import app from "../util/firebase_util";
+import {
+  getAuth,
+  signInWithRedirect,
+  setPersistence,
+  inMemoryPersistence,
+  browserLocalPersistence,
+  getRedirectResult,
+  GoogleAuthProvider,
+  signOut,
+} from "firebase/auth";
+import { setUserId } from "firebase/analytics";
+
 /** Todo
  * 1) Dark Mode
  * 2) Larger Burger menu
@@ -20,6 +33,11 @@ import LoadingIcons from "react-loading-icons";
 // this is needed for parsing my JSON object where description have line breaks and stuff
 
 const NavBar = () => {
+  /* Firebase stuff */
+
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth(app);
+  const [user, setUser] = useContext(userContext);
   const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
   const [refresh, setRefresh] = useState(true);
   const { t } = useTranslation("common");
@@ -43,7 +61,7 @@ const NavBar = () => {
       : process.env.NEXT_PUBLIC_CHECKOUT_APIdev;
   async function handleCheckout() {
     setAllowClick(false);
-    console.log(paymentRoute)
+    console.log(paymentRoute);
     await fetch(paymentRoute, {
       method: "POST",
       headers: {
@@ -65,6 +83,51 @@ const NavBar = () => {
       });
   }
 
+  /**AUTH */
+  async function handleAuth() {
+    await signInWithRedirect(auth, provider);
+  }
+  async function handleLogout() {
+    signOut(auth)
+      .then(() => {
+        console.log("sign out successful");
+        setUser(null);
+      })
+      .catch((err) => {
+        console.log("An error happened:", err);
+      });
+  }
+
+  useEffect(() => {
+    console.log("useEffecting...");
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (!result) {
+          console.log("no result");
+          return;
+        }
+        // This gives you a Google Access Token. You can use it to access Google APIs.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        console.log("Token:", token);
+        // The signed-in user info.
+        const user = result.user;
+        console.log("User", user);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        console.log(
+          `Error on ${email}! Code: ${errorCode}. Message: ${errorMessage}`
+        );
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+      });
+  }, []);
+  /********/
   function refresher(e) {
     const curRef = navBarRef.current.querySelectorAll(
       'a[href="' + window.location.pathname + '"]'
@@ -292,8 +355,39 @@ const NavBar = () => {
           </div>
 
           <div className={navStyles.userContainer}>
-            <FaRegUserCircle className={navStyles.user} />
-            <div className={navStyles.userText}> {t("acc")} </div>
+            {user == null ? (
+              <>
+                <FaRegUserCircle
+                  className={navStyles.user}
+                  onClick={handleAuth}
+                />
+                <div className={navStyles.userText}> {t("acc")} </div>
+              </>
+            ) : (
+              <>
+                <div className="relative rounded-full h-[3em] w-[3em] ml-[0.5em] mr-[1.5em] border-2 border-solid border-slate-800">
+                  <Image
+                    src={user.photoURL}
+                    className="rounded-full "
+                    objectFit="contain"
+                    layout="fill"
+                  ></Image>
+                </div>
+                <div className={navStyles.userText}>
+                  <Link href={"/dashboard"} locale={router.locale}>
+                    <div className="text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center">
+                      Dashboard
+                    </div>
+                  </Link>
+                  <div
+                    onClick={handleLogout}
+                    className="text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center"
+                  >
+                    Log out
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Burger Menu! */}

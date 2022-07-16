@@ -9,6 +9,7 @@ import { buffer } from "micro";
 import { connectToDatabase } from "../../../util/mongodb";
 import { serialize } from "cookie";
 import { calculateObjectSize } from "bson";
+import { getIdTokenResult } from "firebase/auth";
 const stripe = require("stripe");
 const redis = require("redis");
 const nodemailer = require("nodemailer");
@@ -52,6 +53,55 @@ async function sendEmail(
   });
 
   // console.log("Message sent: %s", info.messageId);
+}
+
+async function updateTracking(session, token) {
+  console.log("updating tracking...");
+  const { db } = await connectToDatabase();
+  const client = redis.createClient({
+    url: process.env.NEXT_PUBLIC_REDIS_ENDPOINT,
+    password: process.env.NEXT_PUBLIC_REDIS_PASSWORD,
+  });
+  client.on("error", (err) => console.log("Redis Client Error", err));
+  await client.connect();
+
+  let curData = await client.hGetAll("mainCart");
+  let items_bought = [];
+  for (let i = 0; i < token.length; i++) {
+    // token has id, and amount
+
+    let newCurData = await JSON.parse(curData[token[i].id]);
+    let curRow = {
+      amount: token[i].amount,
+      id: token[i].id,
+      price: newCurData.price,
+      image: newCurData.image,
+      imageTitle: newCurData.imageTitle,
+      imageTitleZhc: newCurData.imageTitleZhc,
+      imageTitleEn: newCurData.imageTitleEn,
+    };
+    console.log(curRow);
+    items_bought.push(curRow);
+  }
+
+  await db.collection("tracking").insertOne({
+    timestamp: new Date(),
+    items_bought,
+    amount: session.amount_total / 100,
+    line_1: session.shipping.address.line1,
+    line_2: session.shipping.address.line2,
+    email: session.customer_details.email,
+    name: session.customer_details.name,
+    phone: session.customer_details.phone,
+    postal_code: session.shipping.address.postal_code,
+    city: session.shipping.address.city,
+    state: session.shipping.address.state,
+    country: session.shipping.address.country,
+    _id: session.payment_intent,
+    status: 1, // 1 (new) -> 2 (updated) -> 3 (completed) (delete completed?)
+  });
+  console.log("updated tracking...");
+  await client.quit();
 }
 
 async function checkCaches(client) {
@@ -131,7 +181,8 @@ export default async function handler(req, res) {
       buf,
       sig,
       // process.env.NEXT_PUBLIC_END_POINT_SECRET
-      process.env.NEXT_PUBLIC_END_POINT_SECRET_TEST
+      // process.env.NEXT_PUBLIC_END_POINT_SECRET_TEST
+      process.env.NEXT_PUBLIC_END_POINT_SECRET_LOCAL
     );
   } catch (err) {
     console.log("Error!", err.message);
@@ -156,6 +207,7 @@ export default async function handler(req, res) {
         token.push({ id: curKey, amount: curVal });
       }
       await updateDatabase(token);
+      await updateTracking(session, token);
       // await sendEmail(
       //   session.amount_total / 100,
       //   session.customer_details.email,

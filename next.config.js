@@ -9,7 +9,7 @@ const nextConfig = {
 
 module.exports = {
   images: {
-    domains: [process.env.cloudFrontURL],
+    domains: [process.env.cloudFrontURL, "lh3.googleusercontent.com"],
   },
   env: {
     mongoURI: process.env.mongoURI,
