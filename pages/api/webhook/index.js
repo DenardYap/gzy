@@ -98,6 +98,57 @@ async function sendEmail(
     });
 
   // console.log("Message sent: %s", info.messageId);
+  let customerContent = `Dear ${name}, thanks for your purchase at Guan Zhi Yan Trading, we will ship out your order as soon as possible.<br>To keep track of your package, please click on this link https://www.guanzhiyan.com/order/${paymentIntentID}.<br><br>If you have any concerns, questions, or feedbacks, feel free to email to gzypdykl@gmail.com or phone us at +60126380981 (Malaysia).`;
+
+  var params2 = {
+    Destination: {
+      /* required */
+      // CcAddresses: [
+      //   "",
+      //   /* more items */
+      // ],
+      ToAddresses: [email],
+    },
+    Message: {
+      /* required */
+      Body: {
+        /* required */
+        Html: {
+          Charset: "UTF-8",
+          Data: customerContent,
+        },
+        Text: {
+          Charset: "UTF-8",
+          Data: customerContent,
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: "Your order has been placed",
+      },
+    },
+    Source: "gzypdykl@gmail.com" /* required */,
+    ReplyToAddresses: [
+      "gzypdykl@gmail.com",
+      /* more items */
+    ],
+  };
+
+  // Create the promise and SES service object
+  var sendPromise2 = new AWS.SES({ apiVersion: "2010-12-01" })
+    .sendEmail(params2)
+    .promise();
+
+  // Handle promise's fulfilled/rejected states
+  sendPromise2
+    .then(function (data) {
+      console.log(data.MessageId);
+    })
+    .catch(function (err) {
+      console.log("Error in sending email!");
+      console.error(err, err.stack);
+    });
+  console.log("sent customer email!");
 }
 
 async function updateTracking(session, token) {
@@ -240,7 +291,7 @@ export default async function handler(req, res) {
   switch (event.type) {
     case "checkout.session.completed":
       console.log("Handling success payment, updating database...");
-      res.status(200).send(`SUCCESS!`);
+      // res.status(200).send(`SUCCESS!`);
       const session = event.data.object;
       let token = [];
 
