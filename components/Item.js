@@ -143,15 +143,19 @@ export default function Item({ oriData, setAllowClick }) {
 
       <Link href={`/product/${oriData._id}`} locale={router.locale}>
         <a>
-          <Image
-            ref={imageRef}
-            loading="lazy"
-            className={styles.imager}
-            src={oriData.image}
-            alt={oriData.alt}
-            width={"350%"}
-            height={"350%"}
-          />
+          <div className="relative h-[20em] w-[19em] justify-center items-center z-0">
+            <Image
+              ref={imageRef}
+              loading="lazy"
+              className={styles.imager}
+              src={oriData.image}
+              alt={oriData.alt}
+              layout="fill"
+              objectFit="cover"
+              // width={"350%"}
+              // height={"350%"}
+            />
+          </div>
         </a>
       </Link>
       <div className={styles.bottomContainer}>
