@@ -11,6 +11,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FiPackage } from "react-icons/fi";
 import { MdLocalShipping } from "react-icons/md";
 import { BiHomeSmile } from "react-icons/bi";
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import OrderItem from "../../components/OrderItem";
 import styles from "../../styles/OrderItem.module.css";
 const Order = (props) => {
@@ -67,9 +68,9 @@ const Order = (props) => {
       <div className="mt-10 mb-2 mx-[1em] underline">
         {date ? <h2> Order placed on {formatDate()}</h2> : <></>}
       </div>
-      <div className="flex flex-col rounded bg-slate-200 text-gray-400 p-5 mx-[1em] mb-10 min-h-[75vh]">
+      <div className="flex flex-col rounded bg-slate-200 text-gray-400 p-5 mx-[1em] mb-10 min-h-[75vh] ">
         <h2 className="text-4xl  mb-3   text-slate-800">DELIVERY STATUS</h2>
-        <div className="flex flex-row justify-around text-9xl bg-slate-50 p-5 rounded">
+        <div className="flex flex-row justify-around text-9xl bg-slate-50 p-5 rounded shadow-2xl">
           <div className="flex flex-col  items-center text-center">
             <FaShoppingCart className="text-green-400   "></FaShoppingCart>
             <h2 className="text-xl text-green-400 font-semibold">
@@ -152,7 +153,7 @@ const Order = (props) => {
             <h3>Price</h3>
             <h3>Subtotal</h3>
           </div>
-          <div className="flex flex-col justify-around text-xl bg-slate-50 text-slate-800 ">
+          <div className="flex flex-col justify-around text-xl bg-slate-50 text-slate-800 shadow-2xl">
             {data == null ? (
               <></>
             ) : (
@@ -171,7 +172,7 @@ const Order = (props) => {
         {data ? (
           <>
             <div
-              className={`${styles.customerGrid}  justify-around text-xl bg-slate-800 text-slate-50`}
+              className={`${styles.customerGrid}  justify-around text-xl bg-slate-800 text-slate-50 `}
             >
               <h2>Name</h2>
               <h2>Phone</h2>
@@ -184,7 +185,7 @@ const Order = (props) => {
               <h2>Country</h2>
             </div>
             <div
-              className={`${styles.customerGrid}  justify-around text-xl bg-slate-50 text-slate-800 rounded`}
+              className={`${styles.customerGrid}  justify-around text-xl bg-slate-50 text-slate-800 rounded shadow-2xl`}
             >
               <h2>{data.name}</h2>
               <h2>{data.phone}</h2>

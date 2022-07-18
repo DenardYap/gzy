@@ -372,10 +372,10 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <div className="relative rounded-full h-[3em] w-[3em] ml-[0.5em] mr-[1.5em] border-2 border-solid border-slate-800">
+                <div className="relative rounded-full h-[2.5em] w-[2.5em] ml-[0.5em] mr-[1.5em] ">
                   <Image
                     src={user.photoURL}
-                    className="rounded-full "
+                    className="rounded-full"
                     objectFit="contain"
                     layout="fill"
                   ></Image>

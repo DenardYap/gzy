@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../../next-i18next.config";
 
 const Edit = () => {
-  const allowedEmails = ["bernerd@umich.edu"];
+  const allowedEmails = ["bernerd@umich.edu", "gzypdykl@gmail.com"];
   const [permission, setPermission] = useState(false);
   const [user, setUser] = useContext(userContext);
   // permission check

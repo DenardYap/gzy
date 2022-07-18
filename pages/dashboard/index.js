@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 const Dashboard = () => {
   const router = useRouter();
-  const allowedEmails = ["bernerd@umich.edu"];
+  const allowedEmails = ["bernerd@umich.edu", "gzypdykl@gmail.com"];
   const [permission, setPermission] = useState(false);
   const [user, setUser] = useContext(userContext);
   // permission check

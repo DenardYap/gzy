@@ -18,28 +18,107 @@ export default function Home(props) {
     <title>Guan Zhi Yan Bird&apos;s Nest</title>
     <link rel="icon" href="/favicon.ico" />
   </Head>;
+  /* 1 : english, 2 : chinese, 3 : traditioanl chinese */
+  let language;
   const [allowClick, setAllowClick] = useState(true);
+
+  const dot1 = useRef();
+  const dot2 = useRef();
+  const dot3 = useRef();
+  const dots = [dot1, dot2, dot3];
+  /**To be changed to loading image from CDN/Database */
+  const imageList = [
+    'url("/images/main.jpg")',
+    'url("/images/main2.jpg")',
+    'url("/images/main3.jpg")',
+  ];
+  const [curSlide, setCurSlide] = useState(1);
+  let slideShowNum = 3;
 
   let count = 0;
   let itemsToDisplay = 3;
+  let slideTimer;
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  function toggleButton() {
+    buttonClicked ? setButtonClicked(false) : setButtonClicked(true);
+  }
+
+  function handleSlide(num) {
+    // reset the timer here
+    clearInterval(slideTimer);
+    if (num == 0) {
+      setCurSlide(3);
+      num = 3;
+    } else if (num == 4) {
+      setCurSlide(1);
+      num = 1;
+    } else {
+      setCurSlide(num);
+    }
+    toggleButton();
+    console.log(num);
+  }
+
+  useEffect(() => {
+    console.log("triggered:", curSlide);
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].current.className = dots[i].current.className.replace(
+        " bg-black",
+        " bg-white"
+      );
+    }
+    /**Change color */
+    dots[curSlide - 1].current.className = dots[
+      curSlide - 1
+    ].current.className.replace(" bg-white", " bg-black");
+
+    /**Change image */
+    mainImg.current.style.backgroundImage = imageList[curSlide - 1];
+    mainImg.current.style.backgroundPositionY = -window.scrollY * 0.7 + "px";
+    console.log(mainImg.current.style);
+  }, [curSlide]);
   const router = useRouter();
   const { t } = useTranslation("common");
   const mainImg = useRef();
+
   useEffect(() => {
-    const mainImgCur = mainImg.current;
     function handleScroll() {
       let offset = window.scrollY;
-      mainImgCur.style.backgroundPositionY = -offset * 0.7 + "px";
+      console.log(offset);
+      mainImg.current.style.backgroundPositionY = -offset * 0.7 + "px";
       // remember to add media query here for lower scrolling rate or smaller vh
     }
     window.addEventListener("scroll", handleScroll);
 
+    language = window.location.href.indexOf("en")
+      ? 1
+      : window.location.href.indexOf("zhc")
+      ? 3
+      : 2;
     console.log("User came from:", document.referrer);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+  /**Interval effect to slide the window  */
+  useEffect(() => {
+    // create a interval and get the id
+    // slideTimer =
+    //   !slideTimer &&
+    //   setInterval(() => {
+    //     setCurSlide((prevSlide) => prevSlide + 1);
+    //     console.log("Cur slide is", curSlide);
+    //     handleSlide(curSlide);
+    //   }, 3000);
+    slideTimer = window.setInterval(() => {
+      setCurSlide((prev) => {
+        return (prev % 3) + 1;
+      }); // <-- Change this line!
+    }, 5000);
+    // clear out the interval using the id when unmounting the component
+    return () => clearInterval(slideTimer);
+  }, [buttonClicked]);
   let soldOutItem = [];
   return (
     <div className="">
@@ -52,38 +131,104 @@ export default function Home(props) {
         </div>
       )}
 
-      <div className={styles.container} ref={mainImg}>
-        <h2> {t("main_text")}</h2>
-        <h3> {t("main_text2")}</h3>
+      <div key={curSlide} className={styles.container} ref={mainImg}>
+        <div className={styles.mainContainer}>
+          <div className={styles.subContainers}></div>
+
+          <div className={`${styles.subContainers} items-center`}>
+            <div className="flex justify-start w-full">
+              <div
+                onClick={() => handleSlide(curSlide - 1)}
+                className="cursor-pointer ml-[1.5em] hover:bg-slate-50 hover:text-black w-fit p-1 h-fit transition-all rounded"
+              >
+                <h2 className=""> &#10094; </h2>
+              </div>
+            </div>
+
+            <div></div>
+            <div className="flex justify-end w-full">
+              <div className="cursor-pointer mr-[1.5em] hover:bg-slate-50 hover:text-black w-fit p-1 h-fit transition-all rounded">
+                <h2 onClick={() => handleSlide(curSlide + 1)} className="">
+                  {" "}
+                  &#10095;
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.subContainers} items-end pb-2`}>
+            <div></div>
+            <div>
+              <span
+                className={`${styles.dot}  bg-black`}
+                onClick={() => handleSlide(1)}
+                ref={dot1}
+              ></span>
+              <span
+                className={`${styles.dot}  bg-black`}
+                onClick={() => handleSlide(2)}
+                ref={dot2}
+              ></span>
+              <span
+                className={`${styles.dot}  bg-black`}
+                onClick={() => handleSlide(3)}
+                ref={dot3}
+              ></span>
+            </div>
+            <div></div>
+          </div>
+        </div>
       </div>
-      <div className="flex-col flex bg-slate-100 my-[2em] mx-[2em] text-center items-center text-2xl">
+      <div className="flex flex-row  my-[2em] mx-[2em] text-center items-center text-2xl">
         {/* <div className="text-center font-bold text-[4em] underline">
           <h2 id="product">{t("guan zhi yan")}</h2>
         </div> */}
-        {/* <div className="px-4 py-5 shadow-sm">
+        <div
+          className={`${styles.shadowBox} px-4 py-5  w-[61%] min-h-[65vh] mx-5 relative flex justify-start items-center`}
+        >
           <Image
             alt="gzy-logo"
-            className=" h-6"
-            src="/logo/logo_main_slate.jpg"
-            width={"800%"}
-            height={"800%"}
+            className=""
+            src="/images/Snapseed 5.jpg"
+            layout="fill"
+            objectFit="cover"
           ></Image>
-        </div> */}
-        <div className="py-5 px-[2em]">
-          <p>
-            Guan Zhi Yan Trading&trade; is one of the most distinguised Bird
-            Nest Seller in Malaysia based in Port Dickson, since 2001. We
-            emphasize on our high quality, extremely clean, and 100% natural
-            Bird Nest. Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem
-            Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-            Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-          </p>
+        </div>
+
+        <div
+          className={`${styles.shadowBox} flex flex-col justify-between py-5 px-[2em] bg-slate-100 mx-5 w-[80%] min-h-[65vh] shadow-xl`}
+        >
+          <h3 className="underline text-5xl pb-5">
+            <b>{t("main_page_title")}</b>
+          </h3>
+          <div className="flex flex-row  justify-center items-center text-center">
+            <p>{t("about_us")}</p>
+          </div>
+
+          <div className="h-[100%] flex justify-between items-center  px-2">
+            <a
+              className="hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400"
+              href="/about"
+              locale={router.locale}
+            >
+              {t("learn")}
+            </a>
+            <a
+              className="hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400"
+              href="/product"
+              locale={router.locale}
+            >
+              {t("explore")}
+            </a>
+          </div>
         </div>
       </div>
 
-      <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
+      <div
+        className={`${styles.shadowBox} flex-col bg-slate-100 my-[5em] mx-[2em] `}
+      >
         <div className="text-center font-bold text-[4em] underline">
-          <h2 id="product">{t("Top Sales")}</h2>
+          <h2 id="product">{t("top_sales")}</h2>
         </div>
         <div className={styles.itemList}>
           {props.data.map((item) => {
@@ -105,9 +250,39 @@ export default function Home(props) {
           })}
         </div>
       </div>
-      <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
-        <div className="text-center font-bold text-[4em] underline">
-          <h2 id="product">{t("factory")}</h2>
+      <div
+        className={`flex flex-row justify-center items-center my-[3em] mx-[2em]`}
+      >
+        {/* <div
+          className={`${styles.shadowBox} flex flex-col justify-between py-5 px-[2em] bg-slate-100 mx-5 shadow-xl`}
+        >
+          
+        </div> */}
+
+        <div
+          className={`${styles.videoGridOverview} text-left justify-center items-center text-2xl`}
+        >
+          <div
+            className={`${styles.shadowBox} flex flex-col justify-between py-5 pl-[1em] pr-[3em] bg-slate-200 mx-10 w-[100%] min-h-[45vh]`}
+          >
+            <h3 className="text-5xl underline">{t("visit_factory_title")}</h3>
+            <h3 className="text-3xl">{t("visit_factory_text")}</h3>
+            <a
+              className="text-right text-2xl pr-[2em] hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400"
+              href="/factory"
+              locale={router.locale}
+            >
+              {t("learn")}
+            </a>
+          </div>
+          <video
+            className={`${styles.shadowBox} relative right-[4em] px-3 py-2 rounded bg-slate-100`}
+            width="400"
+            height="320"
+            controls
+          >
+            <source src="/video/factory.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
     </div>

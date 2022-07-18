@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/OrderHistory.module.css";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Swal from "sweetalert2";
 const OrderHistory = ({ data }) => {
   const router = useRouter();
+  const [rerender, setRerender] = useState(false);
+
+  function toggle() {
+    rerender ? setRerender(false) : setRerender(true);
+  }
+  const orderRoute =
+    process.env.NODE_ENV === "production"
+      ? process.env.NEXT_PUBLIC_CHECKOUT_ORDERpro
+      : process.env.NEXT_PUBLIC_CHECKOUT_ORDERdev;
   function formatDate(timestamp) {
     let date = new Date(timestamp);
     var hours = date.getHours();
@@ -25,13 +35,57 @@ const OrderHistory = ({ data }) => {
     );
   }
 
+  async function handleTracking() {
+    Swal.fire({
+      title: "Submit the tracking number",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "OK",
+      showLoaderOnConfirm: true,
+      preConfirm: async (tracking_number) => {
+        console.log(tracking_number);
+        return await fetch(orderRoute + "uploadTracking", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+          },
+          body: JSON.stringify({
+            id: data._id,
+            tracking_number,
+          }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(response.statusText);
+            }
+            data.status = 2;
+            data.tracking_number = tracking_number;
+            toggle();
+            return response.json();
+          })
+          .catch((error) => {
+            Swal.showValidationMessage(`Request failed: ${error}`);
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result) {
+        console.log(result.message);
+      }
+    });
+  }
+
   /**
    * Timestamp, Amount
    * City, state, country, postal_code, line_1, line_2, phone,
    */
   return (
     <div
-      className={`bg-slate-200 text-left text-slate-800 p-5 mx-[0.5em] my-2 w-full border border-slate-50 border-solid ${styles.orderGrid}`}
+      className={`shadow-xl bg-slate-200 text-left text-slate-800 p-5 mx-[0.5em] my-2 w-full border border-slate-50 border-solid ${styles.orderGrid}`}
     >
       <div className="flex flex-col">
         <h3>
@@ -118,13 +172,17 @@ const OrderHistory = ({ data }) => {
               </h3>
 
               <h3 className="text-slate-800">
-                Tracking Number: {data.tracking_number}
+                <b className="font-extrabold">Tracking Number:</b>{" "}
+                {data.tracking_number}
               </h3>
             </div>
           )}
         </h3>
 
-        <button className="p-5 bg-slate-800 text-slate-50 shadow-2xl hover:bg-slate-400 transition-all rounded w-fit">
+        <button
+          onClick={handleTracking}
+          className="p-5 bg-slate-800 text-slate-50 shadow-2xl hover:bg-slate-400 transition-all rounded w-fit"
+        >
           Upload Tracking Number
         </button>
       </div>

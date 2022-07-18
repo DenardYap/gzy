@@ -8,7 +8,7 @@ import OrderHistory from "../../components/OrderHistory";
 import LoadingIcons from "react-loading-icons";
 
 const Tracking = () => {
-  const allowedEmails = ["bernerd@umich.edu"];
+  const allowedEmails = ["bernerd@umich.edu", "gzypdykl@gmail.com"];
   const [permission, setPermission] = useState(false);
   const [user, setUser] = useContext(userContext);
   // permission check
@@ -49,7 +49,7 @@ const Tracking = () => {
       }
     }
   }, [user]);
-  console.log(data);
+
   return (
     <>
       {permission ? (

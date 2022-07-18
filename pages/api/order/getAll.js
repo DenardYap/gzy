@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   ) {
     res.status(404).json({ error: "unauthorized" });
   }
-
+  console.log("hello");
   const { db } = await connectToDatabase();
 
   let curData = await db
