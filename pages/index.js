@@ -187,7 +187,7 @@ export default function Home(props) {
           className={`${styles.shadowBox} px-4 py-5  w-[61%] min-h-[65vh] mx-5 relative flex justify-start items-center`}
         >
           <Image
-            alt="gzy-logo"
+            alt="birdnest bottle"
             className=""
             src="/images/Snapseed 5.jpg"
             layout="fill"
@@ -206,20 +206,16 @@ export default function Home(props) {
           </div>
 
           <div className="h-[100%] flex justify-between items-center  px-2">
-            <a
-              className="hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400"
-              href="/about"
-              locale={router.locale}
-            >
-              {t("learn")}
-            </a>
-            <a
-              className="hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400"
-              href="/product"
-              locale={router.locale}
-            >
-              {t("explore")}
-            </a>
+            <Link href="/about" locale={router.locale}>
+              <a className="hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400">
+                {t("learn")}
+              </a>
+            </Link>
+            <Link href="/product" locale={router.locale}>
+              <a className="hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400">
+                {t("explore")}
+              </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -267,22 +263,31 @@ export default function Home(props) {
           >
             <h3 className="text-5xl underline">{t("visit_factory_title")}</h3>
             <h3 className="text-3xl">{t("visit_factory_text")}</h3>
-            <a
-              className="text-right text-2xl pr-[2em] hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400"
-              href="/factory"
-              locale={router.locale}
-            >
-              {t("learn")}
-            </a>
+            <Link href="/factory" locale={router.locale}>
+              <a className="text-right text-2xl pr-[2em] hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400">
+                {t("learn")}
+              </a>
+            </Link>
           </div>
-          <video
+          <div
+            className={`${styles.shadowBox} min-h-[65vh] w-[36vw] relative relative right-[4em] px-3 py-2 rounded bg-slate-100`}
+          >
+            <Image
+              alt="factory picture"
+              src="/images/factory1.jpg"
+              layout="fill"
+              objectFit="cover"
+              // className={` `}
+            ></Image>
+          </div>
+          {/* <video
             className={`${styles.shadowBox} relative right-[4em] px-3 py-2 rounded bg-slate-100`}
             width="400"
             height="320"
             controls
           >
             <source src="/video/factory.mp4" type="video/mp4" />
-          </video>
+          </video> */}
         </div>
       </div>
     </div>
