@@ -24,13 +24,12 @@ const Order = (props) => {
       : process.env.NEXT_PUBLIC_CHECKOUT_ORDERdev;
   useEffect(() => {
     (async () => {
-      let res = await fetch(orderRoute, {
-        method: "POST",
+      let res = await fetch(orderRoute + props.id, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
         },
-        body: JSON.stringify({ id: props.id }),
       });
       if (!res.ok) {
         console.log("there's a problem fetching orders in order/[id].js");
@@ -39,6 +38,7 @@ const Order = (props) => {
         res = await res.json();
         setData(res.data);
         setDate(new Date(res.data.timestamp));
+        setStatus(parseInt(res.data.status));
         console.log("data is", res.data);
       }
     })();

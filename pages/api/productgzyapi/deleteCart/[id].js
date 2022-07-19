@@ -27,7 +27,7 @@ export default async function handler(req, res) {
               path: "/",
             })
           );
-          return res.status(200).json({ message: "deleted sucessfully" });
+          return res.status(200).json({ message: "deleted successfully" });
         }
       }
     } catch (err) {

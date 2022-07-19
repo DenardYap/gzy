@@ -35,50 +35,56 @@ const OrderHistory = ({ data }) => {
     );
   }
 
-  async function handleTracking() {
+  async function handleStatus() {
     Swal.fire({
-      title: "Submit the tracking number",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off",
-      },
+      title: "Update package status",
+      showDenyButton: true,
       showCancelButton: true,
-      confirmButtonText: "OK",
-      showLoaderOnConfirm: true,
-      preConfirm: async (tracking_number) => {
-        console.log(tracking_number);
-        return await fetch(orderRoute + "uploadTracking", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-          },
-          body: JSON.stringify({
-            id: data._id,
-            tracking_number,
-          }),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(response.statusText);
-            }
-            data.status = 2;
-            data.tracking_number = tracking_number;
-            toggle();
-            return response.json();
-          })
-          .catch((error) => {
-            Swal.showValidationMessage(`Request failed: ${error}`);
-          });
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    }).then((result) => {
-      if (result) {
-        console.log(result.message);
+      confirmButtonColor: "#2a33de",
+      denyButtonColor: "#f58802",
+      cancelButtonColor: "#24e351",
+      confirmButtonText: "Packaging",
+      denyButtonText: "Shipping",
+      cancelButtonText: "Delivered",
+      allowOutsideClick: false, //this way people are forced to click the 'cancel' button for 'develiered'
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      let status = 2;
+      if (result.isConfirmed) {
+        Swal.fire("Status updated! Order is packaging...", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Status updated! Order is shipping...", "", "success");
+        status = 3;
+      } else if (result.isDismissed) {
+        Swal.fire("Status updated! Order is delivered!", "", "success");
+        status = 4;
       }
+
+      await fetch(orderRoute + "uploadTracking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+        },
+        body: JSON.stringify({
+          id: data._id,
+          status,
+        }),
+      });
+      data.status = status;
+      toggle();
     });
   }
 
+  function formatStatus(status) {
+    if (status == 2) {
+      return "Packaging";
+    } else if (status == 3) {
+      return "Shipping";
+    } else {
+      return "Delivered!";
+    }
+  }
   /**
    * Timestamp, Amount
    * City, state, country, postal_code, line_1, line_2, phone,
@@ -162,7 +168,7 @@ const OrderHistory = ({ data }) => {
               </h3>
 
               <h3 className="text-slate-800 font-light">
-                <b className="font-extrabold">Tracking Number:</b> Not Available
+                <b className="font-extrabold">Status:</b> Order Confirm
               </h3>
             </div>
           ) : (
@@ -172,18 +178,18 @@ const OrderHistory = ({ data }) => {
               </h3>
 
               <h3 className="text-slate-800">
-                <b className="font-extrabold">Tracking Number:</b>{" "}
-                {data.tracking_number}
+                <b className="font-extrabold">Status:</b>{" "}
+                {formatStatus(data.status)}
               </h3>
             </div>
           )}
         </h3>
 
         <button
-          onClick={handleTracking}
+          onClick={handleStatus}
           className="p-5 bg-slate-800 text-slate-50 shadow-2xl hover:bg-slate-400 transition-all rounded w-fit"
         >
-          Upload Tracking Number
+          Update Package Status
         </button>
       </div>
     </div>
