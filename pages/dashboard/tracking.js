@@ -22,6 +22,7 @@ const Tracking = () => {
 
   useEffect(() => {
     (async () => {
+      console.log("Order route is", orderRoute);
       let res = await fetch(orderRoute + "getAll", {
         method: "GET",
         headers: {
@@ -30,7 +31,9 @@ const Tracking = () => {
         },
       });
       if (!res.ok) {
-        console.log("there's a problem fetching orders in order/[id].js");
+        console.log(
+          "there's a problem fetching orders in dashboard/tracking.js"
+        );
         console.log(res);
       } else {
         res = await res.json();
