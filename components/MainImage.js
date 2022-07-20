@@ -2,14 +2,14 @@ import React, { useRef } from "react";
 import Image from "next/image";
 const MainImage = ({ num }) => {
   let inputRef = useRef();
-  const fileToDataUri = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        resolve(event.target.result);
-      };
-      reader.readAsDataURL(file);
-    });
+  // const fileToDataUri = (file) =>
+  //   new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.onload = (event) => {
+  //       resolve(event.target.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   });
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -26,32 +26,40 @@ const MainImage = ({ num }) => {
         ? process.env.NEXT_PUBLIC_UPLOAD_PRO
         : process.env.NEXT_PUBLIC_UPLOAD_DEV;
 
-    const body = new FormData();
-    body.append("file", inputRef.current.files[0]);
+    // const body = new FormData();
+    // body.append("file", inputRef.current.files[0]);
+    // await fetch(uploadRoute + `getURL?num=${num}`, {
+    //   method: "POST",
+    //   headers: {
+    //     Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+    //     "Cache-Control": "no-store",
+    //   },
+    //   body,
+    // })
     await fetch(uploadRoute + `getURL?num=${num}`, {
-      method: "POST",
+      method: "GET",
       headers: {
         Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-        "Cache-Control": "no-store",
+        // "Cache-Control": "no-store",
       },
-      body,
+      // body,
     })
-      .then(async (res) => console.log("res is:", res))
+      // .then(async (res) => console.log("res is:", res))
+      // .then(async (res) => res.json())
+      // .then((res) => console.log("json is:", res))
       .then(async (res) => res.json())
-      .then((res) => console.log("json is:", res))
-      //   .then(async ({ url }) => {
-      //     // upload the image to AWS cloudfront
-      //     console.log("URL is:", url);
-      //     await fetch(url, {
-      //       method: "PUT",
-      //       headers: {
-      //         "Content-Type": "multipart/form-data",
-      //       },
-      //       body: inputRef.current.files[0],
-      //     });
-      //     console.log(`Done uploading!`);
-      //     console.log(inputRef.current.files[0]);
-      //   })
+      .then(async ({ url }) => {
+        // upload the image to AWS cloudfront
+        await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          body: inputRef.current.files[0],
+        });
+        console.log(`Done uploading!`);
+        console.log(inputRef.current.files[0]);
+      })
       .catch((err) => console.log("Error!", err));
   }
 
