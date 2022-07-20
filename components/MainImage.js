@@ -73,7 +73,7 @@ const MainImage = ({ num }) => {
           onSubmit={(e) => handleSubmit(e)}
         >
           <div className="flex flex-row justify-center items-center text-center bg-orange-200 p-3 shadow-xl">
-            <label for="img" className="pr-[1em] ">
+            <label htmlFor="img" className="pr-[1em] ">
               Select image:
             </label>
             <input
