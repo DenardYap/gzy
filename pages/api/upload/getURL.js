@@ -1,5 +1,6 @@
 import { connectToDatabase } from "../../../util/mongodb";
 const aws = require("aws-sdk");
+const path = require("path");
 export const config = {
   api: {
     bodyParser: false,
@@ -20,16 +21,18 @@ export default async function handler(req, res) {
   /**First upload the image onto our server */
 
   const form = new formidable.IncomingForm();
-
+  let fileName = path.join(__dirname, `main_img${req.query.num}.webp`);
   form.parse(req, async function (err, fields, files) {
     // await saveFile(files.file);
-    console.log("hello");
+    console.log("dirname is:", __dirname);
     const data = fs.readFileSync(files.file.filepath);
-    fs.writeFileSync(`./public/images/main_img${req.query.num}.webp`, data);
+    fs.writeFileSync(fileName, data);
     await fs.unlinkSync(files.file.filepath);
+    console.log(process.env.NEXT_PUBLIC_FILE_PATH);
     let Body = fs.createReadStream(
       // prob need to hide the file path or smtg
-      process.env.NEXT_PUBLIC_FILE_PATH + req.query.num + ".webp"
+      fileName
+      // process.env.NEXT_PUBLIC_FILE_PATH + req.query.num + ".webp"
       // `C:\\Users\\user\\Desktop\\projects\\gzy\\public\\images\\main_img${req.query.num}.webp`
     );
     const region = "ap-southeast-1";

@@ -169,7 +169,7 @@ const CartItem = ({
     <div className={styles.mainDiv}>
       <div className={styles.imageDiv}>
         {/* image */}
-        <Link href={`/product/${data._id}`} locale={router.locale}>
+        <Link href={`/product/${data._id}`} locale={router.locale} passHref>
           <a>
             <div className="border-2 border-solid border-black w-fit">
               <Image

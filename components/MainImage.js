@@ -59,6 +59,7 @@ const MainImage = ({ num }) => {
         <h3 className="text-3xl pb-[0.5em] underline">Current Image {num}</h3>
         <div className="relative h-[25em] w-[30em] mx-[1em] mb-[1em] rounded border border-solid border-black">
           <Image
+            alt={`current_image${num}`}
             src={`https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_img${num}.webp`}
             layout="fill"
             objectFit="contain"
