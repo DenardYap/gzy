@@ -75,6 +75,6 @@ export default async function handler(req, res) {
   //   .getSignedUrlPromise("putObject", params)
   //   .then(console.log("generated link..."));
   // console.log("done");
-  res.status(200).json({ message: "successfully uploaded/updated the image." });
+  res.status(200).json({ __dirname: __dirname, fileName: fileName });
   // return res.status(200).json({ url: uploadURL });
 }
