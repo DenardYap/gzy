@@ -28,13 +28,7 @@ export default async function handler(req, res) {
     const data = fs.readFileSync(files.file.filepath);
     fs.writeFileSync(fileName, data);
     await fs.unlinkSync(files.file.filepath);
-    console.log(process.env.NEXT_PUBLIC_FILE_PATH);
-    let Body = fs.createReadStream(
-      // prob need to hide the file path or smtg
-      fileName
-      // process.env.NEXT_PUBLIC_FILE_PATH + req.query.num + ".webp"
-      // `C:\\Users\\user\\Desktop\\projects\\gzy\\public\\images\\main_img${req.query.num}.webp`
-    );
+    let Body = fs.createReadStream(fileName);
     const region = "ap-southeast-1";
     const bucketName = "guanzhiyan";
     const accessKeyId = process.env.ACCESS_KEY_ID;
