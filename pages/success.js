@@ -15,7 +15,7 @@ const Success = () => {
         address
       </h3>
       <h3 className="text-xl">
-        Didn't receive an email? Check your <b>Junk/Spam</b> folder
+        Didn&apos;t receive an email? Check your <b>Junk/Spam</b> folder
       </h3>
     </div>
   );
