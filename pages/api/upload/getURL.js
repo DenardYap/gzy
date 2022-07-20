@@ -22,15 +22,16 @@ export default async function handler(req, res) {
 
   const form = new formidable.IncomingForm();
   // let fileName = path.join(__dirname, `main_aimg${req.query.num}.webp`);
-  // let fileName = `public/images/main_aimg${req.query.num}.jpg`;
-  let fileName = `\\var\\task\\pages\\api\\upload\\main_aimg${req.query.num}.jpg`;
+  let fileName = `main_aimg${req.query.num}.jpg`;
+  // let fileName = `\\var\\task\\pages\\api\\upload\\main_aimg${req.query.num}.jpg`;
   form.parse(req, async function (err, fields, files) {
     // await saveFile(files.file);
     console.log("fields are:", fields);
     const data = fs.readFileSync(files.file.filepath);
     fs.writeFileSync(fileName, data);
     await fs.unlinkSync(files.file.filepath);
-    let Body = fs.createReadStream(fileName);
+    const Body = fs.readFileSync(fileName);
+    // let Body = fs.createReadStream(fileName);
     const region = "ap-southeast-1";
     const bucketName = "guanzhiyan";
     const accessKeyId = process.env.ACCESS_KEY_ID;
@@ -44,6 +45,7 @@ export default async function handler(req, res) {
     const params = {
       Bucket: bucketName,
       Key: `main_aimg${req.query.num}.jpg`,
+      // Key: `last_testing${req.query.num}.jpg`,
       Expires: new Date(),
       Body,
       CacheControl: "no-cache",
