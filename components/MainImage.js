@@ -36,7 +36,9 @@ const MainImage = ({ num }) => {
       },
       body,
     })
-      //   .then(async (res) => await res.json())
+      .then(async (res) => console.log("res is:", res))
+      .then(async (res) => res.json())
+      .then((res) => console.log("json is:", res))
       //   .then(async ({ url }) => {
       //     // upload the image to AWS cloudfront
       //     console.log("URL is:", url);
