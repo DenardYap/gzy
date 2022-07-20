@@ -22,8 +22,8 @@ export default async function handler(req, res) {
 
   const form = new formidable.IncomingForm();
   // let fileName = path.join(__dirname, `main_aimg${req.query.num}.webp`);
-  let fileName = `public/images/main_aimg${req.query.num}.jpg`;
-  // let fileName = `\\var\\task\\pages\\api\\upload\\main_aimg${req.query.num}.jpg`;
+  // let fileName = `public/images/main_aimg${req.query.num}.jpg`;
+  let fileName = `\\var\\task\\pages\\api\\upload\\main_aimg${req.query.num}.jpg`;
   form.parse(req, async function (err, fields, files) {
     // await saveFile(files.file);
     console.log("fields are:", fields);
