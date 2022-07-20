@@ -41,10 +41,7 @@ const Dashboard = () => {
                 <h3 className="text-2xl p-3">
                   <b>Edit The Website</b>
                 </h3>
-                <h4 className="text-md ">
-                  Change Home Page&apos;s image, change top sales&apos; images,
-                  etc
-                </h4>
+                <h4 className="text-md ">Change Home Page&apos;s image</h4>
                 <BiEdit className="" size={300}></BiEdit>
               </div>
             </Link>
@@ -68,8 +65,8 @@ const Dashboard = () => {
                   <b>Tracking</b>
                 </h3>
                 <h4 className="text-md ">
-                  Upload Shipping/Tracking Number, check order history, track
-                  order status, check customer status
+                  Upload package status (Packaging, Shipping, Delivered), check
+                  order history, track order status, check customer status
                 </h4>
                 <MdOutlineLocalShipping
                   className=""

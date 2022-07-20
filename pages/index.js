@@ -28,9 +28,9 @@ export default function Home(props) {
   const dots = [dot1, dot2, dot3];
   /**To be changed to loading image from CDN/Database */
   const imageList = [
-    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_img1.webp")`,
-    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_img2.webp")`,
-    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_img3.webp")`,
+    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg1.jpg")`,
+    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg2.jpg")`,
+    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg3.jpg")`,
   ];
   const [curSlide, setCurSlide] = useState(1);
   // let slideShowNum = 3;

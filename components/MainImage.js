@@ -26,41 +26,48 @@ const MainImage = ({ num }) => {
         ? process.env.NEXT_PUBLIC_UPLOAD_PRO
         : process.env.NEXT_PUBLIC_UPLOAD_DEV;
 
-    // const body = new FormData();
-    // body.append("file", inputRef.current.files[0]);
-    // await fetch(uploadRoute + `getURL?num=${num}`, {
-    //   method: "POST",
-    //   headers: {
-    //     Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-    //     "Cache-Control": "no-store",
-    //   },
-    //   body,
-    // })
+    const body = new FormData();
+    body.append("file", inputRef.current.files[0]);
     await fetch(uploadRoute + `getURL?num=${num}`, {
-      method: "GET",
+      method: "POST",
       headers: {
         Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-        // "Cache-Control": "no-store",
+        "Cache-Control": "no-store",
       },
-      // body,
+      body,
     })
-      // .then(async (res) => console.log("res is:", res))
-      // .then(async (res) => res.json())
-      // .then((res) => console.log("json is:", res))
-      .then(async (res) => await res.json())
-      .then(async ({ url }) => {
-        // upload the image to AWS cloudfront
-        console.log("URL is:", url);
-        await fetch(url, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          body: inputRef.current.files[0],
-        });
-        console.log(`Done uploading!`);
-        console.log(inputRef.current.files[0]);
+      // await fetch(uploadRoute + `getURL?num=${num}`, {
+      //   method: "GET",
+      //   headers: {
+      //     Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+      //     // "Cache-Control": "no-store",
+      //   },
+      //   // body,
+      // })
+      .then(async (res) => {
+        console.log("res is:", res);
+        return res;
       })
+      .then(async (res) => {
+        console.log("status is:", res.status);
+        if (res.ok) console.log("done uploading!");
+        return res.json();
+      })
+      .then((res) => console.log("json is:", res))
+      // .then(async (res) => await res.json())
+      // .then(async ({ url }) => {
+      //   // upload the image to AWS cloudfront
+      //   console.log("URL is:", url);
+      //   await fetch(url, {
+      //     method: "PUT",
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //     body: inputRef.current.files[0],
+      //   });
+      //   console.log(`Done uploading!`);
+      //   console.log(inputRef.current.files[0]);
+      // })
       .catch((err) => console.log("Error!", err));
   }
 
@@ -71,7 +78,7 @@ const MainImage = ({ num }) => {
         <div className="relative h-[25em] w-[30em] mx-[1em] mb-[1em] rounded border border-solid border-black">
           <Image
             alt={`current_image${num}`}
-            src={`https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_img${num}.webp`}
+            src={`https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg${num}.jpg`}
             layout="fill"
             objectFit="contain"
             className="rounded"
