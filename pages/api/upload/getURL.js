@@ -70,6 +70,5 @@ export default async function handler(req, res) {
     Expires: 60,
   };
   const uploadURL = await s3.getSignedUrlPromise("putObject", params).then();
-  res.status(200).json({ message: "successfully uploaded/updated the image." });
   return res.status(200).json({ url: uploadURL });
 }
