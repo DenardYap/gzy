@@ -21,7 +21,6 @@ import app from "../util/firebase_util";
 const auth = getAuth(app);
 setPersistence(auth, browserLocalPersistence);
 
-console.log("Current user:", auth.currentUser);
 export const userContext = React.createContext();
 export const cartContext = React.createContext();
 function MyApp({ Component, pageProps, ...appProps }) {
