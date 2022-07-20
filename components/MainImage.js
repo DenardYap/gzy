@@ -14,6 +14,7 @@ const MainImage = ({ num }) => {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    console.log("handling submit...");
     if (!inputRef.current.files[0]) {
       return;
     }
@@ -27,6 +28,8 @@ const MainImage = ({ num }) => {
         : process.env.NEXT_PUBLIC_UPLOAD_DEV;
 
     const body = new FormData();
+    console.log("file is", inputRef.current.files[0]);
+    console.log("Type is", typeof inputRef.current.files[0]);
     body.append("file", inputRef.current.files[0]);
     await fetch(uploadRoute + `getURL?num=${num}`, {
       method: "POST",

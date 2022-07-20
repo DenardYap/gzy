@@ -21,11 +21,12 @@ export default async function handler(req, res) {
   /**First upload the image onto our server */
 
   const form = new formidable.IncomingForm();
-  let fileName = path.join(__dirname, `main_aimg${req.query.num}.webp`);
-  // let fileName = `C:\\Users\\user\\Desktop\\projects\\gzy\\public\\images\\main_aimg${req.query.num}.jpg`;
+  // let fileName = path.join(__dirname, `main_aimg${req.query.num}.webp`);
+  let fileName = `public/images/main_aimg${req.query.num}.jpg`;
+  // let fileName = `\\var\\task\\pages\\api\\upload\\main_aimg${req.query.num}.jpg`;
   form.parse(req, async function (err, fields, files) {
     // await saveFile(files.file);
-    console.log("fileName is:", fileName);
+    console.log("fields are:", fields);
     const data = fs.readFileSync(files.file.filepath);
     fs.writeFileSync(fileName, data);
     await fs.unlinkSync(files.file.filepath);
