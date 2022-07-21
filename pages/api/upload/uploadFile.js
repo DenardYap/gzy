@@ -5,24 +5,7 @@ export const config = {
     },
   },
 };
-import { connectToDatabase } from "../../../util/mongodb";
 const aws = require("aws-sdk");
-const path = require("path");
-const util = require("util");
-import nextConnect from "next-connect";
-import multer from "multer";
-
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: "./public/images",
-    filename: (req, file, cb) => cb(null, file.originalname),
-  }),
-});
-
-import formidable from "formidable";
-
-// const redis = require("redis");
-let fs = require("fs");
 
 export default async function handler(req, res) {
   if (

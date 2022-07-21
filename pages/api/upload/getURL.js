@@ -1,22 +1,5 @@
-import { connectToDatabase } from "../../../util/mongodb";
 const aws = require("aws-sdk");
-const path = require("path");
-const util = require("util");
-import nextConnect from "next-connect";
-import multer from "multer";
-
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//     // bodyParse: {
-//     // sizeLimit: "4mb",
-//     // },
-//   },
-// };
 import formidable from "formidable";
-
-// const redis = require("redis");
-let fs = require("fs");
 
 export default async function handler(req, res) {
   if (
