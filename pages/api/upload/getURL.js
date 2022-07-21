@@ -26,15 +26,14 @@ export default async function handler(req, res) {
 
   console.log("uploading image...");
 
-  let done = false;
-
   const form = new formidable.IncomingForm();
 
   const formPromised = async (req) => {
     return new Promise(async (res, rej) => {
       form.parse(req, async function (err, fields, files) {
         if (err) rej(err);
-        const Body = fs.readFileSync(files.file.filepath);
+        // const Body = fs.readFileSync(files.file.filepath);
+        const Body = fs.readFileSync(process.cwd() + "\\clean.jpg");
 
         const region = "ap-southeast-1";
         const bucketName = "guanzhiyan";
@@ -48,7 +47,7 @@ export default async function handler(req, res) {
         });
         const params = {
           Bucket: bucketName,
-          Key: `main_aimg${req.query.num}.jpg`,
+          Key: `bernard${req.query.num}.jpg`,
           // Key: `last_testing${req.query.num}.jpg`,
           Expires: new Date(),
           Body,
