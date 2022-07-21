@@ -47,7 +47,7 @@ export default async function handler(req, res) {
         });
         const params = {
           Bucket: bucketName,
-          Key: `bernard${req.query.num}.jpg`,
+          Key: `main_aimg${req.query.num}.jpg`,
           // Key: `last_testing${req.query.num}.jpg`,
           Expires: new Date(),
           Body,
@@ -64,9 +64,16 @@ export default async function handler(req, res) {
       });
     });
   };
-  const filepath = await formPromised(req);
-  console.log("promise successful");
-  return res.status(200).json({ filepath });
+  // const filepath = await formPromised(req);
+  formPromised(req)
+    .then((filepath) => {
+      res.status(200).json({ filepath });
+    })
+    .catch((err) => {
+      res.status(404).json({ error: err });
+    });
+  // console.log("promise successful");
+  // return res.status(200).json({ filepath });
   // .then((data) => {
   //   res.status(200).json({ filepath: data });
   // })
