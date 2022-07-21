@@ -26,6 +26,7 @@ export const permissionContext = React.createContext();
 export const userContext = React.createContext();
 export const cartContext = React.createContext();
 function MyApp({ Component, pageProps, ...appProps }) {
+  console.log("WWWWWWWWWWWWWW");
   const [language, setLanguage] = useState(1); //1 for en, 2 for zh, 3 for zhc
   const allowedEmails = ["bernerd@umich.edu", "gzypdykl@gmail.com"];
   const [permission, setPermission] = useState(false); // def7ault to false permission, for guest users and stuff

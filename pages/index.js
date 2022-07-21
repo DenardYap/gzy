@@ -85,7 +85,6 @@ export default function Home(props) {
   useEffect(() => {
     function handleScroll() {
       let offset = window.scrollY;
-      console.log(offset);
       mainImg.current.style.backgroundPositionY = -offset * 0.7 + "px";
       // remember to add media query here for lower scrolling rate or smaller vh
     }
