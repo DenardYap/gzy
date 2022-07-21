@@ -1,6 +1,7 @@
 import { connectToDatabase } from "../../../util/mongodb";
 const aws = require("aws-sdk");
 const path = require("path");
+const util = require("util");
 export const config = {
   api: {
     bodyParser: false,
@@ -20,6 +21,10 @@ export default async function handler(req, res) {
   ) {
     res.status(404).json({ message: "unauthorized" });
   }
+
+  console.log("uploading image...");
+
+  let done = false;
 
   const form = new formidable.IncomingForm();
 
@@ -45,33 +50,16 @@ export default async function handler(req, res) {
       CacheControl: "no-cache",
     };
     // console.log(req.body);
-    const uploadedImage = await s3.upload(params).promise();
+    const uploadedImage = await s3.putObject(params).promise();
     // putObject too
     console.log(
       `Successfully updated main_aimg${req.query.num}.jpg at ${uploadedImage.Location}`
     );
+
+    done = true;
     // const uploadURL = await s3.getSignedUrlPromise("putObject", params).then();
   });
-  // const region = "ap-southeast-1";
-  // const bucketName = "guanzhiyan";
-  // const accessKeyId = process.env.ACCESS_KEY_ID;
-  // const secretAccessKey = process.env.SECRET_ACCESS_KEY;
-  // const s3 = new aws.S3({
-  //   region,
-  //   accessKeyId,
-  //   secretAccessKey,
-  //   signatureVersion: "v4",
-  // });
-  // const params = {
-  //   Bucket: bucketName,
-  //   Key: `main_timg${req.query.num}.webp`,
-  //   Expires: 10,
-  //   // CacheControl: "no-cache",
-  // };
-  // const uploadURL = await s3
-  //   .getSignedUrlPromise("putObject", params)
-  //   .then(console.log("generated link..."));
-  // console.log("done");
-  res.status(200).json({ message: "asd" });
-  // res.status(200).json({ __dirname: __dirname, fileName: fileName });
+  // .then(() =>
+  res.status(200).json({ message: "successfully updated image" });
+  // );
 }
