@@ -181,8 +181,8 @@ export default function Item({ oriData, setAllowClick }) {
             display: "inline-block",
           }}
         ></hr>
-        <div className="flex-row justify-center items-center ">
-          <div className="shadow-md flex justify-center items-center bg-slate-800 w-fit m-auto mt-1">
+        <div className="flex-col justify-center items-center flex w-full  relative">
+          <div className="shadow-md flex justify-center items-center bg-slate-800 m-auto mt-1 w-full">
             <div
               onClick={increment}
               className="text-3xl hover:cursor-pointer text-white px-[0.2em]"
@@ -220,7 +220,7 @@ export default function Item({ oriData, setAllowClick }) {
           <button
             onClick={handleBuy}
             className="
-            ml-[0.3em] bg-orange-600 text-white rounded p-1 shadow-xl  text-center my-1 hover:shadow-2xl hover:bg-orange-400  transition-all"
+             bg-orange-600 text-white rounded p-1 shadow-xl  text-center my-1 hover:shadow-2xl hover:bg-orange-400  transition-all"
           >
             {t("cart")}
           </button>

@@ -70,7 +70,7 @@ function MyApp({ Component, pageProps, ...appProps }) {
         setLanguage(3);
       } else {
         console.log("Current lang", "zh");
-        let zh_font = new FontFace("zcool", "url(font/zcool.ttf)");
+        let zh_font = new FontFace("zcool", "url(/font/zcool.ttf)");
         zh_font.load().then((loaded_face) => {
           document.getElementsByTagName("body")[0].style.fontFamily = "zcool";
         });
@@ -80,7 +80,7 @@ function MyApp({ Component, pageProps, ...appProps }) {
       // document.getElementsByTagName("body")[0].style.fontFamily =
       //   "/font/mashanzheng.ttf";
       console.log("Current lang", "en");
-      let english_font = new FontFace("Varela", "url(font/varela.ttf)");
+      let english_font = new FontFace("Varela", "url(/font/varela.ttf)");
       english_font.load().then((loaded_face) => {
         document.getElementsByTagName("body")[0].style.fontFamily = "Varela";
       });
