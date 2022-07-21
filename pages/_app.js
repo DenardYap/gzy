@@ -60,16 +60,15 @@ function MyApp({ Component, pageProps, ...appProps }) {
     if (!(window.location.href.indexOf("en") > -1)) {
       // not english
       if (window.location.href.indexOf("zhc") > -1) {
-        console.log("zhc");
+        console.log("Current lang", "zhc");
         let zhc_font = new FontFace("notosans", "url(/font/notosans.otf)");
         zhc_font.load().then((loaded_face) => {
-          console.log("loaddd_face is", loaded_face);
           document.getElementsByTagName("body")[0].style.fontFamily =
             "notosans";
         });
         setLanguage(3);
       } else {
-        console.log("zh");
+        console.log("Current lang", "zh");
         let zh_font = new FontFace("zcool", "url(font/zcool.ttf)");
         zh_font.load().then((loaded_face) => {
           document.getElementsByTagName("body")[0].style.fontFamily = "zcool";
@@ -79,9 +78,10 @@ function MyApp({ Component, pageProps, ...appProps }) {
     } else {
       // document.getElementsByTagName("body")[0].style.fontFamily =
       //   "/font/mashanzheng.ttf";
-      let english_font = new FontFace("Gothicb", "url(font/gothicb.ttf)");
+      console.log("Current lang", "en");
+      let english_font = new FontFace("Varela", "url(font/varela.ttf)");
       english_font.load().then((loaded_face) => {
-        document.getElementsByTagName("body")[0].style.fontFamily = "Gothicb";
+        document.getElementsByTagName("body")[0].style.fontFamily = "Varela";
       });
     }
   }, []);
