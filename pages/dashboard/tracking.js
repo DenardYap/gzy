@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { userContext } from "../_app";
+import { permissionContext, userContext } from "../_app";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../../next-i18next.config";
@@ -9,8 +9,9 @@ import LoadingIcons from "react-loading-icons";
 
 const Tracking = () => {
   const allowedEmails = ["bernerd@umich.edu", "gzypdykl@gmail.com"];
-  const [permission, setPermission] = useState(false);
+  const [permission, setPermission] = useContext(permissionContext);
   const [user, setUser] = useContext(userContext);
+  const { t } = useTranslation("common");
   // permission check
 
   const orderRoute =
@@ -42,16 +43,6 @@ const Tracking = () => {
       }
     })();
   }, []);
-  useEffect(() => {
-    if (!user) return;
-    if (permission) return;
-    for (let i = 0; i < allowedEmails.length; i++) {
-      if (user.email == allowedEmails[i]) {
-        setPermission(true);
-        return;
-      }
-    }
-  }, [user]);
 
   return (
     <>

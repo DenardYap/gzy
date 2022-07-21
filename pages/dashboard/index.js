@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { userContext } from "../_app";
+import { permissionContext, userContext } from "../_app";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../../next-i18next.config";
@@ -12,20 +12,10 @@ import { useRouter } from "next/router";
 
 const Dashboard = () => {
   const router = useRouter();
+  const { t } = useTranslation("common");
   const allowedEmails = ["bernerd@umich.edu", "gzypdykl@gmail.com"];
-  const [permission, setPermission] = useState(false);
+  const [permission, setPermission] = useContext(permissionContext);
   const [user, setUser] = useContext(userContext);
-  // permission check
-  useEffect(() => {
-    if (permission) return;
-    if (!user) return;
-    for (let i = 0; i < allowedEmails.length; i++) {
-      if (user.email == allowedEmails[i]) {
-        setPermission(true);
-        return;
-      }
-    }
-  }, [user]);
 
   return (
     <>

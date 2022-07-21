@@ -8,6 +8,7 @@
     background-color: rgb(237, 242, 250);
     margin: 2em;
     padding: 2em 2em 2em 0;
+    height: fit-content;
 }
 
   
@@ -15,7 +16,13 @@
     display: grid;
     /* background-color: ; */
     text-align: left;
-    grid-template-rows:  4em 3.5em 10px 4em 5fr;
+    /* grid-template-rows:  4em 3.5em 10px 4em 5fr; */
+    grid-template-rows:  1fr 0.5fr 0.1fr 0.5fr minmax(1fr, 10fr);
 
 }
 
+
+
+.shadowBox {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;    
+}

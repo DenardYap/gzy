@@ -8,7 +8,7 @@ import { useEffect, useRef, useState, useContext } from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import CartItemNav from "./CartItemNav";
-import { cartContext, userContext } from "../pages/_app";
+import { cartContext, userContext, permissionContext } from "../pages/_app";
 import LoadingIcons from "react-loading-icons";
 import app from "../util/firebase_util";
 import {
@@ -36,7 +36,7 @@ import Swal from "sweetalert2";
 
 const NavBar = () => {
   /* Firebase stuff */
-
+  const [permission, setPermission] = useContext(permissionContext);
   const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
   const [user, setUser] = useContext(userContext);
@@ -381,16 +381,20 @@ const NavBar = () => {
                   ></Image>
                 </div>
                 <div className={navStyles.userText}>
-                  <Link href="/dashboard" locale={router.locale}>
-                    <div className="cursor-pointer text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center">
-                      Dashboard
-                    </div>
-                  </Link>
+                  {permission ? (
+                    <Link href="/dashboard" locale={router.locale}>
+                      <div className="cursor-pointer text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center">
+                        {t("dashboard")}
+                      </div>
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
                   <div
                     onClick={handleLogout}
                     className="cursor-pointer text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center"
                   >
-                    Log out
+                    {t("signout")}
                   </div>
                 </div>
               </>

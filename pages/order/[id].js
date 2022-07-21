@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../../next-i18next.config";
 import { connectToDatabase } from "../../util/mongodb";
 import Image from "next/image";
-import { cartContext } from "../_app";
+import { cartContext, languageContext } from "../_app";
 import { useContext, useRef, useState, useEffect } from "react";
 import { AiOutlineEllipsis, AiOutlineMinus } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
@@ -15,6 +15,8 @@ import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import OrderItem from "../../components/OrderItem";
 import styles from "../../styles/OrderItem.module.css";
 const Order = (props) => {
+  const { t } = useTranslation("common");
+  const language = useContext(languageContext);
   const [status, setStatus] = useState(1);
   const [data, setData] = useState(null);
   const [date, setDate] = useState(null);
@@ -69,12 +71,14 @@ const Order = (props) => {
         {date ? <h2> Order placed on {formatDate()}</h2> : <></>}
       </div>
       <div className="flex flex-col rounded bg-slate-200 text-gray-400 p-5 mx-[1em] mb-10 min-h-[75vh] ">
-        <h2 className="text-4xl  mb-3   text-slate-800">DELIVERY STATUS</h2>
+        <h2 className="text-4xl  mb-3   text-slate-800">
+          {t("delivery_status")}
+        </h2>
         <div className="flex flex-row justify-around text-9xl bg-slate-50 p-5 rounded shadow-2xl">
           <div className="flex flex-col  items-center text-center">
             <FaShoppingCart className="text-green-400   "></FaShoppingCart>
             <h2 className="text-xl text-green-400 font-semibold">
-              Order Confirm
+              {t("order_confirm")}
             </h2>
           </div>
           {status >= 2 ? (
@@ -88,13 +92,13 @@ const Order = (props) => {
               <>
                 <FiPackage className="text-green-400   "></FiPackage>
                 <h2 className="text-xl text-green-400 font-semibold">
-                  Packaged
+                  {t("packaged")}
                 </h2>
               </>
             ) : (
               <>
                 <FiPackage></FiPackage>
-                <h2 className="text-xl  font-semibold">Packaging</h2>
+                <h2 className="text-xl  font-semibold">{t("packaged")}</h2>
               </>
             )}
           </div>
@@ -109,13 +113,13 @@ const Order = (props) => {
               <>
                 <MdLocalShipping className="text-green-400   "></MdLocalShipping>
                 <h2 className="text-xl text-green-400 font-semibold">
-                  Shipped
+                  {t("shipped")}
                 </h2>
               </>
             ) : (
               <>
                 <MdLocalShipping></MdLocalShipping>
-                <h2 className="text-xl  font-semibold">Shipped</h2>
+                <h2 className="text-xl  font-semibold">{t("shipped")}</h2>
               </>
             )}
           </div>
@@ -130,28 +134,28 @@ const Order = (props) => {
               <>
                 <BiHomeSmile className="text-green-400   "></BiHomeSmile>
                 <h2 className="text-xl text-green-400 font-semibold">
-                  Delivered
+                  {t("delivered")}
                 </h2>
               </>
             ) : (
               <>
                 <BiHomeSmile></BiHomeSmile>
-                <h2 className="text-xl  font-semibold">Delivered</h2>
+                <h2 className="text-xl  font-semibold">{t("delivered")}</h2>
               </>
             )}
           </div>
         </div>
 
         <h2 className="text-4xl underline  mb-3 my-10  text-slate-800">
-          YOUR ORDERS
+          {t("your_orders")}
         </h2>
         <div className="flex flex-col">
           <div className={styles.topGrid}>
-            <h3>Image</h3>
-            <h3>Name</h3>
-            <h3>Quantity</h3>
-            <h3>Price</h3>
-            <h3>Subtotal</h3>
+            <h3>{t("Image")}</h3>
+            <h3>{t("Name")}</h3>
+            <h3>{t("Quantity")}</h3>
+            <h3>{t("Price")}</h3>
+            <h3>{t("Subtotal")}</h3>
           </div>
           <div className="flex flex-col justify-around text-xl bg-slate-50 text-slate-800 shadow-2xl">
             {data == null ? (
@@ -163,26 +167,27 @@ const Order = (props) => {
             )}
           </div>
           <h2 className="w-[100%]  bg-slate-800 text-slate-50 text-center">
-            Total: {data ? <>RM{parseInt(data.amount).toFixed(2)}</> : <>...</>}
+            {t("total_text1")}:{" "}
+            {data ? <>RM{parseInt(data.amount).toFixed(2)}</> : <>...</>}
           </h2>
         </div>
         <h2 className="text-4xl underline  mb-3 my-10  text-slate-800">
-          CUSTOMER DETAILS
+          {t("customer_details")}
         </h2>
         {data ? (
           <>
             <div
               className={`${styles.customerGrid}  justify-around text-xl bg-slate-800 text-slate-50 `}
             >
-              <h2>Name</h2>
-              <h2>Phone</h2>
-              <h2>Email</h2>
-              <h2>Address Line 1</h2>
-              <h2>Address Line 2</h2>
-              <h2>Postal Code</h2>
-              <h2>City</h2>
-              <h2>State</h2>
-              <h2>Country</h2>
+              <h2>{t("Name")}</h2>
+              <h2>{t("Phone")}</h2>
+              <h2>{t("Email")}</h2>
+              <h2>{t("Address1")}</h2>
+              <h2>{t("Address2")}</h2>
+              <h2>{t("Postal")} Code</h2>
+              <h2>{t("City")}</h2>
+              <h2>{t("State")}</h2>
+              <h2>{t("Country")}</h2>
             </div>
             <div
               className={`${styles.customerGrid}  justify-around text-xl bg-slate-50 text-slate-800 rounded shadow-2xl`}
@@ -190,9 +195,9 @@ const Order = (props) => {
               <h2>{data.name}</h2>
               <h2>{data.phone}</h2>
               <h2>{data.email}</h2>
-              <h2>Address Line {data.line_1}</h2>
-              <h2>Address Line {data.line_2}</h2>
-              <h2>Postal {data.postal_code}</h2>
+              <h2>{data.line_1}</h2>
+              <h2>{data.line_2}</h2>
+              <h2>{data.postal_code}</h2>
               <h2>{data.city}</h2>
               <h2>{data.state}</h2>
               <h2>{data.country}</h2>

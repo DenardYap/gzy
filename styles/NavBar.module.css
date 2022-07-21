@@ -48,7 +48,7 @@
     position: absolute;
     z-index: 1;
     top: 4em;
-    right: -2em;
+    right: -1.4em;
 
     
     /* --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
@@ -76,8 +76,8 @@
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
-  top: 3em;
-  right: -0em;
+  top: 3.5em;
+  right: 0.5em;
 }
 
 
@@ -99,8 +99,8 @@
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 999;
-  top: 3em;
-  right: -0em;
+  top: 3.5em;
+  right: 1em;
 }
 
 
@@ -110,7 +110,7 @@
     bottom: 100%; /* At the bottom of the tooltip */
     left: 80%;
     margin-left: -5px;
-    border-width: 5px;
+    border-width: 15px;
     border-style: solid;
     border-color: transparent transparent black transparent;
     
@@ -122,9 +122,12 @@
     bottom: 100%; /* At the bottom of the tooltip */
     left: 50%;
     margin-left: 5px;
-    border-width: 5px;
+    /* padding: 5px; */
+    border-width: 15px;
     border-style: solid;
     border-color: transparent transparent black transparent;
+    /* background-color: red; */
+    /* width: 100%; */
   }
 
 .userContainer:hover .userText {

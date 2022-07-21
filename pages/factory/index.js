@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../../next-i18next.config";
 
 export default function Factory() {
+  const { t } = useTranslation("common");
   return <h1 className="font-bold">This is a Factory page</h1>;
 }
 // have to do this every single page :/

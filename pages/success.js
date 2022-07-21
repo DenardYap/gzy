@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../next-i18next.config";
 
 const Success = () => {
+  const { t } = useTranslation("common");
   return (
     <div className="flex flex-col justify-center items-center py-[1em] h-[90vh] bg-slate-100 m-[1em] rounded ">
       <ImCheckmark size={350} className="text-green-500 mb-[1em]"></ImCheckmark>

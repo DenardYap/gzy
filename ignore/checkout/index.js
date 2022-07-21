@@ -19,6 +19,7 @@ import {
 import CheckoutForm from "../../components/CheckoutForm";
 
 const Checkout = () => {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const [stripePromise, setStripePromise] = useState(null);
   const [items, setItems] = useState(null);

@@ -41,7 +41,7 @@ export default function ProductList(props) {
         <div className="flex justify-start items-start">
           <div className="flex flex-col ml-[4em] mt-[1.5em] items-center justify-center">
             <label htmlFor="type" className="mr-2 ">
-              Select a type...
+              {t("select_type")}
             </label>
             <select
               onChange={handleDropDown}
@@ -49,12 +49,12 @@ export default function ProductList(props) {
               id="type"
               className="border border-solid border-slate-200 text-slate-800 bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-md px-4 py-2.5 text-left inline-flex items-center shadow-xl"
             >
-              <option value="1">Fresh</option>
-              <option value="2">Condensed</option>
-              <option value="3">Dry</option>
-              <option value="4">Strips</option>
-              <option value="5">Other</option>
-              <option value="0">All</option>
+              <option value="1">{t("fresh")}</option>
+              <option value="2">{t("condensed")}</option>
+              <option value="3">{t("dry")}</option>
+              <option value="4">{t("strips")}</option>
+              <option value="5">{t("other")}</option>
+              <option value="0">{t("all")}</option>
             </select>
           </div>
         </div>

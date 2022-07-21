@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/OrderItem.module.css";
+import { languageContext } from "../pages/_app";
 const OrderItem = ({ data }) => {
+  const language = useContext(languageContext);
   const router = useRouter();
+
+  function renderTitle() {
+    return language == 1
+      ? data.imageTitleEn
+      : language == 2
+      ? data.imageTitle
+      : data.imageTitleZhc;
+  }
   return (
     <div className={styles.orderGrid}>
       <div className={styles.imageGrid}>
@@ -19,7 +29,7 @@ const OrderItem = ({ data }) => {
           </div>
         </Link>
       </div>
-      <div className={styles.titleGrid}>{data.imageTitle}</div>
+      <div className={styles.titleGrid}>{renderTitle()}</div>
       <div className={styles.quantityGrid}>{data.amount} pcs</div>
       <div className={styles.priceGrid}>
         RM{parseInt(data.price).toFixed(2)}

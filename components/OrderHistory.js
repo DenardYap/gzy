@@ -164,7 +164,7 @@ const OrderHistory = ({ data }) => {
           {data.status == 1 ? (
             <div>
               <h3 className="text-red-500">
-                <b className="text-slate-800">Status:</b> NOT UPDATED ❌
+                <b className="text-slate-800"></b> NOT UPDATED ❌
               </h3>
 
               <h3 className="text-slate-800 font-light">
@@ -174,7 +174,7 @@ const OrderHistory = ({ data }) => {
           ) : (
             <div>
               <h3 className="text-green-500">
-                <b className="text-slate-800">Status:</b> Updated ✔️
+                <b className="text-slate-800"></b> Updated ✔️
               </h3>
 
               <h3 className="text-slate-800">

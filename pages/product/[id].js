@@ -5,14 +5,16 @@ import nextI18nextConfig from "../../next-i18next.config";
 import { connectToDatabase } from "../../util/mongodb";
 import styles from "../../styles/ProductPage.module.css";
 import Image from "next/image";
-import { cartContext } from "../_app";
+import { cartContext, languageContext } from "../_app";
 import { useContext, useRef, useState } from "react";
 
 export default function ItemPage(props) {
+  const language = useContext(languageContext);
   const imageRef = useRef(null);
   const itemRef = useRef(null);
   const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
 
+  const { t } = useTranslation("common");
   const rootRoute =
     process.env.NODE_ENV == "production"
       ? process.env.NEXT_PUBLIC_productAPIpro
@@ -92,11 +94,28 @@ export default function ItemPage(props) {
     } // else
   }
 
+  function renderTitle() {
+    return language == 1
+      ? props.data[0].imageTitleEn
+      : language == 2
+      ? props.data[0].imageTitle
+      : props.data[0].imageTitleZhc;
+  }
+
+  function renderDesc() {
+    return language == 1
+      ? props.data[0].descriptionEn
+      : language == 2
+      ? props.data[0].description
+      : props.data[0].descriptionZhc;
+  }
   return (
     <>
       <div className={styles.mainDiv}>
         <div className="flex justify-center">
-          <div className="border-2 border-solid border-slate-400 shadow-xl ">
+          <div
+            className={`${styles.shadowBox} border-2 border-solid border-slate-400 h-fit`}
+          >
             <Image
               ref={imageRef}
               src={props.data[0].image}
@@ -111,14 +130,14 @@ export default function ItemPage(props) {
           </div>
         </div>
         <div className={styles.textDiv}>
-          <h2 className="text-6xl text-slate-800 items-end flex  rounded">
-            {props.data[0].imageTitle}
+          <h2 className="text-6xl text-slate-800 items-end flex  rounded min-h-fit">
+            {renderTitle()}
           </h2>
-          <h3 className="text-4xl text-gray-500 items-center flex  rounded">
+          <h3 className="text-4xl text-gray-500 items-center flex  rounded h-fit ">
             RM{parseInt(props.data[0].price).toFixed(2)}
           </h3>
-          <hr className="border-black mr-[1em]"></hr>
-          <div className=" rounded flex items-center bg-slate-200 justify-center">
+          <hr className="border-black mr-[1em] my-2"></hr>
+          <div className=" rounded flex items-center bg-slate-200 mt-2 justify-center">
             <div className="shadow-md flex bg-slate-800 w-fit m-[1em] justify-center items-center">
               <div
                 onClick={increment}
@@ -157,11 +176,11 @@ export default function ItemPage(props) {
               onClick={handleBuy}
               className="shadow-md text-xl bg-orange-600 text-white rounded p-2 text-center  hover:shadow-2xl hover:bg-orange-400  transition-all w-fit h-[2.5em]"
             >
-              Add to Cart
+              {t("cart")}
             </button>
           </div>
           <p className="text-xl text-slate-700 inline-block break-words rounded pt-[1em]">
-            {props.data[0].description}
+            {renderDesc()}
           </p>
         </div>
       </div>

@@ -6,11 +6,13 @@ import React, { useEffect, useRef, useContext, useState } from "react";
 import { cartContext } from "../pages/_app";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import { languageContext } from "../pages/_app";
 
 // Componenet for each item
 // Todo: 1) Make hover image
 
 export default function Item({ oriData, setAllowClick }) {
+  const language = useContext(languageContext);
   const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
 
   // console.log("Cart toggle is:", cartToggle);
@@ -130,6 +132,14 @@ export default function Item({ oriData, setAllowClick }) {
       console.log("Done adding to cart!");
     }
   }
+
+  function renderTitle() {
+    return language == 1
+      ? oriData.imageTitleEn
+      : language == 2
+      ? oriData.imageTitle
+      : oriData.imageTitleZhc;
+  }
   return (
     <div className={styles.container}>
       {/* layover if item sold out */}
@@ -160,7 +170,7 @@ export default function Item({ oriData, setAllowClick }) {
       </Link>
       <div className={styles.bottomContainer}>
         <div className="">
-          <h3>{oriData.imageTitle} </h3>
+          <h3> {renderTitle()} </h3>
         </div>
 
         <hr

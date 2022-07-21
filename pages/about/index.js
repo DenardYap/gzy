@@ -16,7 +16,7 @@ export default function About() {
         >
           <div className="flex flex-col items-center text-center w-full">
             <h2 className="text-5xl pt-[0.5em] underline text-slate-800">
-              About us
+              {t("aboutus")}
             </h2>
             <div className="px-5 pb-5 flex flex-col items-start text-left">
               <br></br>
@@ -39,7 +39,7 @@ export default function About() {
           className={` ${styles.shadowBox} h-fit rounded top-[15em] relative mr-[2em] flex flex-col items-center text-center w-full bg-slate-600 text-slate-50`}
         >
           <h2 className="text-5xl pt-[0.5em] underline text-slate-50">
-            Swiftlet Farming
+            {t("swiftlet_farming")}
           </h2>
           <div className="px-5 pb-5 flex flex-col items-start text-left">
             <br></br>

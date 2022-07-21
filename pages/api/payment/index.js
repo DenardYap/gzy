@@ -35,6 +35,7 @@ async function validateData(token) {
       return false;
     } else {
       token[i].price = data[0].price;
+      // add locale here
       token[i].imageTitle = data[0].imageTitle;
       token[i].quantity = data[0].quantity;
     }

@@ -1,10 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/CartItem.module.css";
 import { Bars } from "react-loading-icons";
 import Swal from "sweetalert2";
+import { languageContext } from "../pages/_app";
+import { useTranslation } from "next-i18next";
 
 const CartItem = ({
   data,
@@ -16,6 +18,7 @@ const CartItem = ({
   total,
   setTotal,
 }) => {
+  const language = useContext(languageContext);
   const router = useRouter();
   const inputRef = useRef();
   // change this to a layout rolling icon
@@ -164,7 +167,15 @@ const CartItem = ({
     // });
     updateData(data._id, "0");
   }
-  console.log(data.price, data.amount);
+
+  function renderTitle() {
+    return language == 1
+      ? data.imageTitleEn
+      : language == 2
+      ? data.imageTitle
+      : data.imageTitleZhc;
+  }
+
   return (
     <div className={styles.mainDiv}>
       <div className={styles.imageDiv}>
@@ -185,21 +196,21 @@ const CartItem = ({
       <div className={styles.imageRightDiv}>
         <div className=" flex-row text-left items-center border-b-2 border-black w-fit">
           <h3 className="text-md italic underline pb-1">Item&apos;s name</h3>
-          <h2 className="text-4xl"> {data.imageTitle}</h2>
+          <h2 className="text-4xl"> {renderTitle()}</h2>
         </div>
         <div className={styles.imageRightSubDiv}>
           <h3> RM{data.price}.00</h3>
           <h3>
             <button className="text-red-600 underline" onClick={deleteItem}>
               {" "}
-              Delete{" "}
+              {t("Delete")}{" "}
             </button>
           </h3>
         </div>
       </div>
       <div className={styles.quantityDiv}>
         <div className="flex justify-center items-center text-2xl ">
-          <h3>Quantity</h3>
+          <h3>{t("Quantity")}</h3>
         </div>
         <div className=" flex justify-center h-fit ">
           <div className={allowClick ? allowClickStyle : disallowClickStyle}>
@@ -243,7 +254,7 @@ const CartItem = ({
         </div>
       </div>
       <div className={`${styles.subTotalDiv}`}>
-        <h3>Subtotal:</h3>
+        <h3>{t("Subtotal")}:</h3>
         <h3 className="text-2xl flex">
           RM{(parseInt(data.price) * parseInt(data.amount)).toFixed(2)}
         </h3>

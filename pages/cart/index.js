@@ -12,6 +12,7 @@ import LoadingIcons from "react-loading-icons";
 import Swal from "sweetalert2";
 
 const Cart = () => {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const [data, setData] = useState(null);
   const [total, setTotal] = useState(0.0);
@@ -85,7 +86,7 @@ const Cart = () => {
         <div className="flex flex-col m-[2em] rounded text-slate-100 bg-slate-600 items-center p-5">
           <div className="flex flex-col items-center h-[80vh] justify-center">
             <LoadingIcons.Oval height={400} width={400} />
-            <h2 className="mt-[1em] text-4xl">Please wait...</h2>
+            <h2 className="mt-[1em] text-4xl">{t("please_wait")}</h2>
           </div>
         </div>
       ) : data.length === 0 ? (
@@ -93,14 +94,14 @@ const Cart = () => {
           <div>
             <Link href="\" locale={router.locale} passHref>
               <button className="text-center text-4xl p-2 hover:bg-slate-300 transition-all border-black border-solid border rounded shadow-xl mt-[1em] bg-slate-100 h-fit w-fit text-slate-800">
-                ↩ Home
+                ↩ {t("home")}
               </button>
             </Link>
           </div>
           <div className="flex flex-col items-center h-[80vh] justify-center">
             <AiFillFrown className="" size={400}></AiFillFrown>
-            <h2 className=" text-4xl">Oops! Your cart is empty!</h2>
-            <h2 className=" text-4xl">Try adding some items and come back!</h2>
+            <h2 className=" text-4xl">{t("cart_empty")}</h2>
+            <h2 className=" text-4xl">{t("cart_empty_text")}</h2>
           </div>
         </div>
       ) : (
@@ -115,15 +116,14 @@ const Cart = () => {
           <div className="flex justify-between items-center text-center pt-5 px-[2em]">
             <Link href="\" locale={router.locale} passHref>
               <button className="text-2xl p-2 rounded shadow-xl bg-black h-fit w-fit text-slate-100 hover:bg-slate-600 transition-all">
-                ↩ Home
+                ↩ {t("home")}
               </button>
             </Link>
-            <h2 className="text-3xl underline pl-[2.5em]">
-              {" "}
-              Your Shopping Cart
-            </h2>
+            <h2 className="text-3xl underline pl-[2.5em]"> {t("your_cart")}</h2>
             <div className="items-top text-2xl p-2 rounded shadow-xl bg-black h-fit w-fit text-slate-100">
-              <h2>Items in cart: {data.length}</h2>
+              <h2>
+                {t("items_cart")}: {data.length}
+              </h2>
             </div>
           </div>
           <div className="flex-row ">
@@ -146,13 +146,18 @@ const Cart = () => {
 
           <div className="flex-col my-[2em] bg-slate-800 text-white text-3xl justify-center mx-auto w-fit text-center items-center rounded p-4">
             <h2>
-              {`Total (${data.length} items): RM${parseInt(total).toFixed(2)}`}
+              {t("total_text1") +
+                "(" +
+                data.length +
+                t("total_text2") +
+                ")" +
+                `: RM${parseInt(total).toFixed(2)}`}
             </h2>
             <button
               onClick={handleCheckout}
               className="p-2 bg-orange-600 text-white rounded text-3xl mt-5 w-[100%] hover:bg-orange-400 transition-all "
             >
-              Checkout
+              {t("checkout")}
             </button>
           </div>
         </>

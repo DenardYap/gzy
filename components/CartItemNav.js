@@ -1,11 +1,15 @@
 import React, { useEffect, useContext } from "react";
 import styles from "../styles/CartItemNav.module.css";
+import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
-import { cartContext } from "../pages/_app";
+import { cartContext, languageContext } from "../pages/_app";
 import { useRouter } from "next/router";
 
 const CartItemNav = ({ oriData, data }) => {
+  const language = useContext(languageContext);
+
+  const { t } = useTranslation("common");
   const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
   const router = useRouter();
   const rootRoute =
@@ -38,6 +42,13 @@ const CartItemNav = ({ oriData, data }) => {
     toggleCart();
   }
 
+  function renderTitle() {
+    return language == 1
+      ? data.imageTitleEn
+      : language == 2
+      ? data.imageTitle
+      : data.imageTitleZhc;
+  }
   return (
     <div className={`${styles.cart}`}>
       <div className={styles.imageBox}>
@@ -53,10 +64,10 @@ const CartItemNav = ({ oriData, data }) => {
           </a>
         </Link>
       </div>
-      <div className={styles.titleBox}>{data.imageTitle}</div>
+      <div className={styles.titleBox}>{renderTitle()}</div>
       <div className={styles.subtitleBox}>
         <button onClick={handleDelete} className="text-red-600 underline">
-          Delete
+          {t("Delete")}
         </button>
       </div>
       <div className={styles.priceBox}>

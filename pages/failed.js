@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../next-i18next.config";
 
 const Failed = () => {
+  const { t } = useTranslation("common");
   return (
     <div className="flex flex-col justify-center items-center py-[1em] h-[80vh] bg-slate-100 m-[1em] rounded ">
       <ImCancelCircle
