@@ -11,6 +11,8 @@ export const config = {
   },
 };
 import formidable from "formidable";
+import { rejects } from "assert";
+import { resolve } from "path";
 
 // const redis = require("redis");
 let fs = require("fs");
@@ -28,38 +30,51 @@ export default async function handler(req, res) {
 
   const form = new formidable.IncomingForm();
 
-  form.parse(req, async function (err, fields, files) {
-    const Body = fs.readFileSync(files.file.filepath);
+  const formPromised = async (req) => {
+    return new Promise(async (res, rej) => {
+      form.parse(req, async function (err, fields, files) {
+        if (err) rej(err);
+        const Body = fs.readFileSync(files.file.filepath);
 
-    const region = "ap-southeast-1";
-    const bucketName = "guanzhiyan";
-    const accessKeyId = process.env.ACCESS_KEY_ID;
-    const secretAccessKey = process.env.SECRET_ACCESS_KEY;
-    const s3 = new aws.S3({
-      region,
-      accessKeyId,
-      secretAccessKey,
-      signatureVersion: "v4",
+        const region = "ap-southeast-1";
+        const bucketName = "guanzhiyan";
+        const accessKeyId = process.env.ACCESS_KEY_ID;
+        const secretAccessKey = process.env.SECRET_ACCESS_KEY;
+        const s3 = new aws.S3({
+          region,
+          accessKeyId,
+          secretAccessKey,
+          signatureVersion: "v4",
+        });
+        const params = {
+          Bucket: bucketName,
+          Key: `main_aimg${req.query.num}.jpg`,
+          // Key: `last_testing${req.query.num}.jpg`,
+          Expires: new Date(),
+          Body,
+          CacheControl: "no-cache",
+        };
+        // console.log(req.body);
+        const uploadedImage = await s3.putObject(params).promise();
+        // putObject too
+        console.log(
+          `Successfully updated main_aimg${req.query.num}.jpg at ${uploadedImage.Location}`
+        );
+        res(files.file.filepath);
+        // const uploadURL = await s3.getSignedUrlPromise("putObject", params).then();
+      });
     });
-    const params = {
-      Bucket: bucketName,
-      Key: `main_aimg${req.query.num}.jpg`,
-      // Key: `last_testing${req.query.num}.jpg`,
-      Expires: new Date(),
-      Body,
-      CacheControl: "no-cache",
-    };
-    // console.log(req.body);
-    const uploadedImage = await s3.putObject(params).promise();
-    // putObject too
-    console.log(
-      `Successfully updated main_aimg${req.query.num}.jpg at ${uploadedImage.Location}`
-    );
-
-    done = true;
-    // const uploadURL = await s3.getSignedUrlPromise("putObject", params).then();
-  });
+  };
+  const filepath = await formPromised(req);
+  console.log("promise successful");
+  return res.status(200).json({ filepath });
+  // .then((data) => {
+  //   res.status(200).json({ filepath: data });
+  // })
+  // .catch((err) => {
+  //   console.log("Error!", err);
+  //   res.status(404).json({ message: "Something is wrong in getURL.js" });
+  // });
   // .then(() =>
-  res.status(200).json({ message: "successfully updated image" });
   // );
 }
