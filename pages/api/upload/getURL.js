@@ -4,6 +4,9 @@ const path = require("path");
 export const config = {
   api: {
     bodyParser: false,
+    // bodyParse: {
+    // sizeLimit: "4mb",
+    // },
   },
 };
 import formidable from "formidable";
@@ -18,20 +21,11 @@ export default async function handler(req, res) {
     res.status(404).json({ message: "unauthorized" });
   }
 
-  /**First upload the image onto our server */
-
   const form = new formidable.IncomingForm();
-  // let fileName = path.join(__dirname, `main_aimg${req.query.num}.webp`);
-  let fileName = `main_aimg${req.query.num}.jpg`;
-  // let fileName = `\\var\\task\\pages\\api\\upload\\main_aimg${req.query.num}.jpg`;
+
   form.parse(req, async function (err, fields, files) {
-    // await saveFile(files.file);
-    console.log("fields are:", fields);
-    const data = fs.readFileSync(files.file.filepath);
-    fs.writeFileSync(fileName, data);
-    await fs.unlinkSync(files.file.filepath);
-    const Body = fs.readFileSync(fileName);
-    // let Body = fs.createReadStream(fileName);
+    const Body = fs.readFileSync(files.file.filepath);
+
     const region = "ap-southeast-1";
     const bucketName = "guanzhiyan";
     const accessKeyId = process.env.ACCESS_KEY_ID;
@@ -78,6 +72,6 @@ export default async function handler(req, res) {
   //   .getSignedUrlPromise("putObject", params)
   //   .then(console.log("generated link..."));
   // console.log("done");
-  res.status(200).json({ __dirname: __dirname, fileName: fileName });
-  // return res.status(200).json({ url: uploadURL });
+  res.status(200).json({ message: "asd" });
+  // res.status(200).json({ __dirname: __dirname, fileName: fileName });
 }

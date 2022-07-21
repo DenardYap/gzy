@@ -2,34 +2,22 @@ import React, { useRef } from "react";
 import Image from "next/image";
 const MainImage = ({ num }) => {
   let inputRef = useRef();
-  // const fileToDataUri = (file) =>
-  //   new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.onload = (event) => {
-  //       resolve(event.target.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   });
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     console.log("handling submit...");
     if (!inputRef.current.files[0]) {
+      console.log("Submission is empty.");
       return;
     }
-    // let dataURI;
-    // await fileToDataUri(inputRef.current.files[0]).then((x) => {
-    //   dataURI = x;
-    // });
+
     const uploadRoute =
       process.env.NODE_ENV == "production"
         ? process.env.NEXT_PUBLIC_UPLOAD_PRO
         : process.env.NEXT_PUBLIC_UPLOAD_DEV;
 
     const body = new FormData();
-    console.log("file is", inputRef.current.files[0]);
-    console.log("Type is", typeof inputRef.current.files[0]);
     body.append("file", inputRef.current.files[0]);
     await fetch(uploadRoute + `getURL?num=${num}`, {
       method: "POST",
@@ -39,14 +27,6 @@ const MainImage = ({ num }) => {
       },
       body,
     })
-      // await fetch(uploadRoute + `getURL?num=${num}`, {
-      //   method: "GET",
-      //   headers: {
-      //     Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-      //     // "Cache-Control": "no-store",
-      //   },
-      //   // body,
-      // })
       .then(async (res) => {
         console.log("res is:", res);
         return res;
@@ -57,20 +37,6 @@ const MainImage = ({ num }) => {
         return res.json();
       })
       .then((res) => console.log("json is:", res))
-      // .then(async (res) => await res.json())
-      // .then(async ({ url }) => {
-      //   // upload the image to AWS cloudfront
-      //   console.log("URL is:", url);
-      //   await fetch(url, {
-      //     method: "PUT",
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //     body: inputRef.current.files[0],
-      //   });
-      //   console.log(`Done uploading!`);
-      //   console.log(inputRef.current.files[0]);
-      // })
       .catch((err) => console.log("Error!", err));
   }
 
