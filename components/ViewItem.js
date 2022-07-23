@@ -155,13 +155,12 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
 
         if (Object.keys(curData).length != 0) {
           // form is not empty
-          console.log("Object length is:", Object.keys(curData).length);
           curData["id"] = data._id;
           const editRoute =
             process.env.NODE_ENV == "production"
               ? process.env.NEXT_PUBLIC_UPLOAD_PRO
               : process.env.NEXT_PUBLIC_UPLOAD_DEV;
-          await fetch(editRoute + "edit", {
+          let res = await fetch(editRoute + "edit", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -170,8 +169,9 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
             },
             body: JSON.stringify(curData),
           });
-        } else {
-          console.log("you didn't change anything... anakin");
+          if (!res.ok) {
+            console.log(res);
+          }
         }
         setPopup(false);
         setAllowClick(true);
