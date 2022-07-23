@@ -42,7 +42,6 @@ const Edit = (props) => {
               );
             })}
           </div>
-          )}
         </>
       ) : (
         <div className="h-[80vh] flex justify-center items-center text-3xl ">
