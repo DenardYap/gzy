@@ -14,8 +14,7 @@ export default async function handler(req, res) {
     res.status(404).json({ message: "unauthorized" });
   }
 
-  console.log(typeof req.body);
-  console.log("uploading image...");
+  console.log("uploading item...");
 
   const region = "ap-southeast-1";
   const bucketName = "guanzhiyan";
@@ -27,7 +26,7 @@ export default async function handler(req, res) {
     secretAccessKey,
     signatureVersion: "v4",
   });
-  //   console.log(req.body);
+
   var buf = Buffer.from(
     req.body.replace(/^data:image\/\w+;base64,/, ""),
     "base64"
@@ -35,17 +34,13 @@ export default async function handler(req, res) {
 
   const params = {
     Bucket: bucketName,
-    Key: `main_aimg${req.query.num}.jpg`,
-    // Key: `last_testing${req.query.num}.jpg`,
+    Key: `${req.query.key}.jpg`,
     Expires: new Date(),
     Body: buf,
     CacheControl: "no-cache",
-    // ContentType: "image/jpg",
-
     ContentEncoding: "base64",
-    ContentType: "image/jpeg",
+    ContentType: "image/jpeg", // to be changed
   };
-  console.log("uploading image2...");
 
   const uploadedImage = await s3
     .upload(params, (err, data) => {
@@ -56,16 +51,4 @@ export default async function handler(req, res) {
     .promise();
   console.log("done uploading");
   res.status(200).json({ message: "done" });
-
-  // console.log("promise successful");
-  // return res.status(200).json({ filepath });
-  // .then((data) => {
-  //   res.status(200).json({ filepath: data });
-  // })
-  // .catch((err) => {
-  //   console.log("Error!", err);
-  //   res.status(404).json({ message: "Something is wrong in getURL.js" });
-  // });
-  // .then(() =>
-  // );
 }

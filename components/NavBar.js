@@ -4,7 +4,8 @@ import navStyles from "../styles/NavBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AiOutlineShoppingCart, AiOutlineFrown } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useEffect, useRef, useState, useContext } from "react";
+import { useEffect, useRef, useContext } from "react";
+import useState from "react-usestateref";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import CartItemNav from "./CartItemNav";
@@ -36,6 +37,11 @@ import Swal from "sweetalert2";
 
 const NavBar = () => {
   /* Firebase stuff */
+  const homeRef = useRef();
+  const productRef = useRef();
+  const factoryRef = useRef();
+  const aboutRef = useRef();
+
   const [permission, setPermission] = useContext(permissionContext);
   const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
@@ -135,19 +141,6 @@ const NavBar = () => {
       });
   }, []);
   /********/
-  function refresher(e) {
-    const curRef = navBarRef.current.querySelectorAll(
-      'a[href="' + window.location.pathname + '"]'
-    );
-
-    curRef.forEach((link) => {
-      // link.className += "md:border-transparent";
-      link.classList.remove("md:border-amber-400");
-    });
-    // if (window.location.href !== "http://localhost:3000/en/about#product") {
-    e.currentTarget.className += " md:border-amber-400";
-    // }
-  }
 
   // loading cart item data from the database
   useEffect(() => {
@@ -168,6 +161,41 @@ const NavBar = () => {
     fetchData();
   }, []);
   // handling color bar logic, to be perfected
+
+  // const [curStyled, setCurStyled] = useState(null);
+
+  // function tog() {
+  //   if (
+  //     window.location.href == "https://www.guanzhiyan.com/" ||
+  //     window.location.href == "https://www.guanzhiyan.com/en" ||
+  //     window.location.href == "https://www.guanzhiyan.com/zhc" ||
+  //     window.location.href == "http://localhost:3000/" ||
+  //     window.location.href == "http://localhost:3000/en" ||
+  //     window.location.href == "http://localhost:3000/zhc"
+  //   ) {
+  //     setCurStyled(homeRef.current);
+  //   } else if (window.location.href.indexOf("product") > -1) {
+  //     // product page
+  //     setCurStyled(productRef.current);
+  //   } else if (window.location.href.indexOf("about") > -1) {
+  //     // product page
+  //     setCurStyled(aboutRef.current);
+  //   } else if (window.location.href.indexOf("factory") > -1) {
+  //     // product page
+  //     setCurStyled(factoryRef.current);
+  //   }
+  // }
+  // useEffect(() => {
+  //   tog();
+  //   if (!curStyled) return;
+  //   console.log("triggered");
+
+  //   curStyled.className += " md:border-amber-400";
+  //   return () => {
+  //     /*Remove the style */
+  //     curStyled.classList.remove("md:border-amber-400");
+  //   };
+  // }, [curStyled]);
   useEffect(() => {
     // to prevent the null error thigns in Next
     // localStorage["locale"] ? setCurrentLocale(localStorage["locale"])
@@ -175,14 +203,7 @@ const NavBar = () => {
     const dropdownBoxCur = dropdownBox.current;
     const lgBtnCur = lgBtn.current;
     // logic for dropdown
-    const curRef = navBarRef.current.querySelectorAll(
-      'a[href="' + window.location.pathname + '"]'
-    );
     curPage = window.location.href;
-    curRef.forEach((link) => {
-      // link.classList.remove("md:border-transparent");
-      link.className += " md:border-amber-400";
-    });
 
     function handleDropDown() {
       if (dropdownBtn.current.classList.contains("hidden")) {
@@ -224,7 +245,6 @@ const NavBar = () => {
         <Link href="/" locale={router.locale}>
           <a className="flex items-center ml-[1em]">
             <Image
-              onClick={(e) => refresher(e)}
               alt="gzy-logo"
               className=" h-6"
               src="/logo/logo_main_slate.jpg"
@@ -444,7 +464,7 @@ const NavBar = () => {
             <li>
               <Link href="/" locale={router.locale}>
                 <a
-                  onClick={(e) => refresher(e)}
+                  ref={homeRef}
                   className="transition-all hidden sm:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
                   aria-current="page"
                 >
@@ -459,7 +479,7 @@ const NavBar = () => {
                 locale={router.locale}
               >
                 <a
-                  onClick={(e) => refresher(e)}
+                  ref={productRef}
                   className="transition-all hidden md:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("products")}
@@ -469,7 +489,7 @@ const NavBar = () => {
             <li>
               <Link href="/about" locale={router.locale}>
                 <a
-                  onClick={(e) => refresher(e)}
+                  ref={aboutRef}
                   className="transition-all hidden lg:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("about")}
@@ -479,7 +499,7 @@ const NavBar = () => {
             <li>
               <Link href="/factory" locale={router.locale}>
                 <a
-                  onClick={(e) => refresher(e)}
+                  ref={factoryRef}
                   className="transition-all hidden xl:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("factory")}

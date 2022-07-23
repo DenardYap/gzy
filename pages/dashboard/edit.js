@@ -34,7 +34,7 @@ const Edit = () => {
           {allowClick ? (
             <></>
           ) : (
-            <div className="w-full h-full top-0 right-0 bottom-0 left-0 bg-black opacity-50	fixed z-10 flex justify-center items-center">
+            <div className="w-full h-full top-0 right-0 bottom-0 left-0 bg-black opacity-50	fixed z-50 flex justify-center items-center">
               <LoadingIcons.Oval height={300} width={300} />
             </div>
           )}

@@ -64,6 +64,7 @@ function MyApp({ Component, pageProps, ...appProps }) {
         console.log("Current lang", "zhc");
         let zhc_font = new FontFace("notosans", "url(/font/notosans.otf)");
         zhc_font.load().then((loaded_face) => {
+          console.log(loaded_face);
           document.getElementsByTagName("body")[0].style.fontFamily =
             "notosans";
         });
@@ -72,6 +73,7 @@ function MyApp({ Component, pageProps, ...appProps }) {
         console.log("Current lang", "zh");
         let zh_font = new FontFace("zcool", "url(/font/zcool.ttf)");
         zh_font.load().then((loaded_face) => {
+          console.log(loaded_face);
           document.getElementsByTagName("body")[0].style.fontFamily = "zcool";
         });
         setLanguage(2);
@@ -82,6 +84,7 @@ function MyApp({ Component, pageProps, ...appProps }) {
       console.log("Current lang", "en");
       let english_font = new FontFace("Varela", "url(/font/varela.ttf)");
       english_font.load().then((loaded_face) => {
+        console.log(loaded_face);
         document.getElementsByTagName("body")[0].style.fontFamily = "Varela";
       });
     }

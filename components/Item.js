@@ -56,7 +56,7 @@ export default function Item({ oriData, setAllowClick }) {
   async function handleBuy() {
     // make sure the item doesn't exceed the max limit
     // also make sure the item is not 0
-    if (itemRef.current.value === "0") {
+    if (parseInt(itemRef.current.value) <= 0) {
       alert("Please make sure item quantity is at least 1");
     } else if (
       parseInt(itemRef.current.value) > parseInt(itemRef.current.max)
@@ -67,6 +67,7 @@ export default function Item({ oriData, setAllowClick }) {
     } else if (itemRef.current.value[0] === "0") {
       alert("Please make sure the item quantity doesn't start with 0");
     } else {
+      itemRef.current.value = parseInt(itemRef.current.value).toString();
       // either data is empty, or cached, we just need to update the quantity
       // Make a post request to the backend
       setAllowClick(false);

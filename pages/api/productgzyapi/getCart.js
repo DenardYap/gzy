@@ -16,10 +16,10 @@ async function checkCaches(client) {
   if (Object.keys(mainData).length == 0) {
     console.log("cache miss");
     const { db } = await connectToDatabase();
-    data = await db.collection("product").find().toArray();
-    data = await JSON.parse(JSON.stringify(data)); // this will return a list of items to us
-    // fetch the data from db and cache it
-    data.forEach(async (item) => {
+    mainData = await db.collection("product").find().toArray();
+    mainData = await JSON.parse(JSON.stringify(mainData)); // this will return a list of items to us
+    // fetch the mainData from db and cache it
+    mainData.forEach(async (item) => {
       await client.hSet("mainCart", item._id, JSON.stringify(item));
     });
   }
