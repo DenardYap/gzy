@@ -73,7 +73,10 @@ export default async function handler(req, res) {
     });
     if (!res2.ok) {
       console.log("Error in add.js api!!!");
+
       console.log(res2);
+      res2 = await res2.json();
+      console.log(res2.err);
     }
 
     return res.status(200).json({ message: "updated successfully" });

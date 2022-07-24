@@ -27,6 +27,6 @@ export default async function handler(req, res) {
     // If there was an error, Next.js will continue
     // to show the last successfully generated page
     console.log("Error!:", err);
-    return res.status(500).send("Error revalidating");
+    return res.status(500).json({ err });
   }
 }

@@ -190,6 +190,8 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
         if (!res2.ok) {
           alert("not ok in deelte viewitem");
           console.log(res2);
+          res2 = await res2.json();
+          console.log(res2.err);
         }
         Swal.fire({
           title: "Done!",
@@ -256,7 +258,10 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
           });
           if (!res2.ok) {
             alert("not ok in deelte viewitem");
+
             console.log(res2);
+            res2 = await res2.json();
+            console.log(res2.err);
           }
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         }
