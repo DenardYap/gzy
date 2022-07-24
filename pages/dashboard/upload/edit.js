@@ -62,7 +62,7 @@ export async function getStaticProps({ locale }) {
   await client.connect();
   let mainData;
   let data = [];
-
+  console.log("fetching data in edit.js");
   try {
     mainData = await client.hGetAll("mainCart");
   } catch (error) {

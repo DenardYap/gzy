@@ -68,6 +68,7 @@ export async function getStaticProps({ locale }) {
   } catch (error) {
     console.log("Error in fetching data in index.js", error);
   }
+  console.log("fetching data in delete.js");
 
   async function fetchData() {
     if (Object.keys(mainData).length == 0) {

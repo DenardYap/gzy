@@ -171,7 +171,6 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
           });
         }
         setPopup(false);
-        setAllowClick(true);
         let revalidateRoute =
           process.env.NODE_ENV == "production"
             ? "https://www.guanzhiyan.com/api/revalidate"
@@ -191,8 +190,9 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
           alert("not ok in deelte viewitem");
           console.log(res2);
           res2 = await res2.json();
-          console.log(res2.err);
+          console.log(res2);
         }
+        setAllowClick(true);
         Swal.fire({
           title: "Done!",
           text: "successfully updated the item",
@@ -261,7 +261,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
 
             console.log(res2);
             res2 = await res2.json();
-            console.log(res2.err);
+            console.log(res2);
           }
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         }

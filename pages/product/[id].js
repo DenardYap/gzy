@@ -228,6 +228,7 @@ export async function getStaticPaths({ locales }) {
   let data = await db.collection("product").find().toArray();
 
   // can use cached data here...
+  console.log("fetching data in [id].js");
   data = JSON.parse(JSON.stringify(data));
 
   /* For dynamic route, i18next need to do this */
@@ -241,6 +242,7 @@ export async function getStaticPaths({ locales }) {
     )
     .flat(); // Flatten array to avoid nested arrays
 
+  console.log("fetching data in [id].js2");
   return {
     paths,
     fallback: false,
