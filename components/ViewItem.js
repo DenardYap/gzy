@@ -169,9 +169,6 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
             },
             body: JSON.stringify(curData),
           });
-          if (!res.ok) {
-            console.log(res);
-          }
         }
         setPopup(false);
         setAllowClick(true);

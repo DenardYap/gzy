@@ -21,12 +21,13 @@ import app from "../util/firebase_util";
 const auth = getAuth(app);
 setPersistence(auth, browserLocalPersistence);
 
+export const dynamicContext = React.createContext();
 export const languageContext = React.createContext();
 export const permissionContext = React.createContext();
 export const userContext = React.createContext();
 export const cartContext = React.createContext();
 function MyApp({ Component, pageProps, ...appProps }) {
-  console.log("WWWWWWWWWWWWWW");
+  const [dynamicID, setDynamicID] = useState(null); // null when it's not on a dynamic page
   const [language, setLanguage] = useState(1); //1 for en, 2 for zh, 3 for zhc
   const allowedEmails = ["bernerd@umich.edu", "gzypdykl@gmail.com"];
   const [permission, setPermission] = useState(false); // def7ault to false permission, for guest users and stuff
@@ -94,20 +95,22 @@ function MyApp({ Component, pageProps, ...appProps }) {
     cartToggle ? setToggle(false) : setToggle(true);
   }
   return (
-    <languageContext.Provider value={language}>
-      <permissionContext.Provider value={[permission, setPermission]}>
-        <userContext.Provider value={[user, setUser]}>
-          <cartContext.Provider
-            value={[cartToggle, toggleCart, items, setItems]}
-          >
-            <Layout pathName={appProps.router.pathname}>
-              {/* all of our page components */}
-              <Component {...pageProps} />
-            </Layout>
-          </cartContext.Provider>
-        </userContext.Provider>
-      </permissionContext.Provider>
-    </languageContext.Provider>
+    <dynamicContext.Provider value={[dynamicID, setDynamicID]}>
+      <languageContext.Provider value={language}>
+        <permissionContext.Provider value={[permission, setPermission]}>
+          <userContext.Provider value={[user, setUser]}>
+            <cartContext.Provider
+              value={[cartToggle, toggleCart, items, setItems]}
+            >
+              <Layout pathName={appProps.router.pathname}>
+                {/* all of our page components */}
+                <Component {...pageProps} />
+              </Layout>
+            </cartContext.Provider>
+          </userContext.Provider>
+        </permissionContext.Provider>
+      </languageContext.Provider>
+    </dynamicContext.Provider>
   );
 }
 

@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../../next-i18next.config";
 import { connectToDatabase } from "../../util/mongodb";
 import styles from "../../styles/ProductPage.module.css";
 import Image from "next/image";
-import { cartContext, languageContext } from "../_app";
-import { useContext, useRef, useState } from "react";
+import { cartContext, languageContext, dynamicContext } from "../_app";
+import { useContext, useRef } from "react";
 
 export default function ItemPage(props) {
+  const [dynamicID, setDynamicID] = useContext(dynamicContext);
   const language = useContext(languageContext);
   const imageRef = useRef(null);
   const itemRef = useRef(null);
@@ -20,6 +21,23 @@ export default function ItemPage(props) {
       ? process.env.NEXT_PUBLIC_productAPIpro
       : process.env.NEXT_PUBLIC_productAPIdev;
 
+  // use to update the dynamic ID, this is needed to prevent
+  // the errors from switching the route in Next/js dynamic route
+  useEffect(() => {
+    // this sets the ID
+    let prefix =
+      process.env.NODE_ENV == "development"
+        ? "http://localhost:3000/"
+        : "https://www.guanzhiyan.com/";
+    let pathname = prefix + "product/[id]";
+    setDynamicID({
+      id: props.data[0]._id,
+      pathname,
+    });
+    return () => {
+      setDynamicID(null);
+    };
+  }, []);
   function updateItems(id, amount) {
     for (let i = 0; i < items.length; i++) {
       // console.log("items is:", items[i]);

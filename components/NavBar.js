@@ -9,7 +9,12 @@ import useState from "react-usestateref";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import CartItemNav from "./CartItemNav";
-import { cartContext, userContext, permissionContext } from "../pages/_app";
+import {
+  cartContext,
+  userContext,
+  permissionContext,
+  dynamicContext,
+} from "../pages/_app";
 import LoadingIcons from "react-loading-icons";
 import app from "../util/firebase_util";
 import {
@@ -37,6 +42,7 @@ import Swal from "sweetalert2";
 
 const NavBar = () => {
   /* Firebase stuff */
+  const [dynamicID, setDynamicID] = useContext(dynamicContext);
   const homeRef = useRef();
   const productRef = useRef();
   const factoryRef = useRef();
@@ -98,7 +104,7 @@ const NavBar = () => {
         console.log(e);
       });
   }
-
+  console.log("DYNAMIC ID IS CURRENTLY:", dynamicID);
   /**AUTH */
   async function handleAuth() {
     await signInWithRedirect(auth, provider);
@@ -283,21 +289,63 @@ const NavBar = () => {
               id="lg-dropdown"
               ref={dropdownBtn}
             >
-              <Link locale="en" href={curPage}>
-                <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  {t("english")}
-                </h3>
-              </Link>
-              <Link locale="zh" href={curPage}>
-                <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  {t("zh")}
-                </h3>
-              </Link>
-              <Link locale="zhc" href={curPage}>
-                <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  {t("zhc")}
-                </h3>
-              </Link>
+              {dynamicID == null ? (
+                <Link locale="en" href={curPage}>
+                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {t("english")}
+                  </h3>
+                </Link>
+              ) : (
+                <Link
+                  locale="en"
+                  href={{
+                    pathname: dynamicID.pathname,
+                    query: { id: dynamicID.id },
+                  }}
+                >
+                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {t("english")}
+                  </h3>
+                </Link>
+              )}
+              {dynamicID == null ? (
+                <Link locale="zh" href={curPage}>
+                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {t("zh")}
+                  </h3>
+                </Link>
+              ) : (
+                <Link
+                  locale="zh"
+                  href={{
+                    pathname: dynamicID.pathname,
+                    query: { id: dynamicID.id },
+                  }}
+                >
+                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {t("zh")}
+                  </h3>
+                </Link>
+              )}
+              {dynamicID == null ? (
+                <Link locale="zhc" href={curPage}>
+                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {t("zhc")}
+                  </h3>
+                </Link>
+              ) : (
+                <Link
+                  locale="zhc"
+                  href={{
+                    pathname: dynamicID.pathname,
+                    query: { id: dynamicID.id },
+                  }}
+                >
+                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {t("zhc")}
+                  </h3>
+                </Link>
+              )}
             </div>
           </div>
 

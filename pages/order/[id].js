@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../../next-i18next.config";
 import { connectToDatabase } from "../../util/mongodb";
 import Image from "next/image";
-import { cartContext, languageContext } from "../_app";
+import { cartContext, languageContext, dynamicContext } from "../_app";
 import { useContext, useRef, useState, useEffect } from "react";
 import { AiOutlineEllipsis, AiOutlineMinus } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
@@ -15,6 +15,7 @@ import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import OrderItem from "../../components/OrderItem";
 import styles from "../../styles/OrderItem.module.css";
 const Order = (props) => {
+  const [dynamicID, setDynamicID] = useContext(dynamicContext);
   const { t } = useTranslation("common");
   const language = useContext(languageContext);
   const [status, setStatus] = useState(1);
@@ -24,6 +25,25 @@ const Order = (props) => {
     process.env.NODE_ENV === "production"
       ? process.env.NEXT_PUBLIC_CHECKOUT_ORDERpro
       : process.env.NEXT_PUBLIC_CHECKOUT_ORDERdev;
+
+  // use to update the dynamic ID, this is needed to prevent
+  // the errors from switching the route in Next/js dynamic route
+  useEffect(() => {
+    // this sets the ID
+    let prefix =
+      process.env.NODE_ENV == "development"
+        ? "http://localhost:3000/"
+        : "https://www.guanzhiyan.com/";
+    let pathname = prefix + "order/[id]";
+    setDynamicID({
+      id: props.id,
+      pathname,
+    });
+    return () => {
+      setDynamicID(null);
+    };
+  }, []);
+
   useEffect(() => {
     (async () => {
       let res = await fetch(orderRoute + props.id, {

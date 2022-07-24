@@ -157,7 +157,7 @@ export default function Item({ oriData, setAllowClick }) {
           <div className="relative h-[20em] w-[19em] justify-center items-center z-0">
             <Image
               ref={imageRef}
-              loading="lazy"
+              loading="eager"
               className={styles.imager}
               src={oriData.image}
               alt={oriData.alt}

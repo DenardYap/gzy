@@ -20,6 +20,7 @@ const CartItem = ({
 }) => {
   const language = useContext(languageContext);
   const router = useRouter();
+  const { t } = useTranslation("common");
   const inputRef = useRef();
   // change this to a layout rolling icon
   const allowClickStyle =
