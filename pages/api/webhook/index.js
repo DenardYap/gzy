@@ -319,8 +319,8 @@ export default async function handler(req, res) {
       );
       let revalidateRoute =
         process.env.NODE_ENV == "production"
-          ? "https://www.guanzhiyan.com/api/secret?"
-          : "http://localhost:3000/api/secret?";
+          ? "https://www.guanzhiyan.com/api/revalidate?"
+          : "http://localhost:3000/api/revalidate?";
       revalidateRoute +=
         "secret=" +
         process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER +
