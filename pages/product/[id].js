@@ -208,6 +208,7 @@ export default function ItemPage(props) {
 }
 
 export async function getStaticProps({ params, locale }) {
+  console.log("fetching data in [id].js3");
   const ObjectId = require("mongodb").ObjectId;
   const { db } = await connectToDatabase();
   let data = await db
@@ -215,7 +216,7 @@ export async function getStaticProps({ params, locale }) {
     .find({ _id: ObjectId(params.id.toString()) })
     .toArray();
   data = JSON.parse(JSON.stringify(data));
-
+  console.log("fetching data in [id].js4");
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
