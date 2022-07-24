@@ -133,16 +133,6 @@ const Add = () => {
     e.target.type.value = "1";
     e.target.image.value = "";
 
-    let revalidateRoute =
-      process.env.NODE_ENV == "production"
-        ? "https://www.guanzhiyan.com/api/revalidate?"
-        : "http://localhost:3000/api/revalidate?";
-    revalidateRoute +=
-      "secret=" + process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER + "operation=1";
-    let res = await fetch(revalidateRoute);
-    if (!res.ok) {
-      alert("Not ok in add.js");
-    }
     Swal.fire({
       title: "Done!",
       text: "successfully updated the item",

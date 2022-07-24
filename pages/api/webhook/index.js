@@ -319,13 +319,19 @@ export default async function handler(req, res) {
       );
       let revalidateRoute =
         process.env.NODE_ENV == "production"
-          ? "https://www.guanzhiyan.com/api/revalidate?"
-          : "http://localhost:3000/api/revalidate?";
-      revalidateRoute +=
-        "secret=" +
-        process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER +
-        "operation=2";
-      await fetch(revalidateRoute);
+          ? "https://www.guanzhiyan.com/api/revalidate"
+          : "http://localhost:3000/api/revalidate";
+      await fetch(revalidateRoute, {
+        method: "POST",
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          operation: 2,
+          id: session.payment_intent,
+        }),
+      });
       // Then define and call a function to handle the event payment_intent.succeeded
       break;
     default:

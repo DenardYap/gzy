@@ -25,8 +25,7 @@ export default async function handler(req, res) {
   let client = null;
   try {
     const { db } = await connectToDatabase();
-
-    await db.collection("product").insertOne({
+    let curInsertData = {
       price: req.body.price.toString(),
       quantity: req.body.quantity.toString(),
       image: req.body.image.toString(),
@@ -37,7 +36,8 @@ export default async function handler(req, res) {
       descriptionZhc: req.body.descriptionZhc.toString(),
       descriptionEn: req.body.descriptionEn.toString(),
       type: req.body.type.toString(),
-    });
+    };
+    let newData = await db.collection("product").insertOne(curInsertData);
     // then update cache
 
     client = redis.createClient({
@@ -46,15 +46,36 @@ export default async function handler(req, res) {
     });
     client.on("error", (err) => console.log("Redis Client Error", err));
     await client.connect();
-
-    let data;
-    data = await db.collection("product").find().toArray();
-    data = await JSON.parse(JSON.stringify(data)); // this will return a list of items to us
-    // fetch the data from db and cache it
-    data.forEach(async (item) => {
-      await client.hSet("mainCart", item._id, JSON.stringify(item));
-    });
+    curInsertData._id = newData.insertedId.toString(); //id?
+    await client.hSet(
+      "mainCart",
+      newData.insertedId.toString(),
+      JSON.stringify(curInsertData)
+    );
+    // });
     await client.quit();
+
+    //revalidate the routes
+    let revalidateRoute =
+      process.env.NODE_ENV == "production"
+        ? "https://www.guanzhiyan.com/api/revalidate"
+        : "http://localhost:3000/api/revalidate";
+    let res2 = await fetch(revalidateRoute, {
+      method: "POST",
+      headers: {
+        Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        operation: 1,
+        id: newData.insertedId.toString(),
+      }),
+    });
+    if (!res2.ok) {
+      console.log("Error in add.js api!!!");
+      console.log(res2);
+    }
+
     return res.status(200).json({ message: "updated successfully" });
   } catch (err) {
     if (client) {
