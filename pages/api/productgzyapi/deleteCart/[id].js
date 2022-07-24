@@ -5,6 +5,11 @@ const jwt = require("jsonwebtoken");
 // return every single item in the cart, for display in shopping cart, check out, and cart page
 export default async function handler(req, res) {
   /**TODO: ADD A CREDENTIAL HERE SO NOT EVERYONE CAN ALTER MY ITEM. */
+  if (
+    req.headers.authorization != process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER
+  ) {
+    return res.status(404).json({ message: "unauthorized" });
+  }
   const { id } = req.query;
   console.log(`Deleting cart item ${id}...`);
 

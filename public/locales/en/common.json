@@ -93,6 +93,9 @@
   "City": "City",
   "State": "State",
   "Country": "Country",
-  "Delete": "Delete"
-
+  "Delete": "Delete",
+  "oops": "Oops!",
+  "done": "Done!",
+  "error_text": "An error occurs, please contact the seller!",
+  "error_text_max": "You have exceeded the available amount of this item! You cannot buy more!"
 }

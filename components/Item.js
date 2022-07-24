@@ -66,6 +66,8 @@ export default function Item({ oriData, setAllowClick }) {
       );
     } else if (itemRef.current.value[0] === "0") {
       alert("Please make sure the item quantity doesn't start with 0");
+    } else if (!itemRef.current.value) {
+      alert("Please make sure item quantity is at least 1");
     } else {
       itemRef.current.value = parseInt(itemRef.current.value).toString();
       // either data is empty, or cached, we just need to update the quantity
@@ -83,6 +85,7 @@ export default function Item({ oriData, setAllowClick }) {
         headers: {
           "Content-Type": "application/json",
           "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify(body),
@@ -92,8 +95,8 @@ export default function Item({ oriData, setAllowClick }) {
         setAllowClick(true);
         // swal("Oops!", res.error, "error");
         Swal.fire({
-          title: "Oops!",
-          text: res.error,
+          title: t("oops"),
+          text: t("error_text_max"),
           icon: "error",
           color: "#1e293b",
           // showConfirmButton: false,
@@ -106,8 +109,8 @@ export default function Item({ oriData, setAllowClick }) {
         setAllowClick(true);
         // swal("Oops!", "An error occurs, please contact the seller!", "error");
         Swal.fire({
-          title: "Oops!",
-          text: "An error occurs, please contact the seller!",
+          title: t("oops"),
+          text: t("error_text"),
           icon: "error",
           color: "#1e293b",
           // showConfirmButton: false,
@@ -122,7 +125,7 @@ export default function Item({ oriData, setAllowClick }) {
       setAllowClick(true);
       console.log("hello");
       Swal.fire({
-        title: "Done!",
+        title: t("done"),
         icon: "success",
         timer: 700,
         timerProgressBar: true,
@@ -130,7 +133,6 @@ export default function Item({ oriData, setAllowClick }) {
         showConfirmButton: false,
         // confirmButtonColor: "#fb923c",
       });
-      console.log("Done adding to cart!");
     }
   }
 

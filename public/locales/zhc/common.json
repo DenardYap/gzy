@@ -93,5 +93,9 @@
   "City": "城市",
   "State": "州屬",
   "Country": "國家",
-  "Delete": "删除"
+  "Delete": "删除",
+  "oops": "出錯了！",
+  "done": "完成！",
+  "error_text": "技術問題，如果有需要的話請聯繫賣家！",
+  "error_text_max": "您超過了這個產品的數量！不能購買更多了！"
 }

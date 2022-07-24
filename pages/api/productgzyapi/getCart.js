@@ -30,6 +30,12 @@ async function checkCaches(client) {
 export default async function handler(req, res) {
   // decrypt jwt key in the cookies and send it back to the front end
   // the cart may not be updated yet
+  if (
+    req.headers.authorization != process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER
+  ) {
+    return res.status(404).json({ message: "unauthorized" });
+  }
+
   if (req.cookies.checkoutToken != null) {
     console.log("decrypting checkoutToken...");
     try {

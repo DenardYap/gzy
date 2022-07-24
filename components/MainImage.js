@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 const MainImage = ({ num, setAllowClick }) => {
   let inputRef = useRef();
   let imgRef = useRef();
+  const { t } = useTranslation("common");
 
   // convert data to base64 to upload to the backend
   // reason being I dont know how to encode raw buffer and send it to aws

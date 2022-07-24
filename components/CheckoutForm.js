@@ -61,6 +61,7 @@ export default function CheckoutForm({ setAllowClick }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
       },
       // body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
     }).then((res) => {
@@ -100,6 +101,7 @@ export default function CheckoutForm({ setAllowClick }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
         },
       });
       if (res.status == 200) {

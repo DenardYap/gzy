@@ -45,7 +45,10 @@ const Checkout = () => {
 
       let res = await fetch(fetchRoute + process.env.NEXT_PUBLIC_BACKENDGET, {
         method: "GET",
-        "Content-Type": "application/json",
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+          "Content-Type": "application/json",
+        },
         // "Acess-control-allow-origin": "https://www.guanzhiyan.com",
       });
       if (res.status !== 200) {

@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   if (
     req.headers.authorization != process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER
   ) {
-    res.status(404).json({ message: "unauthorized" });
+    return res.status(404).json({ message: "unauthorized" });
   }
 
   const region = "ap-southeast-1";

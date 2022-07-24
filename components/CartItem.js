@@ -67,6 +67,7 @@ const CartItem = ({
       headers: {
         "Content-Type": "application/json",
         "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+        Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
       },
       body: JSON.stringify(body),
     });
@@ -137,12 +138,6 @@ const CartItem = ({
 
   async function deleteItem() {
     setAllowClick(false);
-    console.log(
-      rootRoute +
-        process.env.NEXT_PUBLIC_BACKENDDELETE +
-        "/" +
-        data._id.toString()
-    );
     await fetch(
       rootRoute +
         process.env.NEXT_PUBLIC_BACKENDDELETE +
@@ -153,6 +148,7 @@ const CartItem = ({
         header: {
           "Content-Type": "application/json",
           "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
         },
       }
     ).then(console.log("Successfuly deleted item"));

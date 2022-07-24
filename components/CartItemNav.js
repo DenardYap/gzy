@@ -1,13 +1,15 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import styles from "../styles/CartItemNav.module.css";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { cartContext, languageContext } from "../pages/_app";
 import { useRouter } from "next/router";
+import LoadingIcons from "react-loading-icons";
 
 const CartItemNav = ({ oriData, data }) => {
   const language = useContext(languageContext);
+  const [allowClick, setAllowClick] = useState(true);
 
   const { t } = useTranslation("common");
   const [cartToggle, toggleCart, items, setItems] = useContext(cartContext);
@@ -28,18 +30,22 @@ const CartItemNav = ({ oriData, data }) => {
     }
   }
   async function handleDelete() {
+    setAllowClick(false);
     const res = await fetch(
       rootRoute + process.env.NEXT_PUBLIC_BACKENDDELETE + "/" + data._id,
       {
         method: "DELETE",
-        "Content-type": "application/json",
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+          "Content-type": "application/json",
+        },
         // "Acess-control-allow-origin": "https://www.guanzhiyan.com",
       }
     );
     res = await res.json();
-    console.log("Res error is", res.error);
     updateData(data._id);
     toggleCart();
+    setAllowClick(true);
   }
 
   function renderTitle() {
@@ -51,6 +57,13 @@ const CartItemNav = ({ oriData, data }) => {
   }
   return (
     <div className={`${styles.cart}`}>
+      {allowClick ? (
+        <></>
+      ) : (
+        <div className="w-full h-full top-0 right-0 bottom-0 left-0 bg-black opacity-50	fixed z-10 flex justify-center items-center">
+          <LoadingIcons.Oval height={300} width={300} />
+        </div>
+      )}
       <div className={styles.imageBox}>
         <Link href={`/product/${data._id}`} locale={router.locale}>
           <a>

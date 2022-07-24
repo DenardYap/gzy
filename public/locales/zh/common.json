@@ -93,6 +93,10 @@
   "City": "城市",
   "State": "州属",
   "Country": "国家",
-  "Delete": "删除"
+  "Delete": "删除",
+  "oops": "出错了！",
+  "done": "完成！",
+  "error_text": "技术问题，如果有需要的话请联系卖家！",
+  "error_text_max": "您超过了此产品的数量！不能购买更多了！"
 
 }

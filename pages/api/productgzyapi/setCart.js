@@ -5,7 +5,11 @@ const jwt = require("jsonwebtoken");
 // handling logics for both incrementing and decremnting amount
 export default async function handler(req, res) {
   // error checking for request body, it must include amount, max, and invalid
-
+  if (
+    req.headers.authorization != process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER
+  ) {
+    return res.status(404).json({ message: "unauthorized" });
+  }
   /**TODO: ADD A CREDENTIAL HERE SO NOT EVERYONE CAN ALTER MY ITEM. */
   if (req.body.amount == null)
     return res

@@ -75,11 +75,11 @@ const NavBar = () => {
       : process.env.NEXT_PUBLIC_CHECKOUT_APIdev;
   async function handleCheckout() {
     setAllowClick(false);
-    console.log(paymentRoute);
     await fetch(paymentRoute, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
       },
     })
       .then((res) => {
@@ -87,8 +87,8 @@ const NavBar = () => {
         alert("Payment failed, please rety, or contact the seller!");
         setAllowClick(true);
         Swal.fire({
-          title: "Oops!",
-          text: "An error occurs, please contact the seller!",
+          title: t("oops"),
+          text: t("error_text"),
           icon: "error",
           color: "#1e293b",
           // showConfirmButton: false,
@@ -104,7 +104,6 @@ const NavBar = () => {
         console.log(e);
       });
   }
-  console.log("DYNAMIC ID IS CURRENTLY:", dynamicID);
   /**AUTH */
   async function handleAuth() {
     await signInWithRedirect(auth, provider);
@@ -154,8 +153,11 @@ const NavBar = () => {
     async function fetchData() {
       let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDGET, {
         method: "GET",
-        "Content-Type": "application/json",
-        "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+        headers: {
+          "Content-Type": "application/json",
+          "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+        },
       });
       if (res.status === "404" || res.status === "500") {
         // todo

@@ -45,7 +45,11 @@ async function validateData(token) {
 
 export default async function handler(req, res) {
   /*TODO: more secured here!! create a secret or smtg */
-
+  if (
+    req.headers.authorization != process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER
+  ) {
+    return res.status(404).json({ message: "unauthorized" });
+  }
   console.log("accepting payment...");
   let token;
   try {

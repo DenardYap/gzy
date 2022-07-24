@@ -32,6 +32,7 @@ const Cart = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
       },
     })
       .then((res) => {
@@ -39,8 +40,8 @@ const Cart = () => {
         alert("Payment failed, please rety, or contact the seller!");
         setAllowClick(true);
         Swal.fire({
-          title: "Oops!",
-          text: "An error occurs, please contact the seller!",
+          title: t("oops"),
+          text: t("error_text"),
           icon: "error",
           color: "#1e293b",
           // showConfirmButton: false,
@@ -61,8 +62,12 @@ const Cart = () => {
     async function fetchData() {
       let res = await fetch(rootRoute + process.env.NEXT_PUBLIC_BACKENDGET, {
         method: "GET",
-        "Content-Type": "application/json",
-        "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+
+          "Content-Type": "application/json",
+          "Acess-control-allow-origin": "https://www.guanzhiyan.com",
+        },
       });
       if (res.status !== 200) {
         // todo

@@ -93,6 +93,7 @@ export default function ItemPage(props) {
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
         },
         body: JSON.stringify(body),
       });
