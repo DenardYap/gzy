@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import { useTranslation } from "next-i18next";
 
 import Swal from "sweetalert2";
 const MainImage = ({ num, setAllowClick }) => {

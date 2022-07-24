@@ -172,6 +172,18 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
         }
         setPopup(false);
         setAllowClick(true);
+        let revalidateRoute =
+          process.env.NODE_ENV == "production"
+            ? "https://www.guanzhiyan.com/api/secret?"
+            : "http://localhost:3000/api/secret?";
+        revalidateRoute +=
+          "secret=" +
+          process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER +
+          "operation=1";
+        let res = await fetch(revalidateRoute);
+        if (!res.ok) {
+          alert("Not ok in ViewItem.js");
+        }
         Swal.fire({
           title: "Done!",
           text: "successfully updated the item",
@@ -221,6 +233,18 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
           });
         } else {
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+        let revalidateRoute =
+          process.env.NODE_ENV == "production"
+            ? "https://www.guanzhiyan.com/api/secret?"
+            : "http://localhost:3000/api/secret?";
+        revalidateRoute +=
+          "secret=" +
+          process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER +
+          "operation=1";
+        let res2 = await fetch(revalidateRoute);
+        if (!res2.ok) {
+          alert("Not ok in edit");
         }
         setAllowClick(true);
       }

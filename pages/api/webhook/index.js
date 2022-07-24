@@ -317,6 +317,15 @@ export default async function handler(req, res) {
         session.shipping.address.country,
         session.payment_intent
       );
+      let revalidateRoute =
+        process.env.NODE_ENV == "production"
+          ? "https://www.guanzhiyan.com/api/secret?"
+          : "http://localhost:3000/api/secret?";
+      revalidateRoute +=
+        "secret=" +
+        process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER +
+        "operation=2";
+      await fetch(revalidateRoute);
       // Then define and call a function to handle the event payment_intent.succeeded
       break;
     default:
