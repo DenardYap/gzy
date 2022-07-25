@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 export default function ItemPage(props) {
   const router = useRouter();
 
-  const [renderReady, setRenderReady] = useState(true);
+  const [renderReady, setRenderReady] = useState(false);
   useEffect(() => {
     if (!router.isFallback) {
       setRenderReady(true);
