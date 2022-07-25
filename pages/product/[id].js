@@ -12,9 +12,12 @@ import { useRouter } from "next/router";
 export default function ItemPage(props) {
   const router = useRouter();
 
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
+  const [renderReady, setRenderReady] = useState(true);
+  useEffect(() => {
+    if (!router.isFallback) {
+      setRenderReady(true);
+    }
+  }, []);
 
   const [dynamicID, setDynamicID] = useContext(dynamicContext);
   const language = useContext(languageContext);
@@ -145,54 +148,52 @@ export default function ItemPage(props) {
   // }, []);
   return (
     <>
-      {/* {!renderReady ? (
+      {!renderReady ? (
         <div>Loading...</div>
-      ) 
-      :  */}
-      (
-      <div className={styles.mainDiv}>
-        <div className="flex justify-center">
-          <div
-            className={`${styles.shadowBox} border-2 border-solid border-slate-400 h-fit`}
-          >
-            <Image
-              ref={imageRef}
-              src={props.data[0].image}
-              quality={100}
-              // layout="fill"
-              width={"500%"}
-              height={"500%"}
-              // objectFit="contain"
-              alt={props.data[0].imageAlt}
-              loading="lazy"
-            ></Image>
+      ) : (
+        <div className={styles.mainDiv}>
+          <div className="flex justify-center">
+            <div
+              className={`${styles.shadowBox} border-2 border-solid border-slate-400 h-fit`}
+            >
+              <Image
+                ref={imageRef}
+                src={props.data[0].image}
+                quality={100}
+                // layout="fill"
+                width={"500%"}
+                height={"500%"}
+                // objectFit="contain"
+                alt={props.data[0].imageAlt}
+                loading="lazy"
+              ></Image>
+            </div>
           </div>
-        </div>
-        <div className={styles.textDiv}>
-          <h2 className="text-6xl text-slate-800 items-end flex  rounded min-h-fit">
-            {renderTitle()}
-          </h2>
-          <h3 className="text-4xl text-gray-500 items-center flex  rounded h-fit ">
-            RM{parseInt(props.data[0].price).toFixed(2)}
-          </h3>
-          <hr className="border-black mr-[1em] my-2"></hr>
-          <div className=" rounded flex items-center bg-slate-200 mt-2 justify-center">
-            <div className="shadow-md flex bg-slate-800 w-fit m-[1em] justify-center items-center">
-              <div
-                onClick={increment}
-                className="text-3xl px-[0.2em] hover:cursor-pointer text-white"
-              >
-                +
-              </div>
-              <input
-                ref={itemRef}
-                id="qty"
-                type="number"
-                min="0"
-                max={props.data[0].quantity}
-                defaultValue="0"
-                step="1"
-                className="text-center
+          <div className={styles.textDiv}>
+            <h2 className="text-6xl text-slate-800 items-end flex  rounded min-h-fit">
+              {renderTitle()}
+            </h2>
+            <h3 className="text-4xl text-gray-500 items-center flex  rounded h-fit ">
+              RM{parseInt(props.data[0].price).toFixed(2)}
+            </h3>
+            <hr className="border-black mr-[1em] my-2"></hr>
+            <div className=" rounded flex items-center bg-slate-200 mt-2 justify-center">
+              <div className="shadow-md flex bg-slate-800 w-fit m-[1em] justify-center items-center">
+                <div
+                  onClick={increment}
+                  className="text-3xl px-[0.2em] hover:cursor-pointer text-white"
+                >
+                  +
+                </div>
+                <input
+                  ref={itemRef}
+                  id="qty"
+                  type="number"
+                  min="0"
+                  max={props.data[0].quantity}
+                  defaultValue="0"
+                  step="1"
+                  className="text-center
               text-xl
               w-[3em]
               h-[2.5em]
@@ -202,28 +203,28 @@ export default function ItemPage(props) {
               transition
               ease-in-out 
               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-              />
+                />
 
-              <div
-                onClick={decrement}
-                className="text-3xl px-[0.2em] hover:cursor-pointer text-white"
-              >
-                -
+                <div
+                  onClick={decrement}
+                  className="text-3xl px-[0.2em] hover:cursor-pointer text-white"
+                >
+                  -
+                </div>
               </div>
+              <button
+                onClick={handleBuy}
+                className="shadow-md text-xl bg-orange-600 text-white rounded p-2 text-center  hover:shadow-2xl hover:bg-orange-400  transition-all w-fit h-[2.5em]"
+              >
+                {t("cart")}
+              </button>
             </div>
-            <button
-              onClick={handleBuy}
-              className="shadow-md text-xl bg-orange-600 text-white rounded p-2 text-center  hover:shadow-2xl hover:bg-orange-400  transition-all w-fit h-[2.5em]"
-            >
-              {t("cart")}
-            </button>
+            <p className="text-xl text-slate-700 inline-block break-words rounded pt-[1em]">
+              {renderDesc()}
+            </p>
           </div>
-          <p className="text-xl text-slate-700 inline-block break-words rounded pt-[1em]">
-            {renderDesc()}
-          </p>
         </div>
-      </div>
-      )
+      )}
     </>
   );
 }
