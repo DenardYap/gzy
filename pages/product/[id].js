@@ -219,7 +219,7 @@ export default function ItemPage(props) {
           </p>
         </div>
       </div>
-      )}
+      )
     </>
   );
 }

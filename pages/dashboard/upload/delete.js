@@ -33,7 +33,7 @@ const Delete = (props) => {
             {props.data.map((item) => {
               return (
                 <ViewItem
-                  key={item.key}
+                  key={item._id}
                   data={item}
                   allowClick={allowClick}
                   setAllowClick={setAllowClick}
