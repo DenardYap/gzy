@@ -248,7 +248,7 @@ export async function getStaticProps({ params, locale }) {
       data,
       id: params.id,
     },
-    revalidate: 30,
+    revalidate: 1,
     // revalidate: 300,
   };
 }

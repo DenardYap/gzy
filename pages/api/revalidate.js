@@ -11,11 +11,11 @@ export default async function handler(req, res) {
     // e.g. for "/blog/[slug]" this should be "/blog/post-1"
     if (req.body.operation == "1") {
       console.log("revalidating...");
-      // await res.revalidate("/");
+      await res.revalidate("/");
       await res.revalidate("/product");
-      // await res.revalidate(`/product/${req.body.id}`);
-      // await res.revalidate("/dashboard/upload/delete");
-      // await res.revalidate("/dashboard/upload/edit");
+      await res.revalidate(`/product/${req.body.id}`);
+      await res.revalidate("/dashboard/upload/delete");
+      await res.revalidate("/dashboard/upload/edit");
       console.log("Done revalidating!");
     } else {
       console.log("revalidating2...");
