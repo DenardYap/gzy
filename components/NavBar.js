@@ -238,7 +238,7 @@ const NavBar = () => {
   return (
     <nav
       ref={navBarRef}
-      className="	 bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 sticky top-0 z-10 shadow-lg"
+      className="	 w-full bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 sticky top-0 z-10 shadow-lg"
     >
       {/* layover of the whole page once the button is pressed */}
       {allowClick ? (
@@ -249,12 +249,12 @@ const NavBar = () => {
         </div>
       )}
 
-      <div className="container flex justify-between items-center mx-auto">
+      <div className="w-full bg-green-400 container flex flex-row justify-between items-center mx-auto">
         <Link href="/" locale={router.locale}>
           <a className="flex items-center ml-[1em]">
             <Image
               alt="gzy-logo"
-              className=" h-6"
+              className=" h-[1em]"
               src="/logo/logo_main_slate.jpg"
               width={70}
               height={70}
@@ -262,7 +262,8 @@ const NavBar = () => {
           </a>
         </Link>
 
-        <div className="flex md:order-2 items-center">
+        {/* right portion */}
+        <div className="flex w-full bg-black md:order-2 items-center">
           <div className="h-[3em] mt-3" ref={dropdownBox}>
             <button
               className="transition-all mr-[1em] whitespace-nowrap text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -374,6 +375,7 @@ const NavBar = () => {
               placeholder={t("search")}
             />
           </div>
+
           <div className={navStyles.cartContainer}>
             <AiOutlineShoppingCart
               className={navStyles.cart}
@@ -431,7 +433,7 @@ const NavBar = () => {
             <div className={navStyles.number}>{items.length}</div>
           </div>
 
-          <div className={navStyles.userContainer}>
+          <div className={`${navStyles.userContainer} `}>
             {user == null ? (
               <>
                 <FaRegUserCircle
@@ -506,11 +508,13 @@ const NavBar = () => {
             </svg>
           </button>
         </div>
+
+        {/* Left portion */}
         <div
           className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
           id="mobile-menu-3"
         >
-          <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-[1.3em] md:font-medium whitespace-nowrap">
+          <ul className="flex flex-col mt-4 md:flex-row md:mt-0 md:text-[1.3em] w-fit md:font-medium whitespace-nowrap">
             <li>
               <Link href="/" locale={router.locale}>
                 <a
