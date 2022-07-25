@@ -248,6 +248,8 @@ export async function getStaticProps({ params, locale }) {
       data,
       id: params.id,
     },
+    revalidate: 30,
+    // revalidate: 300,
   };
 }
 export async function getStaticPaths({ locales }) {

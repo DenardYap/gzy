@@ -171,27 +171,27 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
           });
         }
         setPopup(false);
-        let revalidateRoute =
-          process.env.NODE_ENV == "production"
-            ? "https://www.guanzhiyan.com/api/revalidate"
-            : "http://localhost:3000/api/revalidate";
-        let res2 = await fetch(revalidateRoute, {
-          method: "POST",
-          headers: {
-            Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            operation: 1,
-            id: data._id,
-          }),
-        });
-        if (!res2.ok) {
-          alert("not ok in deelte viewitem");
-          console.log(res2);
-          res2 = await res2.json();
-          console.log(res2);
-        }
+        // let revalidateRoute =
+        //   process.env.NODE_ENV == "production"
+        //     ? "https://www.guanzhiyan.com/api/revalidate"
+        //     : "http://localhost:3000/api/revalidate";
+        // let res2 = await fetch(revalidateRoute, {
+        //   method: "POST",
+        //   headers: {
+        //     Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     operation: 1,
+        //     id: data._id,
+        //   }),
+        // });
+        // if (!res2.ok) {
+        //   alert("not ok in deelte viewitem");
+        //   console.log(res2);
+        //   res2 = await res2.json();
+        //   console.log(res2);
+        // }
         setAllowClick(true);
         Swal.fire({
           title: "Done!",
@@ -241,28 +241,28 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
             confirmButtonColor: "#1e293b",
           });
         } else {
-          let revalidateRoute =
-            process.env.NODE_ENV == "production"
-              ? "https://www.guanzhiyan.com/api/revalidate"
-              : "http://localhost:3000/api/revalidate";
-          let res2 = await fetch(revalidateRoute, {
-            method: "POST",
-            headers: {
-              Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              operation: 1,
-              id: data._id,
-            }),
-          });
-          if (!res2.ok) {
-            alert("not ok in deelte viewitem");
+          // let revalidateRoute =
+          //   process.env.NODE_ENV == "production"
+          //     ? "https://www.guanzhiyan.com/api/revalidate"
+          //     : "http://localhost:3000/api/revalidate";
+          // let res2 = await fetch(revalidateRoute, {
+          //   method: "POST",
+          //   headers: {
+          //     Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify({
+          //     operation: 1,
+          //     id: data._id,
+          //   }),
+          // });
+          // if (!res2.ok) {
+          //   alert("not ok in deelte viewitem");
 
-            console.log(res2);
-            res2 = await res2.json();
-            console.log(res2);
-          }
+          //   console.log(res2);
+          //   res2 = await res2.json();
+          //   console.log(res2);
+          // }
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         }
 
