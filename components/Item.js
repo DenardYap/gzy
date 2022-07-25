@@ -156,7 +156,9 @@ export default function Item({ oriData, setAllowClick }) {
 
       <Link href={`/product/${oriData._id}`} locale={router.locale}>
         <a>
-          <div className="relative h-[20em] w-[19em] justify-center items-center z-0">
+          <div
+            className={`${styles.imageContainer} relative justify-center items-center z-0`}
+          >
             <Image
               ref={imageRef}
               loading="eager"
@@ -184,11 +186,11 @@ export default function Item({ oriData, setAllowClick }) {
             display: "inline-block",
           }}
         ></hr>
-        <div className="flex-col justify-center items-center flex w-full  relative">
-          <div className="shadow-md flex justify-center items-center bg-slate-800 m-auto mt-1 w-full">
+        <div className="flex-col justify-center items-center flex w-full  relative ">
+          <div className="shadow-md flex justify-center items-center bg-slate-800 m-auto mt-1 w-full mini:text-[0.75em] tablet:text-[1em]">
             <div
               onClick={increment}
-              className="text-3xl hover:cursor-pointer text-white px-[0.2em]"
+              className="text-3xl w-full hover:cursor-pointer text-white px-[0.2em]"
             >
               +
             </div>
@@ -201,8 +203,9 @@ export default function Item({ oriData, setAllowClick }) {
               defaultValue="0"
               step="1"
               className="text-center 
-              h-auto
-              min-w-[2em]
+              h-full
+              mini:min-w-[2em]
+              phone:min-w-[3em]
               w-fit
               py-1
               text-black
@@ -214,7 +217,7 @@ export default function Item({ oriData, setAllowClick }) {
             />
             <div
               onClick={decrement}
-              className="text-3xl px-[0.2em] hover:cursor-pointer text-white"
+              className="text-3xl w-full px-[0.2em] hover:cursor-pointer text-white"
             >
               -
             </div>
@@ -223,7 +226,7 @@ export default function Item({ oriData, setAllowClick }) {
           <button
             onClick={handleBuy}
             className="
-             bg-orange-600 text-white rounded p-1 shadow-xl  text-center my-1 hover:shadow-2xl hover:bg-orange-400  transition-all"
+             bg-orange-600 text-white rounded mini:text-[0.75em] phone:text-[1em] p-1 shadow-xl text-center my-1 hover:shadow-2xl hover:bg-orange-400  transition-all"
           >
             {t("cart")}
           </button>

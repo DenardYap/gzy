@@ -238,7 +238,7 @@ const NavBar = () => {
   return (
     <nav
       ref={navBarRef}
-      className="	 w-full bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800 sticky top-0 z-10 shadow-lg"
+      className="	w-full flex justify-center items-center bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5  dark:bg-gray-800 sticky top-0 z-10 shadow-lg"
     >
       {/* layover of the whole page once the button is pressed */}
       {allowClick ? (
@@ -249,12 +249,12 @@ const NavBar = () => {
         </div>
       )}
 
-      <div className="w-full bg-green-400 container flex flex-row justify-between items-center mx-auto">
+      <div className="w-[100%]  flex flex-row justify-between items-center mx-auto">
         <Link href="/" locale={router.locale}>
           <a className="flex items-center ml-[1em]">
             <Image
               alt="gzy-logo"
-              className=" h-[1em]"
+              className="min-w-[1.5em] min-h-[1.5em]"
               src="/logo/logo_main_slate.jpg"
               width={70}
               height={70}
@@ -263,10 +263,10 @@ const NavBar = () => {
         </Link>
 
         {/* right portion */}
-        <div className="flex w-full bg-black md:order-2 items-center">
+        <div className="flex   justify-end  md:order-2 items-center">
           <div className="h-[3em] mt-3" ref={dropdownBox}>
             <button
-              className="transition-all mr-[1em] whitespace-nowrap text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="transition-all mini:ml-[1em] tablet:ml-0 mr-[1em] whitespace-nowrap text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               type="button"
               id="lg-button"
               ref={lgBtn}
@@ -444,7 +444,7 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <div className="relative rounded-full h-[2.5em] w-[2.5em] ml-[0.5em] mr-[1.5em] ">
+                <div className="relative mini:hidden tablet:block rounded-full h-[2.5em] w-[2.5em] ml-[0.5em] mr-[1.5em] ">
                   <Image
                     src={user.photoURL}
                     className="rounded-full"
@@ -511,15 +511,15 @@ const NavBar = () => {
 
         {/* Left portion */}
         <div
-          className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
+          className="hidden  justify-between items-center md:flex  w-fit md:order-1"
           id="mobile-menu-3"
         >
-          <ul className="flex flex-col mt-4 md:flex-row md:mt-0 md:text-[1.3em] w-fit md:font-medium whitespace-nowrap">
+          <ul className="tablet:text-[1em] phone:text-[0.75em] mini:text-[0.5em] laptop:text-[1.25em] flex flex-row justify-center items-center   mt-4 md:mt-0 w-fit md:font-medium whitespace-nowrap">
             <li>
               <Link href="/" locale={router.locale}>
                 <a
                   ref={homeRef}
-                  className="transition-all hidden sm:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                  className="transition-all hidden sm:block py-5  pl-3 text-slate-700 mt-2 border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
                   aria-current="page"
                 >
                   {t("home")}
@@ -534,7 +534,7 @@ const NavBar = () => {
               >
                 <a
                   ref={productRef}
-                  className="transition-all hidden md:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="transition-all hidden md:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("products")}
                 </a>
@@ -544,7 +544,7 @@ const NavBar = () => {
               <Link href="/about" locale={router.locale}>
                 <a
                   ref={aboutRef}
-                  className="transition-all hidden lg:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="transition-all hidden lg:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("about")}
                 </a>
@@ -554,7 +554,7 @@ const NavBar = () => {
               <Link href="/factory" locale={router.locale}>
                 <a
                   ref={factoryRef}
-                  className="transition-all hidden xl:block py-5 pr-4 pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="transition-all hidden xl:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("factory")}
                 </a>

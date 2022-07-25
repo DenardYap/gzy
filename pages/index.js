@@ -60,8 +60,9 @@ export default function Home(props) {
     console.log(num);
   }
 
+  const mainImg = useRef();
+  const dotsRef = useRef();
   useEffect(() => {
-    console.log("triggered:", curSlide);
     for (let i = 0; i < dots.length; i++) {
       dots[i].current.className = dots[i].current.className.replace(
         " bg-black",
@@ -76,11 +77,9 @@ export default function Home(props) {
     /**Change image */
     mainImg.current.style.backgroundImage = imageList[curSlide - 1];
     mainImg.current.style.backgroundPositionY = -window.scrollY * 0.7 + "px";
-    console.log(mainImg.current.style);
   }, [curSlide]);
   const router = useRouter();
   const { t } = useTranslation("common");
-  const mainImg = useRef();
 
   useEffect(() => {
     function handleScroll() {
@@ -157,7 +156,7 @@ export default function Home(props) {
 
           <div className={`${styles.subContainers} items-end pb-2`}>
             <div></div>
-            <div>
+            <div className="">
               <span
                 className={`${styles.dot}  bg-black`}
                 onClick={() => handleSlide(1)}
@@ -178,12 +177,13 @@ export default function Home(props) {
           </div>
         </div>
       </div>
-      <div className="flex flex-row  my-[2em] mx-[2em] text-center items-center text-2xl">
+
+      <div className="flex mini:flex-col laptop:flex-row   my-[2em] phone:mx-[0.5em] laptop:mx-[2em] text-center items-center phone:text-xl laptop:text-2xl">
         {/* <div className="text-center font-bold text-[4em] underline">
           <h2 id="product">{t("guan zhi yan")}</h2>
         </div> */}
         <div
-          className={`${styles.shadowBox} px-4 py-5  w-[61%] min-h-[65vh] mx-5 relative flex justify-start items-center`}
+          className={`${styles.shadowBox} px-4 py-5  w-[61%] tablet:mt-0 mini:mt-[4em] phone:mt-[2em] min-h-[65vh] mx-5 relative flex justify-start items-center`}
         >
           <Image
             alt="birdnest bottle"
@@ -195,9 +195,9 @@ export default function Home(props) {
         </div>
 
         <div
-          className={`${styles.shadowBox} flex flex-col justify-between py-5 px-[2em] bg-slate-100 mx-5 w-[80%] min-h-[65vh] shadow-xl`}
+          className={`${styles.shadowBox} flex flex-col  justify-between py-5 px-[2em] bg-slate-100 mx-5 phone:w-[90%] tablet:w-[80%] min-h-[65vh] shadow-xl`}
         >
-          <h3 className="underline text-5xl pb-5">
+          <h3 className="underline phone:text-3xl laptop:text-5xl phone:pt-3 phone:pb-3 laptop:pb-5">
             <b>{t("main_page_title")}</b>
           </h3>
           <div className="flex flex-row  justify-center items-center text-center">
@@ -220,9 +220,9 @@ export default function Home(props) {
       </div>
 
       <div
-        className={`${styles.shadowBox} flex-col bg-slate-100 my-[5em] mx-[2em] `}
+        className={`${styles.shadowBox} flex-col bg-slate-100 my-[5em] laptop:mx-[2em] phone:mx-[1.75em] `}
       >
-        <div className="text-center font-bold text-[4em] underline">
+        <div className="text-center font-bold phone:text-[2em] laptop:text-[4em] underline">
           <h2 id="product">{t("top_sales")}</h2>
         </div>
         <div className={styles.itemList}>
@@ -246,7 +246,7 @@ export default function Home(props) {
         </div>
       </div>
       <div
-        className={`flex flex-row justify-center items-center my-[3em] mx-[2em]`}
+        className={`flex flex-row justify-center items-center my-[3em] phone:mx-[0.5em] laptop:mx-[2em]`}
       >
         {/* <div
           className={`${styles.shadowBox} flex flex-col justify-between py-5 px-[2em] bg-slate-100 mx-5 shadow-xl`}
@@ -255,21 +255,25 @@ export default function Home(props) {
         </div> */}
 
         <div
-          className={`${styles.videoGridOverview} text-left justify-center items-center text-2xl`}
+          className={`${styles.videoGridOverview}  w-full flex laptop:flex-row mini:flex-col  mini:text-center laptop:text-left justify-center items-center mini:text-x; laptop:text-2xl`}
         >
           <div
-            className={`${styles.shadowBox} flex flex-col justify-between py-5 pl-[1em] pr-[3em] bg-slate-200 mx-10 w-[100%] min-h-[45vh]`}
+            className={`${styles.shadowBox} flex flex-col justify-between py-5 mini:pl-[0.25em]  laptop:pl-[1em]  mini:pr-[0.25em] laptop:pr-[3em] bg-slate-200 mx-10 mini:w-[90%] laptop:w-[100%] min-h-[45vh]`}
           >
-            <h3 className="text-5xl underline">{t("visit_factory_title")}</h3>
-            <h3 className="text-3xl">{t("visit_factory_text")}</h3>
+            <h3 className="mini:text-2xl tablet:text-3xl laptop:text-5xl underline ">
+              {t("visit_factory_title")}
+            </h3>
+            <h3 className="mini:text-xl tablet:text-2xl laptop:text-3xl">
+              {t("visit_factory_text")}
+            </h3>
             <Link href="/factory" locale={router.locale}>
-              <a className="text-right text-2xl pr-[2em] hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400">
+              <a className="mini:text-center mini:text-xl laptop:text-right mini:pb-[1em] laptop:pb-[0em] tablet:text-2xl mini:pr-[0em] laptop:pr-[2em] hover:text-3xl cursor-pointer underline hover:text-red-400 transition-all text-orange-400">
                 {t("learn")}
               </a>
             </Link>
           </div>
           <div
-            className={`${styles.shadowBox} min-h-[65vh] w-[36vw] relative relative right-[4em] px-3 py-2 rounded bg-slate-100`}
+            className={`${styles.shadowBox} mini:min-h-[50vh] mini:w-[70vw] laptop:min-h-[65vh] laptop:w-[36vw]  relative mini:right-[0em] mini:bottom-[1em] laptop:bottom-0 laptop:right-[4em] px-3 py-2 rounded bg-slate-100`}
           >
             <Image
               alt="factory picture"

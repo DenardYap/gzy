@@ -66,12 +66,20 @@
     z-index: 0;
 }
 
-
+.imageContainer{
+    width: 19em;
+    height: 20em;
+}
 
 @media screen and (max-width: 425px){
     
     .container {
         grid-auto-columns: 15em;
+    }
+    .imageContainer {
+        
+    width: 15em;
+    height: 16em;
     }
 }
 @media screen and (max-width: 375px){
@@ -79,10 +87,20 @@
     .container {
         grid-auto-columns: 14em;
     }
+    .imageContainer {
+        
+    width: 14em;
+    height: 15em;
+    }
 }
 @media screen and (max-width: 345px){
     
     .container {
         grid-auto-columns: 13em;
+    }
+    .imageContainer {
+        
+    width: 13em;
+    height: 14em;
     }
 }
