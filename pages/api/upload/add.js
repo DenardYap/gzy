@@ -56,29 +56,29 @@ export default async function handler(req, res) {
     await client.quit();
 
     //revalidate the routes
-    // let revalidateRoute =
-    //   process.env.NODE_ENV == "production"
-    //     ? "https://www.guanzhiyan.com/api/revalidate"
-    //     : "http://localhost:3000/api/revalidate";
-    // let res2 = await fetch(revalidateRoute, {
-    //   method: "POST",
-    //   headers: {
-    //     Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     operation: 1,
-    //     id: newData.insertedId.toString(),
-    //   }),
-    // });
-    // if (!res2.ok) {
-    //   console.log("Error in add.js api!!!");
+    let revalidateRoute =
+      process.env.NODE_ENV == "production"
+        ? "https://www.guanzhiyan.com/api/revalidate"
+        : "http://localhost:3000/api/revalidate";
+    let res2 = await fetch(revalidateRoute, {
+      method: "POST",
+      headers: {
+        Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        operation: 1,
+        id: newData.insertedId.toString(),
+      }),
+    });
+    if (!res2.ok) {
+      console.log("Error in add.js api!!!");
 
-    //   console.log(res2);
-    //   res2 = await res2.json();
-    //   console.log(res2.err);
-    //   return res.status(200).json({ err });
-    // }
+      console.log(res2);
+      res2 = await res2.json();
+      console.log(res2.err);
+      return res.status(200).json({ err });
+    }
 
     return res.status(200).json({ message: "updated successfully" });
   } catch (err) {
