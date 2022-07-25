@@ -243,9 +243,9 @@ export async function getStaticPaths({ locales }) {
     )
     .flat(); // Flatten array to avoid nested arrays
 
-  console.log("fetching data in [id].js2");
+  console.log(paths);
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
