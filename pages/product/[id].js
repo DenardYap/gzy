@@ -12,6 +12,10 @@ import { useRouter } from "next/router";
 export default function ItemPage(props) {
   const router = useRouter();
 
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   const [dynamicID, setDynamicID] = useContext(dynamicContext);
   const language = useContext(languageContext);
   const imageRef = useRef(null);
@@ -239,15 +243,15 @@ export async function getStaticProps({ params, locale }) {
 
     if (data.length == 0) {
       console.log("not found");
-      // return {
-      // notFound = true;
-      // };
+      return {
+        notFound: true,
+      };
     }
   } catch (err) {
     console.log("Error in [id].js", err);
-    // return {
-    // notFound = true;
-    // };
+    return {
+      notFound: true,
+    };
   }
 
   console.log("fetching data in [id].js4");
@@ -282,6 +286,6 @@ export async function getStaticPaths({ locales }) {
   console.log("fetching data in [id]2.js");
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
