@@ -14,7 +14,13 @@ import { BiHomeSmile } from "react-icons/bi";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import OrderItem from "../../components/OrderItem";
 import styles from "../../styles/OrderItem.module.css";
+import { useRouter } from "next/router";
 const Order = (props) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
   const [dynamicID, setDynamicID] = useContext(dynamicContext);
   const { t } = useTranslation("common");
   const language = useContext(languageContext);
@@ -242,13 +248,19 @@ export async function getStaticProps({ params, locale }) {
     .toArray();
   data = JSON.parse(JSON.stringify(data));
 
+  if (data.length == 0) {
+    console.log("item doesn't exist");
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
       data,
       id: params.id,
     },
-    revalidate: 1,
+    revalidate: 5,
     // revalidate: 300,
   };
 }
@@ -272,6 +284,6 @@ export async function getStaticPaths({ locales }) {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
