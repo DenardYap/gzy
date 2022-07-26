@@ -59,7 +59,7 @@ const Order = (props) => {
     return () => {
       setDynamicID(null);
     };
-  }, []);
+  }, [renderReady]);
 
   useEffect(() => {
     (async () => {
@@ -82,7 +82,7 @@ const Order = (props) => {
         console.log("data is", res.data);
       }
     })();
-  }, []);
+  }, [renderReady]);
 
   // useEffect(() => {
   //   if (!router.isFallback) {
