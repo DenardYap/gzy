@@ -57,6 +57,23 @@
     
   }
 
+.burgerContainer {
+  
+  animation-name: slideDown;
+  animation-duration: 0.75s;
+}
+
+@keyframes slideDown {
+  from {top: -100vh}
+  to {top: 0}
+}
+@-webkit-keyframes slide {
+  100% { left: 0; }
+}
+
+@keyframes slide {
+  100% { left: 0; }
+}
   
 .userText {
 

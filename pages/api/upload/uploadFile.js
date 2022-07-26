@@ -1,9 +1,8 @@
 export const config = {
   api: {
-    // bodyParser: {
-    //   sizeLimit: "8mb",
-    // },
-    responseLimit: "8mb",
+    bodyParser: {
+      sizeLimit: "2mb",
+    },
   },
 };
 const aws = require("aws-sdk");

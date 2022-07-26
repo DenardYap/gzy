@@ -81,11 +81,11 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
 
           // file too big
 
-          if (imageSize > 8) {
+          if (imageSize > 2) {
             setAllowClick(true);
             Swal.fire({
               title: "Image too large",
-              text: "Please make sure the size is less than 8MB",
+              text: "Please make sure the size is less than 2MB",
               icon: "error",
               color: "#1e293b",
               confirmButtonColor: "#1e293b",

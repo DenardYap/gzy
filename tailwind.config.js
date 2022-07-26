@@ -15,6 +15,7 @@ module.exports = {
       phone: "340px",
       tablet: "640px",
       tablet668: "668px",
+      tablet870: "870px",
       // => @media (min-width: 640px) { ... }
 
       laptop: "1024px",
