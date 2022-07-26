@@ -46,11 +46,11 @@ const MainImage = ({ num, setAllowClick }) => {
     let imageSize = buffer.length / 1e6;
 
     // file too big
-    if (imageSize > 2) {
+    if (imageSize > 16) {
       setAllowClick(true);
       Swal.fire({
         title: "Image too large",
-        text: "Please make sure the size is less than 2MB",
+        text: "Please make sure the size is less than 16MB",
         icon: "error",
         color: "#1e293b",
         confirmButtonColor: "#1e293b",

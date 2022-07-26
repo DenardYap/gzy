@@ -27,7 +27,9 @@ export default function ProductList(props) {
     setCurType(e.target.value);
   }
   return (
-    <div className="flex-col bg-slate-100 my-[1.25em] mx-[2em]">
+    <div
+      className={` ${styles.shadowBox} flex-col bg-slate-100 my-[1.25em] mx-[2em]`}
+    >
       {/* layover of the whole page once the button is pressed */}
       {allowClick ? (
         <></>

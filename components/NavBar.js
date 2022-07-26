@@ -251,7 +251,7 @@ const NavBar = () => {
         </div>
       )}
 
-      <div className="w-[100%]  flex flex-row justify-between items-center mx-auto">
+      <div className="w-[100%]   flex flex-row justify-between items-center mx-auto">
         <Link href="/" locale={router.locale}>
           <a className="flex items-center ml-[1em]">
             <Image
@@ -548,7 +548,7 @@ const NavBar = () => {
               <Link href="/about" locale={router.locale}>
                 <a
                   ref={aboutRef}
-                  className="transition-all hidden lg:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="transition-all hidden laptop:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("about")}
                 </a>
@@ -558,7 +558,7 @@ const NavBar = () => {
               <Link href="/factory" locale={router.locale}>
                 <a
                   ref={factoryRef}
-                  className="transition-all hidden xl:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="transition-all hidden laptop:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   {t("factory")}
                 </a>
