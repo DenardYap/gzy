@@ -14,7 +14,9 @@ export default function ItemPage(props) {
 
   const [renderReady, setRenderReady] = useState(false);
   useEffect(() => {
+    console.log("checking render...");
     if (!router.isFallback) {
+      console.log("render is ready!");
       setRenderReady(true);
     }
   }, []);

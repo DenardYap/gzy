@@ -3,6 +3,8 @@ import Layout from "../components/Layout";
 import { appWithTranslation } from "next-i18next";
 import nextI18nextConfig from "../next-i18next.config";
 import React, { useState, useEffect } from "react";
+import queryString from "query-string";
+
 import {
   getAuth,
   setPersistence,
@@ -11,6 +13,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import app from "../util/firebase_util";
+import { BiWindows } from "react-icons/bi";
 /** Data Fetching
  * 1) getStaticProps -> fetch at build time
  * 2) getServersideProps -> every request
@@ -59,6 +62,11 @@ function MyApp({ Component, pageProps, ...appProps }) {
 
   // checking language
   useEffect(() => {
+    let params = queryString.parse(window.location.search);
+    if (params.r) {
+      window.localStorage.setItem("referrer", params.r);
+    }
+    // console.log("req query num is:", params.z);
     if (!(window.location.href.indexOf("en") > -1)) {
       // not english
       if (window.location.href.indexOf("zhc") > -1) {
