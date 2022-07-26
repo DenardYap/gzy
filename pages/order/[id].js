@@ -45,6 +45,8 @@ const Order = (props) => {
   // the errors from switching the route in Next/js dynamic route
   useEffect(() => {
     // this sets the ID
+
+    if (!renderReady) return;
     let prefix =
       process.env.NODE_ENV == "development"
         ? "http://localhost:3000/"
