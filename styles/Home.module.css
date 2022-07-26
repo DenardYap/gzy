@@ -73,17 +73,16 @@
     background-size: cover;
 }
 
-.itemList {
+.itemList, .itemList2 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     position: relative;
     z-index: 0;
     /* background-color: black; */
-    
 }
 
-.itemList .masker {
+.itemList .masker, .itemList2 .masker {
     /* background-color: antiquewhite; */
     color: rgb(41 55 75);
     
@@ -107,7 +106,7 @@
     padding: 0.25em;
 }
 
-.itemList .masker:hover {
+.itemList .masker:hover, .itemList2 .masker:hover {
     --tw-opacity: 1;
     color: rgb(251 191 36 / var(--tw-opacity));
 
@@ -171,7 +170,7 @@
     .container h2, .container h3{
         font-size: 3em;
     }
-    .itemList{
+    .itemList, .itemList2{
         grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -179,10 +178,10 @@
     .container h2, .container h3{
         font-size: 2.5em;
     }
-      .itemList{
+      .itemList, .itemList2{
           grid-template-columns: repeat(1, 1fr);
       }
-      .itemList .masker {
+      .itemList .masker, .itemList2 .masker {
           font-size: 4em;
       }
   }

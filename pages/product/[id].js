@@ -48,7 +48,7 @@ export default function ItemPage(props) {
     return () => {
       setDynamicID(null);
     };
-  }, []);
+  }, [renderReady]);
   function updateItems(id, amount) {
     for (let i = 0; i < items.length; i++) {
       // console.log("items is:", items[i]);

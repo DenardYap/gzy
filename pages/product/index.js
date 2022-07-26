@@ -41,7 +41,7 @@ export default function ProductList(props) {
         className={`${styles.productFilterTitle}  justify-center items-center text-center font-bold `}
       >
         <div className="flex  justify-start items-center">
-          <div className="flex flex-col mini:text-[1.25em] tablet:text-[1em] order-2 mini:ml-[0em] tablet668:ml-[4em] mt-[1.5em] ">
+          <div className="flex flex-col mini:text-[1.25em] tablet:text-[1em] order-2 mini:ml-[0em] tablet668:ml-[4em] mini:mt-[0em] mini:my-[0.5em] tablet668:mt-[1.5em] ">
             <label htmlFor="type" className="mr-2 ">
               {t("select_type")}
             </label>

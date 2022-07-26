@@ -225,7 +225,7 @@ export default function Home(props) {
         <div className="text-center font-bold phone:text-[2em] laptop:text-[4em] underline">
           <h2 id="product">{t("top_sales")}</h2>
         </div>
-        <div className={styles.itemList}>
+        <div className={styles.itemList2}>
           {props.data.map((item) => {
             if (count != itemsToDisplay) {
               if (item.quantity === "0") {
