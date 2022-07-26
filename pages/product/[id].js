@@ -35,6 +35,7 @@ export default function ItemPage(props) {
   // the errors from switching the route in Next/js dynamic route
   useEffect(() => {
     // this sets the ID
+    if (!renderReady) return;
     let prefix =
       process.env.NODE_ENV == "development"
         ? "http://localhost:3000/"
@@ -149,7 +150,7 @@ export default function ItemPage(props) {
   return (
     <>
       {!renderReady ? (
-        <div>Loading...</div>
+        <div className="text-2xl">Loading...</div>
       ) : (
         <div className={styles.mainDiv}>
           <div className="flex justify-center">
@@ -249,7 +250,7 @@ export async function getStaticProps({ params, locale }) {
       };
     }
   } catch (err) {
-    console.log("Error in [id].js", err);
+    console.log("Error in product/[id].js", err);
     return {
       notFound: true,
     };
@@ -262,7 +263,6 @@ export async function getStaticProps({ params, locale }) {
       data,
     },
     // notFound,
-    revalidate: 5,
     // revalidate: 300,
   };
 }

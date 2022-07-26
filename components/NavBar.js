@@ -43,6 +43,7 @@ import Swal from "sweetalert2";
 const NavBar = () => {
   /* Firebase stuff */
   const [dynamicID, setDynamicID] = useContext(dynamicContext);
+  const [burger, setBurger] = useState(false);
   const homeRef = useRef();
   const productRef = useRef();
   const factoryRef = useRef();
@@ -73,6 +74,7 @@ const NavBar = () => {
     process.env.NODE_ENV === "production"
       ? process.env.NEXT_PUBLIC_CHECKOUT_APIpro
       : process.env.NEXT_PUBLIC_CHECKOUT_APIdev;
+
   async function handleCheckout() {
     setAllowClick(false);
     await fetch(paymentRoute, {
@@ -437,7 +439,7 @@ const NavBar = () => {
             {user == null ? (
               <>
                 <FaRegUserCircle
-                  className={navStyles.user}
+                  className={`${navStyles.user} mini:hidden tablet:block`}
                   onClick={handleAuth}
                 />
                 <div className={navStyles.userText}> {t("acc")} </div>
@@ -475,6 +477,9 @@ const NavBar = () => {
 
           {/* Burger Menu! */}
           <button
+            onClick={() => {
+              burger ? setBurger(false) : setBurger(true);
+            }}
             data-collapse-toggle="mobile-menu-3"
             type="button"
             className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -508,7 +513,6 @@ const NavBar = () => {
             </svg>
           </button>
         </div>
-
         {/* Left portion */}
         <div
           className="hidden  justify-between items-center md:flex  w-fit md:order-1"

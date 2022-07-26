@@ -111,7 +111,7 @@ const Order = (props) => {
   return (
     <div>
       {!renderReady ? (
-        <></>
+        <div className="text-2xl">Loading...</div>
       ) : (
         <>
           <div className="mt-10 mb-2 mx-[1em] underline">
@@ -262,6 +262,39 @@ const Order = (props) => {
 
 export default Order;
 
+export async function getStaticProps({ params, locale }) {
+  const { db } = await connectToDatabase();
+  let data = await db
+    .collection("tracking")
+    .find({ _id: params.id.toString() })
+    .toArray();
+  try {
+    data = JSON.parse(JSON.stringify(data));
+    console.log("here1");
+    if (data.length == 0) {
+      console.log("item doesn't exist");
+      return {
+        notFound: true,
+      };
+    }
+  } catch (err) {
+    console.log("ERROR IN getStaticProps in order/[id].js", err);
+
+    return {
+      notFound: true,
+    };
+  }
+  console.log("here2");
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
+      data,
+      id: params.id,
+    },
+    // revalidate: 300,
+  };
+}
+
 export async function getStaticPaths({ locales }) {
   const { db } = await connectToDatabase();
   let data = await db.collection("tracking").find().toArray();
@@ -285,32 +318,5 @@ export async function getStaticPaths({ locales }) {
   return {
     paths,
     fallback: true,
-  };
-}
-
-export async function getStaticProps({ params, locale }) {
-  const ObjectId = require("mongodb").ObjectId;
-  const { db } = await connectToDatabase();
-  let data = await db
-    .collection("tracking")
-    .find({ _id: params.id.toString() })
-    .toArray();
-  data = JSON.parse(JSON.stringify(data));
-  console.log("here1");
-  if (data.length == 0) {
-    console.log("item doesn't exist");
-    return {
-      notFound: true,
-    };
-  }
-  console.log("here2");
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
-      data,
-      id: params.id,
-    },
-    revalidate: 5,
-    // revalidate: 300,
   };
 }
