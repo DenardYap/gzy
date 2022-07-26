@@ -53,7 +53,7 @@ const Edit = (props) => {
 };
 
 export default Edit;
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
   const client = createClient({
     url: process.env.NEXT_PUBLIC_REDIS_ENDPOINT,
     password: process.env.NEXT_PUBLIC_REDIS_PASSWORD,
@@ -102,7 +102,6 @@ export async function getStaticProps({ locale }) {
       data,
       // Will be passed to the page component as props
     },
-    revalidate: 5,
     // revalidate: 300,
   };
 }

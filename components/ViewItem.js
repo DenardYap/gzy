@@ -203,6 +203,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
           // showConfirmButton: false,
           // confirmButtonColor: "#fb923c",
         });
+        // window.location.reload(true);
       }
     });
   }
@@ -264,6 +265,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
           //   console.log(res2);
           // }
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          window.location.reload(true);
         }
 
         setAllowClick(true);
