@@ -263,7 +263,7 @@ export async function getStaticProps({ params, locale }) {
       data,
     },
     // notFound,
-    // revalidate: 300,
+    revalidate: 5,
   };
 }
 export async function getStaticPaths({ locales }) {
