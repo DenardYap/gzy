@@ -61,6 +61,7 @@ const Order = (props) => {
 
   useEffect(() => {
     (async () => {
+      if (!renderReady) return;
       let res = await fetch(orderRoute + props.id, {
         method: "GET",
         headers: {

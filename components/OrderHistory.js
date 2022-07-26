@@ -171,9 +171,31 @@ const OrderHistory = ({ data }) => {
                 <b className="font-extrabold">Status:</b> Order Confirm
               </h3>
             </div>
+          ) : data.status == 2 ? (
+            <div>
+              <h3 className="text-[#2a33de]">
+                <b className="text-slate-800"></b> Packaged 📦
+              </h3>
+
+              <h3 className="text-slate-800">
+                <b className="font-extrabold">Status:</b>{" "}
+                {formatStatus(data.status)}
+              </h3>
+            </div>
+          ) : data.status == 3 ? (
+            <div>
+              <h3 className="text-[#ff9b04]">
+                <b className="text-slate-800"></b> Shipped 🚚
+              </h3>
+
+              <h3 className="text-slate-800">
+                <b className="font-extrabold">Status:</b>{" "}
+                {formatStatus(data.status)}
+              </h3>
+            </div>
           ) : (
             <div>
-              <h3 className="text-green-500">
+              <h3 className="text-[#24e351]">
                 <b className="text-slate-800"></b> Updated ✔️
               </h3>
 
