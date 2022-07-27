@@ -28,6 +28,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { ImCancelCircle } from "react-icons/im";
+import { MdOutlinePayment } from "react-icons/md";
+
 import { setUserId } from "firebase/analytics";
 import Swal from "sweetalert2";
 
@@ -49,6 +51,21 @@ const NavBar = () => {
   const productRef = useRef();
   const factoryRef = useRef();
   const aboutRef = useRef();
+
+  const [isOnDiv, setIsOnDiv] = useState(false);
+
+  function handleCloseBurgerOutside() {
+    if (burger && !isOnDiv) {
+      // close burger menu
+      setBurger(false);
+    }
+  }
+  useEffect(() => {
+    window.addEventListener("click", handleCloseBurgerOutside);
+    return () => {
+      window.removeEventListener("click", handleCloseBurgerOutside);
+    };
+  }, [isOnDiv]);
 
   const [permission, setPermission] = useContext(permissionContext);
   const provider = new GoogleAuthProvider();
@@ -479,6 +496,7 @@ const NavBar = () => {
           {/* Burger Menu! */}
           <button
             onClick={() => {
+              setIsOnDiv(true);
               setBurger(true);
             }}
             data-collapse-toggle="mobile-menu-3"
@@ -518,14 +536,108 @@ const NavBar = () => {
           <></>
         ) : (
           <div
-            className={`${navStyles.burgerContainer} bg-slate-200 absolute top-0 bottom-0 left-0 right-0 w-[100%] z-10 h-[100vh] transition-all`}
+            onMouseLeave={() => {
+              setIsOnDiv(false);
+            }}
+            onMouseEnter={() => {
+              setIsOnDiv(true);
+            }}
+            className={`${navStyles.burgerContainer} overflow-scroll shadow-xl bg-slate-200 absolute top-0 bottom-0 left-0 right-0 w-[100%] z-10 max-h-[100vh] min-h-fit transition-all`}
           >
-            <div className="flex flex-row justify-end">
+            <div className="flex flex-row  bg-black justify-end h-fit ">
               <ImCancelCircle
-                className="relative mt-[0.4em] mr-[0.4em] top-0 bottom-0 left-0 right-0 text-5xl text-red-600"
+                className="absolute cursor-pointer mt-[0.4em] mr-[0.4em] top-0 bottom-0 mini:left-[85%] phone:left-[90%] right-0 mini:text-3xl phone:text-4xl tablet:text-5xl text-red-600"
                 onClick={() => setBurger(false)}
               ></ImCancelCircle>
             </div>
+            <ul className=" mini:text-[1.4em] phone:text-[1.6em] tablet:text-[2em] desktop:text-[3em] font-bold  flex flex-col justify-start items-center text-center w-full  whitespace-nowrap">
+              <li className="flex items-center justify-center shadow-md h-[2em] border-b-2 w-full border-solid border-slate-600">
+                <Link href="/" locale={router.locale}>
+                  <a
+                    onClick={() => {
+                      setBurger(false);
+                    }}
+                    ref={homeRef}
+                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    aria-current="page"
+                  >
+                    {t("home")}
+                  </a>
+                </Link>
+              </li>
+              <li className="flex items-center justify-center shadow-md h-[2em] border-b-2 w-full border-solid border-slate-600">
+                <Link href="/product" locale={router.locale}>
+                  <a
+                    onClick={() => {
+                      setBurger(false);
+                    }}
+                    ref={productRef}
+                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    aria-current="page"
+                  >
+                    {t("products")}
+                  </a>
+                </Link>
+              </li>
+              <li className="flex items-center justify-center shadow-md h-[2em] border-b-2 w-full border-solid border-slate-600">
+                <Link href="/about" locale={router.locale}>
+                  <a
+                    onClick={() => {
+                      setBurger(false);
+                    }}
+                    ref={aboutRef}
+                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    aria-current="page"
+                  >
+                    {t("about")}
+                  </a>
+                </Link>
+              </li>
+              <li className="flex items-center justify-center shadow-md h-[2em] border-b-2 w-full border-solid border-slate-600">
+                <Link href="/factory" locale={router.locale}>
+                  <a
+                    onClick={() => {
+                      setBurger(false);
+                    }}
+                    ref={factoryRef}
+                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    aria-current="page"
+                  >
+                    {t("factory")}
+                  </a>
+                </Link>
+              </li>
+              <li className="flex items-center justify-center shadow-md h-[2em] border-b-2 w-full border-solid border-slate-600">
+                <Link href="/cart" locale={router.locale}>
+                  <a
+                    onClick={() => {
+                      setBurger(false);
+                    }}
+                    className="transition-all flex-row flex justify-center items-center  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    aria-current="page"
+                  >
+                    {t("view_cart_small")}
+                    <AiOutlineShoppingCart className="ml-2" />
+                  </a>
+                </Link>
+              </li>
+              {items.length == 0 ? (
+                <></>
+              ) : (
+                <li className="flex items-center justify-center shadow-md h-[2em] border-b-2 w-full border-solid border-slate-600">
+                  <div
+                    onClick={() => {
+                      setBurger(false);
+                      handleCheckout();
+                    }}
+                    className="transition-all cursor-pointer  flex-row flex justify-center items-center  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                  >
+                    {t("checkout_small")}
+                    <MdOutlinePayment className="ml-2" />
+                  </div>
+                </li>
+              )}
+            </ul>
           </div>
         )}
         {/* Left portion */}
