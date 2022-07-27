@@ -47,25 +47,50 @@ const NavBar = () => {
   /* Firebase stuff */
   const [dynamicID, setDynamicID] = useContext(dynamicContext);
   const [burger, setBurger] = useState(false);
+  const [burgerInit, setBurgerInit] = useState(false);
+
+  const burgerRef = useRef();
   const homeRef = useRef();
   const productRef = useRef();
   const factoryRef = useRef();
   const aboutRef = useRef();
 
-  const [isOnDiv, setIsOnDiv] = useState(false);
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
-  function handleCloseBurgerOutside() {
-    if (burger && !isOnDiv) {
-      // close burger menu
+  async function initializeBurger() {
+    await sleep(500); // this is the time for the burger menu to slide down
+    setBurgerInit(true);
+    console.log("burger init-ed");
+  }
+
+  function handleCloseBurgerOutside(e) {
+    // we dont want to triggle this function if the
+    // burger menu is not clicked or the burger menu
+    // is not fully rendered
+    if (!burger || !burgerInit) return;
+    let width = burgerRef.current.offsetLeft + burgerRef.current.offsetWidth;
+    let height = burgerRef.current.offsetTop + burgerRef.current.offsetHeight;
+    if (
+      e.clientX < 0 ||
+      e.clientX > width ||
+      e.clientY < 0 ||
+      e.clientY > height
+    ) {
+      // target is not inside the box
       setBurger(false);
+      setBurgerInit(false);
     }
+    // console.log(burgerRef.current.offsetRight);
+    // console.log(burgerRef.current.offsetBottom);
   }
   useEffect(() => {
     window.addEventListener("click", handleCloseBurgerOutside);
     return () => {
       window.removeEventListener("click", handleCloseBurgerOutside);
     };
-  }, [isOnDiv]);
+  }, [burgerInit]);
 
   const [permission, setPermission] = useContext(permissionContext);
   const provider = new GoogleAuthProvider();
@@ -496,7 +521,7 @@ const NavBar = () => {
           {/* Burger Menu! */}
           <button
             onClick={() => {
-              setIsOnDiv(true);
+              initializeBurger();
               setBurger(true);
             }}
             data-collapse-toggle="mobile-menu-3"
@@ -536,24 +561,16 @@ const NavBar = () => {
           <></>
         ) : (
           <div
-            onMouseLeave={() => {
-              setIsOnDiv(false);
-            }}
-            onPointerLeave={() => {
-              setIsOnDiv(false);
-            }}
-            onMouseEnter={() => {
-              setIsOnDiv(true);
-            }}
-            onPointerCancel={() => {
-              setIsOnDiv(true);
-            }}
+            ref={burgerRef}
             className={`${navStyles.burgerContainer} overflow-scroll shadow-xl bg-slate-200 absolute top-0 bottom-0 left-0 right-0 w-[100%] z-10 max-h-[100vh] min-h-fit transition-all`}
           >
             <div className="flex flex-row  bg-black justify-end h-fit ">
               <ImCancelCircle
                 className="absolute cursor-pointer mt-[0.4em] mr-[0.4em] top-0 bottom-0 mini:left-[85%] phone:left-[90%] right-0 mini:text-3xl phone:text-4xl tablet:text-5xl text-red-600"
-                onClick={() => setBurger(false)}
+                onClick={() => {
+                  setBurgerInit(false);
+                  setBurger(false);
+                }}
               ></ImCancelCircle>
             </div>
             <ul className=" mini:text-[1.4em] phone:text-[1.6em] tablet:text-[2em] desktop:text-[3em] font-bold  flex flex-col justify-start items-center text-center w-full  whitespace-nowrap">
@@ -561,6 +578,7 @@ const NavBar = () => {
                 <Link href="/" locale={router.locale}>
                   <a
                     onClick={() => {
+                      setBurgerInit(false);
                       setBurger(false);
                     }}
                     ref={homeRef}
@@ -575,6 +593,7 @@ const NavBar = () => {
                 <Link href="/product" locale={router.locale}>
                   <a
                     onClick={() => {
+                      setBurgerInit(false);
                       setBurger(false);
                     }}
                     ref={productRef}
@@ -589,6 +608,7 @@ const NavBar = () => {
                 <Link href="/about" locale={router.locale}>
                   <a
                     onClick={() => {
+                      setBurgerInit(false);
                       setBurger(false);
                     }}
                     ref={aboutRef}
@@ -603,6 +623,7 @@ const NavBar = () => {
                 <Link href="/factory" locale={router.locale}>
                   <a
                     onClick={() => {
+                      setBurgerInit(false);
                       setBurger(false);
                     }}
                     ref={factoryRef}
@@ -617,6 +638,7 @@ const NavBar = () => {
                 <Link href="/cart" locale={router.locale}>
                   <a
                     onClick={() => {
+                      setBurgerInit(false);
                       setBurger(false);
                     }}
                     className="transition-all flex-row flex justify-center items-center  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
@@ -633,6 +655,7 @@ const NavBar = () => {
                 <li className="flex items-center justify-center shadow-md h-[2em] border-b-2 w-full border-solid border-slate-600">
                   <div
                     onClick={() => {
+                      setBurgerInit(false);
                       setBurger(false);
                       handleCheckout();
                     }}

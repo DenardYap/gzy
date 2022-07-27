@@ -31,19 +31,6 @@ export const permissionContext = React.createContext();
 export const userContext = React.createContext();
 export const cartContext = React.createContext();
 function MyApp({ Component, pageProps, ...appProps }) {
-  <Head>
-    <title>Guan Zhi Yan 100% Natural Bird&apos;s Nest</title>
-    <link rel="icon" href="/favicon.ico" />
-
-    <meta charset="UTF-8" />
-    <meta
-      name="description"
-      content="Guan Zhi Yan Bird Nest has been selling high-quality, pure, delicate, and nutritious bird nests in Malaysia for more than 20 years. We process bird nests in a hygienic and chemical-free environment without adding any food colorings or bleach into our bird nests, which again ensures they not only taste great but also 100% natural. Bird nests have always been regarded as a health delicacy for the rich and affluent due to the high pricing. Tedious & labor-intensive harvesting and processing steps of bird nests continue to keep the product at such high pricing level. As strong believers in the health benefits of bird nests, our company envisions making bird nests more affordable so as to allow more people to enjoy the health benefits of bird nests consumption. Our bird nests come directly from our company's Swiftlet Farms, allowing us to be in full control of our Bird nest quality."
-    />
-    <meta name="author" content="Bernard Kah Huan Yap" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </Head>;
-
   const [dynamicID, setDynamicID] = useState(null); // null when it's not on a dynamic page
   const [language, setLanguage] = useState(1); //1 for en, 2 for zh, 3 for zhc
   const allowedEmails = ["bernerd@umich.edu", "gzypdykl@gmail.com"];
@@ -117,22 +104,36 @@ function MyApp({ Component, pageProps, ...appProps }) {
     cartToggle ? setToggle(false) : setToggle(true);
   }
   return (
-    <dynamicContext.Provider value={[dynamicID, setDynamicID]}>
-      <languageContext.Provider value={language}>
-        <permissionContext.Provider value={[permission, setPermission]}>
-          <userContext.Provider value={[user, setUser]}>
-            <cartContext.Provider
-              value={[cartToggle, toggleCart, items, setItems]}
-            >
-              <Layout pathName={appProps.router.pathname}>
-                {/* all of our page components */}
-                <Component {...pageProps} />
-              </Layout>
-            </cartContext.Provider>
-          </userContext.Provider>
-        </permissionContext.Provider>
-      </languageContext.Provider>
-    </dynamicContext.Provider>
+    <>
+      <Head>
+        <title>Guan Zhi Yan Bird Nest</title>
+        <link rel="icon" href="/favicon.ico" />
+
+        <meta charset="UTF-8" />
+        <meta
+          name="description"
+          content="Guan Zhi Yan Bird Nest has been selling high-quality, pure, delicate, and nutritious bird nests in Malaysia for more than 20 years. We process bird nests in a hygienic and chemical-free environment without adding any food colorings or bleach into our bird nests, which again ensures they not only taste great but also 100% natural. Bird nests have always been regarded as a health delicacy for the rich and affluent due to the high pricing. Tedious & labor-intensive harvesting and processing steps of bird nests continue to keep the product at such high pricing level. As strong believers in the health benefits of bird nests, our company envisions making bird nests more affordable so as to allow more people to enjoy the health benefits of bird nests consumption. Our bird nests come directly from our company's Swiftlet Farms, allowing us to be in full control of our Bird nest quality."
+        />
+        <meta name="author" content="Bernard Kah Huan Yap" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
+      <dynamicContext.Provider value={[dynamicID, setDynamicID]}>
+        <languageContext.Provider value={language}>
+          <permissionContext.Provider value={[permission, setPermission]}>
+            <userContext.Provider value={[user, setUser]}>
+              <cartContext.Provider
+                value={[cartToggle, toggleCart, items, setItems]}
+              >
+                <Layout pathName={appProps.router.pathname}>
+                  {/* all of our page components */}
+                  <Component {...pageProps} />
+                </Layout>
+              </cartContext.Provider>
+            </userContext.Provider>
+          </permissionContext.Provider>
+        </languageContext.Provider>
+      </dynamicContext.Provider>
+    </>
   );
 }
 
