@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Item from "../components/Item";
@@ -14,10 +13,6 @@ import { cartContext } from "./_app";
 import LoadingIcons from "react-loading-icons";
 
 export default function Home(props) {
-  <Head>
-    <title>Guan Zhi Yan Bird&apos;s Nest</title>
-    <link rel="icon" href="/favicon.ico" />
-  </Head>;
   /* 1 : english, 2 : chinese, 3 : traditioanl chinese */
   let language;
   const [allowClick, setAllowClick] = useState(true);
@@ -63,6 +58,7 @@ export default function Home(props) {
   const mainImg = useRef();
   const dotsRef = useRef();
   useEffect(() => {
+    // dotsRef.current.style.paddingBottom = "300px";
     for (let i = 0; i < dots.length; i++) {
       dots[i].current.className = dots[i].current.className.replace(
         " bg-black",
@@ -77,6 +73,7 @@ export default function Home(props) {
     /**Change image */
     mainImg.current.style.backgroundImage = imageList[curSlide - 1];
     mainImg.current.style.backgroundPositionY = -window.scrollY * 0.7 + "px";
+    dotsRef.current.style.bottom = window.scrollY * 0.7 + "px";
   }, [curSlide]);
   const router = useRouter();
   const { t } = useTranslation("common");
@@ -85,6 +82,7 @@ export default function Home(props) {
     function handleScroll() {
       let offset = window.scrollY;
       mainImg.current.style.backgroundPositionY = -offset * 0.7 + "px";
+      dotsRef.current.style.bottom = offset * 0.7 + "px";
       // remember to add media query here for lower scrolling rate or smaller vh
     }
     window.addEventListener("scroll", handleScroll);
@@ -156,7 +154,7 @@ export default function Home(props) {
 
           <div className={`${styles.subContainers} items-end pb-2`}>
             <div></div>
-            <div className="">
+            <div ref={dotsRef} className="relative">
               <span
                 className={`${styles.dot}  bg-black`}
                 onClick={() => handleSlide(1)}
@@ -186,7 +184,7 @@ export default function Home(props) {
           className={`${styles.shadowBox} px-4 py-5  w-[61%] tablet:mt-0 mini:mt-[4em] phone:mt-[2em] min-h-[65vh] mx-5 relative flex justify-start items-center`}
         >
           <Image
-            alt="birdnest bottle"
+            alt="bird's nest bottle"
             className=""
             src="/images/Snapseed 5.jpg"
             layout="fill"
@@ -197,9 +195,9 @@ export default function Home(props) {
         <div
           className={`${styles.shadowBox} flex flex-col  justify-between py-5 px-[2em] bg-slate-100 mx-5 phone:w-[90%] tablet:w-[80%] min-h-[65vh] shadow-xl`}
         >
-          <h3 className="underline phone:text-3xl laptop:text-5xl phone:pt-3 phone:pb-3 laptop:pb-5">
+          <h1 className="underline phone:text-3xl laptop:text-5xl phone:pt-3 phone:pb-3 laptop:pb-5">
             <b>{t("main_page_title")}</b>
-          </h3>
+          </h1>
           <div className="flex flex-row  justify-center items-center text-center">
             <p>{t("about_us")}</p>
           </div>

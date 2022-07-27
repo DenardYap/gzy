@@ -545,7 +545,7 @@ const NavBar = () => {
             onMouseEnter={() => {
               setIsOnDiv(true);
             }}
-            onPointerEnter={() => {
+            onPointerCancel={() => {
               setIsOnDiv(true);
             }}
             className={`${navStyles.burgerContainer} overflow-scroll shadow-xl bg-slate-200 absolute top-0 bottom-0 left-0 right-0 w-[100%] z-10 max-h-[100vh] min-h-fit transition-all`}

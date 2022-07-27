@@ -1,17 +1,17 @@
 {
   "home": "Home",
   "products": "Products",
-  "main_page_title" : "100% Natural Bird's Nest",
+  "main_page_title" : "Guan Zhi Yan 100% Natural Bird's Nest",
   "explore": "Explore our products",
   "top_sales": "Top Sales",
   "visit_factory_title": "Take a sneak peek at our factory!",
   "visit_factory_text": "We keep our factory process very transparent, and we are not afraid to prove the '100% Natural' title",
   "learn": "Learn More →",
-  "about": "About",
-  "about_us": "Our company has more than 20 years of history, where our first Swiftlet (Bird Nest) house was bought in 1995. We hand harvest our bird nests on a regular basis from our Switflet houses all over Malaysia, which ensure they are pure, clean, and high-quality. Our factory processes birdnesses in a hygienic and chemical-free environment without adding any food colorings or bleach into our birdnesses, which again ensures they not only taste great, but also 100% natural.",
+  "about": "About", 
+  "about_us": "Our company has more than 20 years of history, where our first Swiftlet (Bird Nest) house was bought in 1995. We hand harvest our bird nests on a regular basis from our Switflet houses all over Malaysia, which ensure they are pure, clean, and high-quality. Our factory processes bird's nests in a hygienic and chemical-free environment without adding any food colorings or bleach into our bird's nests, which again ensures they not only taste great, but also 100% natural.",
   "about_us_long1": "Our company has more than 20 years of history, tracing back to when we first started Swiftlet (Birdnest) Farming in Malaysia. Our first Swiftlet house was bought in 1995 and Birdnests were hand harvested on a regular basis. Over the years, we have learned the skills to build our own Swiftlet houses and grow our Swiftlet farming business steadily. Our business on Raw Birdnest Trading also expands progressively from within Malaysia to places beyond, like Hong Kong, Singapore, China and US, due to increasing demand from consumers in the region.",
-  "about_us_long2": "Birdnests have always been regarded as a health delicacy for the rich and affluent due to the high pricing. Tedious & labor-intensive harvesting and processing steps of Birdnests continue to keep the product at such high pricing level. As strong believers to the health benefits of Birdnests, our company envisions to make Birdnests more affordable so to allow more people to enjoy the health benefits in Birdnest consumption.",
-  "about_us_long3": "Our compnay works on streamlining the supply chain and focusing on providing high quality products. Our Birdnests come directly from our company's Swiftlet Farms and Swiftlet Farms in our alliance companies, allowing us to be in full control of our Birdnest quality.",
+  "about_us_long2": "Bird's nests have always been regarded as a health delicacy for the rich and affluent due to the high pricing. Tedious & labor-intensive harvesting and processing steps of Birdnests continue to keep the product at such high pricing level. As strong believers in the health benefits of Birdnests, our company envisions making Birdnests more affordable so as to allow more people to enjoy the health benefits of Birdnest consumption.",
+  "about_us_long3": "Our company works on streamlining the supply chain and focusing on providing high quality products. Our Birdnests come directly from our company's Swiftlet Farms and Swiftlet Farms in our alliance companies, allowing us to be in full control of our Birdnest quality.",
   "about_us_long4": "Our Birdnest processing is hygienic and chemical-free, we prohibit the use of food colorings and bleach in our food processing",
   "about_us_long5": "We have instituted quality control in each stage of production: from bird's nest collection, cleaning, drying, packaging, continuing to ingredient selection, cooking, final consumer packaging. We endeavour to improve our operations and strive to deliver the best products to our consumers, bringing better beauty, youth, and health to everyone.",
   "about_us_long6": "We continue to strive for excellence in our quality and services to our customers.",
@@ -99,5 +99,6 @@
   "oops": "Oops!",
   "done": "Done!",
   "error_text": "An error occurs, please contact the seller!",
-  "error_text_max": "You have exceeded the available amount of this item! You cannot buy more!"
+  "error_text_max": "You have exceeded the available amount of this item! You cannot buy more!",
+  "item_name": "Item's name"
 }

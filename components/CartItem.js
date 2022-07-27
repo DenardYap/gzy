@@ -145,9 +145,8 @@ const CartItem = ({
         data._id.toString(),
       {
         method: "DELETE",
-        header: {
+        headers: {
           "Content-Type": "application/json",
-          "Acess-control-allow-origin": "https://www.guanzhiyan.com",
           Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
         },
       }
@@ -179,24 +178,28 @@ const CartItem = ({
         {/* image */}
         <Link href={`/product/${data._id}`} locale={router.locale} passHref>
           <a>
-            <div className="border-2 border-solid border-black w-fit">
+            <div className="relative mini:h-[15em] laptop:h-[10em] mini:w-[15em] laptop:w-[10em] border-2 border-solid border-black">
               <Image
                 src={data.image}
                 alt={data.imageAlt}
-                height={"150%"}
-                width={"150%"}
+                objectFit="cover"
+                layout="fill"
               ></Image>
             </div>
           </a>
         </Link>
       </div>
       <div className={styles.imageRightDiv}>
-        <div className=" flex-row text-left items-center border-b-2 border-black w-fit">
-          <h3 className="text-md italic underline pb-1">Item&apos;s name</h3>
+        <div className="text-left items-center border-b-2  border-black w-full laptop:pt-0 mini:pt-[1em]">
+          <h3 className=" text-md italic underline pb-1">{t("item_name")}</h3>
+          <h3 className="laptop:hidden block text-md italic pb-1">
+            RM{parseInt(data.price).toFixed(2)}{" "}
+          </h3>
+
           <h2 className="text-4xl"> {renderTitle()}</h2>
         </div>
-        <div className={styles.imageRightSubDiv}>
-          <h3> RM{data.price}.00</h3>
+        <div className={`${styles.imageRightSubDiv} `}>
+          <h3> RM{parseInt(data.price).toFixed(2)}</h3>
           <h3>
             <button className="text-red-600 underline" onClick={deleteItem}>
               {" "}
@@ -206,14 +209,14 @@ const CartItem = ({
         </div>
       </div>
       <div className={styles.quantityDiv}>
-        <div className="flex justify-center items-center text-2xl ">
+        <div className="justify-center items-center text-2xl hidden laptop:flex">
           <h3>{t("Quantity")}</h3>
         </div>
         <div className=" flex justify-center h-fit ">
           <div className={allowClick ? allowClickStyle : disallowClickStyle}>
             <div
               onClick={increment}
-              className="pl-2 text-2xl hover:cursor-pointer text-white transition-all"
+              className="pl-2 mini:text-4xl laptop:text-2xl hover:cursor-pointer text-white transition-all"
             >
               +
             </div>
@@ -227,7 +230,7 @@ const CartItem = ({
               defaultValue={data.amount}
               step="1"
               className="text-center 
-              text-xl
+              mini:text-3xl laptop:text-xl
               w-[3em]
               h-[1.75em]
               
@@ -243,16 +246,18 @@ const CartItem = ({
             />
             <div
               onClick={decrement}
-              className="pr-[0.5em] text-2xl  hover:cursor-pointer text-white"
+              className="pr-[0.5em] mini:text-4xl laptop:text-2xl hover:cursor-pointer text-white"
             >
               -
             </div>
           </div>
         </div>
       </div>
-      <div className={`${styles.subTotalDiv}`}>
-        <h3>{t("Subtotal")}:</h3>
-        <h3 className="text-2xl flex">
+      <div
+        className={`${styles.subTotalDiv} mini:text-3xl laptop:text-xl laptop:py-0 mini:py-2 `}
+      >
+        <h3 className="underline">{t("Subtotal")}:</h3>
+        <h3 className="mini:text-3xl laptop:text-2xl flex">
           RM{(parseInt(data.price) * parseInt(data.amount)).toFixed(2)}
         </h3>
       </div>

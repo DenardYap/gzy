@@ -1,7 +1,7 @@
 {
   "home": "首页",
   "products": "产品",
-  "main_page_title" : "100% 纯天然燕窝",
+  "main_page_title" : "官之燕 100% 纯天然燕窝",
   "about": "关于我们",
   "explore": "探索产品",
   "learn": "更多 →",
@@ -99,6 +99,7 @@
   "oops": "出错了！",
   "done": "完成！",
   "error_text": "技术问题，如果有需要的话请联系卖家！",
-  "error_text_max": "您超过了此产品的数量！不能购买更多了！"
+  "error_text_max": "您超过了此产品的数量！不能购买更多了！",
+  "item_name": "商品名称"
 
 }

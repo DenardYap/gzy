@@ -1,7 +1,7 @@
 .mainDiv {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr 1fr;
     background-color: rgb(237, 242, 250);
+    grid-template-columns: 1fr 2fr 1fr 1fr;
     padding: 1em;
     margin: 1.5em 2em;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
@@ -33,14 +33,11 @@
 
 .quantityDiv {
     
-    border-left-width: 2px;
-    border-color: black;
-    border-right-width: 2px;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
     /* background-color: blueviolet; */
 
 }
+
+
 
 .subTotalDiv {
     display:flex;
@@ -48,5 +45,75 @@
     justify-content: center;
     align-items: center;
     /* background-color: yellow; */
+
+}
+
+
+
+@media screen and (min-width: 240px) {
+
+    .mainDiv{
+        /* grid-template-columns: 1fr; */
+        /* grid-template-rows: 1fr 2fr 1fr 1fr; */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr;
+        /* align-items: ; */
+
+    }
+
+    
+    .quantityDiv {
+        
+        border-left-width: 0px;
+        border-color: black;
+        border-right-width: 0px;
+        display: grid;
+        grid-template-rows: 1fr;
+        /* background-color: blueviolet; */
+
+    }
+
+    
+    .imageRightDiv {
+        display: grid;
+        grid-template-rows: 1fr ;
+        /* background-color: red; */
+    }
+    .imageRightSubDiv {
+        visibility: hidden;
+    }
+
+}
+@media screen and (min-width: 1024px) {
+    .mainDiv{
+        display:grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr 2fr 1fr 1fr;
+
+    }
+    
+    .quantityDiv {
+        
+        border-left-width: 2px;
+        border-color: black;
+        border-right-width: 2px;
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        /* background-color: blueviolet; */
+
+    }
+        
+    .imageRightDiv {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        /* background-color: red; */
+    }
+    .imageRightSubDiv {
+        visibility: visible;
+    }
+    
 
 }

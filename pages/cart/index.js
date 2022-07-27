@@ -84,29 +84,34 @@ const Cart = () => {
     }
     fetchData();
   }, []);
-
   return (
     <>
       {data == null ? (
-        <div className="flex flex-col m-[2em] rounded text-slate-100 bg-slate-600 items-center p-5">
+        <div className="flex flex-col mini:m-[1em] laptop:m-[2em] rounded text-slate-100 bg-slate-600 items-center p-5">
           <div className="flex flex-col items-center h-[80vh] justify-center">
-            <LoadingIcons.Oval height={400} width={400} />
-            <h2 className="mt-[1em] text-4xl">{t("please_wait")}</h2>
+            <LoadingIcons.Oval className="h-[80%] w-[80%]" />
+            <h2 className="mt-[1em] mini:text-xl phone:text-2xl tablet:text-3xl laptop:text-4xl desktop:text-5xl">
+              {t("please_wait")}
+            </h2>
           </div>
         </div>
       ) : data.length === 0 ? (
-        <div className="flex flex-col m-[2em] rounded text-slate-100 bg-slate-600 items-center">
+        <div className="flex flex-col mini:m-[1em] laptop:m-[2em] rounded text-slate-100 bg-slate-600 items-center">
           <div>
             <Link href="\" locale={router.locale} passHref>
-              <button className="text-center text-4xl p-2 hover:bg-slate-300 transition-all border-black border-solid border rounded shadow-xl mt-[1em] bg-slate-100 h-fit w-fit text-slate-800">
+              <button className="text-center mini:text-xl phone:text-2xl tablet:text-3xl laptop:text-4xl desktop:text-5xl p-2 hover:bg-slate-300 transition-all border-black border-solid border rounded shadow-xl mt-[1em] bg-slate-100 h-fit w-fit text-slate-800">
                 ↩ {t("home")}
               </button>
             </Link>
           </div>
-          <div className="flex flex-col items-center h-[80vh] justify-center">
-            <AiFillFrown className="" size={400}></AiFillFrown>
-            <h2 className=" text-4xl">{t("cart_empty")}</h2>
-            <h2 className=" text-4xl">{t("cart_empty_text")}</h2>
+          <div className="text-center  flex flex-col items-center h-[80vh] justify-center ">
+            <AiFillFrown className="h-[80%] w-[80%]"></AiFillFrown>
+            <h2 className=" mini:text-xl phone:text-2 xl tablet:text-3xl laptop:text-4xl desktop:text-5xl tablet:mx-0 mini:mx-[0.25em]">
+              {t("cart_empty")}
+            </h2>
+            <h2 className=" mini:text-xl phone:text-2xl tablet:text-3xl laptop:text-4xl desktop:text-5xl tablet:mb-0 mini:mb-[3em] tablet:mx-0 mini:mx-[0.25em]">
+              {t("cart_empty_text")}
+            </h2>
           </div>
         </div>
       ) : (
@@ -120,18 +125,21 @@ const Cart = () => {
           )}
           <div className="flex justify-between items-center text-center pt-5 px-[2em]">
             <Link href="\" locale={router.locale} passHref>
-              <button className="text-2xl p-2 rounded shadow-xl bg-black h-fit w-fit text-slate-100 hover:bg-slate-600 transition-all">
+              <button className="mini:text-lg phone:text-xl laptop:text-2xl p-2 rounded shadow-xl bg-black h-fit w-fit text-slate-100 hover:bg-slate-600 transition-all">
                 ↩ {t("home")}
               </button>
             </Link>
-            <h2 className="text-3xl underline pl-[2.5em]"> {t("your_cart")}</h2>
-            <div className="items-top text-2xl p-2 rounded shadow-xl bg-black h-fit w-fit text-slate-100">
+            <h2 className="text-3xl underline pl-[2.5em] hidden tablet:block">
+              {" "}
+              {t("your_cart")}
+            </h2>
+            <div className="items-top mini:text-lg phone:text-xl laptop:text-2xl p-2 rounded shadow-xl bg-black h-fit w-fit text-slate-100">
               <h2>
                 {t("items_cart")}: {data.length}
               </h2>
             </div>
           </div>
-          <div className="flex-row ">
+          <div className="flex-col flex h-fit">
             {data.map((item) => {
               return (
                 <CartItem
