@@ -566,7 +566,7 @@ const NavBar = () => {
           >
             <div className="flex flex-row  bg-black justify-end h-fit ">
               <ImCancelCircle
-                className="absolute cursor-pointer mt-[0.4em] mr-[0.4em] top-0 bottom-0 mini:left-[85%] phone:left-[90%] right-0 mini:text-3xl phone:text-4xl tablet:text-5xl text-red-600"
+                className="absolute cursor-pointer mt-[0.4em] mr-[0.4em] top-0 bottom-0 mini:left-[85%] tablet:left-[90%] right-0 mini:text-3xl phone:text-4xl tablet:text-5xl text-red-600"
                 onClick={() => {
                   setBurgerInit(false);
                   setBurger(false);
