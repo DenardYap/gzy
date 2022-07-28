@@ -155,7 +155,7 @@ export default function ItemPage(props) {
         <div className="text-2xl">Loading...</div>
       ) : (
         <div className={styles.mainDiv}>
-          <div className="flex justify-center">
+          <div className="flex justify-center  mx-[1em]">
             <div
               className={`${styles.shadowBox} border-2 border-solid border-slate-400 h-fit`}
             >
@@ -173,20 +173,20 @@ export default function ItemPage(props) {
             </div>
           </div>
           <div className={styles.textDiv}>
-            <h2 className="text-6xl text-slate-800 items-end flex  rounded min-h-fit">
+            <h2 className="mini:text-xl phone:text-2xl tablet:text-4xl laptop:text-6xl text-slate-800 items-end flex  rounded min-h-fit">
               {renderTitle()}
             </h2>
-            <h3 className="text-4xl text-gray-500 items-center flex  rounded h-fit ">
+            <h3 className="mini:text-lg phone:text-xl tablet:text-3xl laptop:text-4xl text-gray-500 items-center flex  rounded h-fit ">
               RM{parseInt(props.data[0].price).toFixed(2)}
             </h3>
             <hr className="border-black mr-[1em] my-2"></hr>
-            <div className=" rounded flex items-center bg-slate-200 mt-2 justify-center">
-              <div className="shadow-md flex bg-slate-800 w-fit m-[1em] justify-center items-center">
+            <div className=" rounded flex laptop:flex-row mini:flex-col  items-center bg-slate-200 mt-2 justify-center">
+              <div className="shadow-md flex text-center bg-slate-800 w-fit m-[1em] justify-center items-center">
                 <div
-                  onClick={increment}
-                  className="text-3xl px-[0.2em] hover:cursor-pointer text-white"
+                  onClick={decrement}
+                  className="mini:text-2xl tablet:text-3xl mini:w-[8vw] tablet:w-[5vw] laptop:w-[3vw] hover:cursor-pointer text-slate-50 px-[0.2em]"
                 >
-                  +
+                  -
                 </div>
                 <input
                   ref={itemRef}
@@ -197,11 +197,14 @@ export default function ItemPage(props) {
                   defaultValue="0"
                   step="1"
                   className="text-center
-              text-xl
-              w-[3em]
+              mini:text-xl
+              tablet:text-2xl
+              laptop:w-[5vw]
+              tablet:w-[8vw]
+              mini:w-[12vw]
               h-[2.5em]
-              text-slate-900
-              bg-white bg-clip-padding
+              text-slate-800
+              bg-slate-50 bg-clip-padding
               border border-solid border-black
               transition
               ease-in-out 
@@ -209,20 +212,20 @@ export default function ItemPage(props) {
                 />
 
                 <div
-                  onClick={decrement}
-                  className="text-3xl px-[0.2em] hover:cursor-pointer text-white"
+                  onClick={increment}
+                  className="mini:text-2xl tablet:text-3xl mini:w-[8vw] tablet:w-[5vw]  laptop:w-[3vw]   hover:cursor-pointer text-slate-50 px-[0.2em]"
                 >
-                  -
+                  +
                 </div>
               </div>
               <button
                 onClick={handleBuy}
-                className="shadow-md text-xl bg-orange-600 text-white rounded p-2 text-center  hover:shadow-2xl hover:bg-orange-400  transition-all w-fit h-[2.5em]"
+                className="shadow-md mini:text-lg mini:mb-[0.5em] laptop:mb-0 tablet:text-xl bg-orange-600 text-white rounded p-2 text-center  hover:shadow-2xl hover:bg-orange-400  transition-all w-fit h-[2.5em]"
               >
                 {t("cart")}
               </button>
             </div>
-            <p className="text-xl text-slate-700 inline-block break-words rounded pt-[1em]">
+            <p className="mini:text-[0.75em] phone:text-[0.9em] tablet:text-[1.2em]  text-slate-700 inline-block break-words rounded pt-[1em]">
               {renderDesc()}
             </p>
           </div>

@@ -311,7 +311,7 @@ const NavBar = () => {
         <div className="flex   justify-end  md:order-2 items-center">
           <div className="h-[3em] mt-3" ref={dropdownBox}>
             <button
-              className="transition-all mini:ml-[1em] tablet:ml-0 mr-[1em] whitespace-nowrap text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="transition-all mini:ml-[1em] tablet:ml-0 mr-[1em] whitespace-nowrap text-slate-50 bg-slate-800 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               type="button"
               id="lg-button"
               ref={lgBtn}
@@ -333,13 +333,13 @@ const NavBar = () => {
               </svg>
             </button>
             <div
-              className=" cursor-pointer z-[999] absolute hidden mt-2 bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+              className=" cursor-pointer z-[999] text-slate-50  absolute hidden mt-2 bg-slate-800 divide-y rounded shadow w-44"
               id="lg-dropdown"
               ref={dropdownBtn}
             >
               {dynamicID == null ? (
                 <Link locale="en" href={curPage}>
-                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <h3 className="block px-4 py-2 hover:bg-slate-600 ">
                     {t("english")}
                   </h3>
                 </Link>
@@ -351,14 +351,14 @@ const NavBar = () => {
                     query: { id: dynamicID.id },
                   }}
                 >
-                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <h3 className="block px-4 py-2 hover:bg-slate-600">
                     {t("english")}
                   </h3>
                 </Link>
               )}
               {dynamicID == null ? (
                 <Link locale="zh" href={curPage}>
-                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <h3 className="block px-4 py-2 hover:bg-slate-600">
                     {t("zh")}
                   </h3>
                 </Link>
@@ -370,14 +370,14 @@ const NavBar = () => {
                     query: { id: dynamicID.id },
                   }}
                 >
-                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <h3 className="block px-4 py-2 hover:bg-slate-600">
                     {t("zh")}
                   </h3>
                 </Link>
               )}
               {dynamicID == null ? (
                 <Link locale="zhc" href={curPage}>
-                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <h3 className="block px-4 py-2 hover:bg-slate-600">
                     {t("zhc")}
                   </h3>
                 </Link>
@@ -389,7 +389,7 @@ const NavBar = () => {
                     query: { id: dynamicID.id },
                   }}
                 >
-                  <h3 className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <h3 className="block px-4 py-2 hover:bg-slate-600">
                     {t("zhc")}
                   </h3>
                 </Link>
@@ -421,11 +421,11 @@ const NavBar = () => {
             />
           </div> */}
 
-          <div className={navStyles.cartContainer}>
+          <div className={`${navStyles.cartContainer}`}>
             <AiOutlineShoppingCart
               className={navStyles.cart}
             ></AiOutlineShoppingCart>
-            <div className={`${navStyles.cartText}`}>
+            <div className={`${navStyles.cartText}  bg-slate-800`}>
               {items.length === 0 ? (
                 <div className="justify-center items-center flex flex-col shadow-2xl">
                   <AiOutlineFrown className="text-[6.5em]"></AiOutlineFrown>
@@ -485,7 +485,10 @@ const NavBar = () => {
                   className={`${navStyles.user} mini:hidden tablet:block`}
                   onClick={handleAuth}
                 />
-                <div className={navStyles.userText}> {t("acc")} </div>
+                <div className={`${navStyles.userText}  bg-slate-800`}>
+                  {" "}
+                  {t("acc")}{" "}
+                </div>
               </>
             ) : (
               <>
@@ -497,7 +500,7 @@ const NavBar = () => {
                     layout="fill"
                   ></Image>
                 </div>
-                <div className={navStyles.userText}>
+                <div className={`${navStyles.userText} bg-slate-800`}>
                   {permission ? (
                     <Link href="/dashboard" locale={router.locale}>
                       <div className="cursor-pointer text-xl hover:bg-slate-50 hover:text-slate-800 border border-solid  hover:border-black w-full text-center">

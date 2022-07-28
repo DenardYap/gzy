@@ -186,13 +186,13 @@ export default function Item({ oriData, setAllowClick }) {
             display: "inline-block",
           }}
         ></hr>
-        <div className="flex-col justify-center items-center flex w-full  relative ">
-          <div className="shadow-md flex justify-center items-center bg-slate-800 m-auto mt-1 w-full mini:text-[0.75em] tablet:text-[1em]">
+        <div className="flex-col justify-center items-center flex w-full   relative ">
+          <div className="shadow-md flex justify-center items-center text-center bg-slate-800 m-auto my-1 h-full w-full mini:text-[0.5em] phone:text-[0.75em] tablet:text-[1em]">
             <div
-              onClick={increment}
-              className="text-3xl w-full hover:cursor-pointer text-white px-[0.2em]"
+              onClick={decrement}
+              className="mini:text-2xl tablet:text-3xl  h-full w-full hover:cursor-pointer text-slate-50 px-[0.2em]"
             >
-              +
+              -
             </div>
             <input
               ref={itemRef}
@@ -203,30 +203,33 @@ export default function Item({ oriData, setAllowClick }) {
               defaultValue="0"
               step="1"
               className="text-center 
+              mini:text-[0.75em]
+              laptop:text-[1em]
+              
               h-full
               mini:min-w-[2em]
               phone:min-w-[3em]
-              w-fit
+              w-full
               py-1
-              text-black
-              bg-white bg-clip-padding
+              text-slate-800
+              bg-slate-50 bg-clip-padding
               border border-solid border-black 
               transition
               ease-in-out 
               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
             />
             <div
-              onClick={decrement}
-              className="text-3xl w-full px-[0.2em] hover:cursor-pointer text-white"
+              onClick={increment}
+              className="mini:text-2xl tablet:text-3xl w-full px-[0.2em] hover:cursor-pointer text-slate-50"
             >
-              -
+              +
             </div>
           </div>
 
           <button
             onClick={handleBuy}
             className="
-             bg-orange-600 text-white rounded mini:text-[0.75em] phone:text-[1em] p-1 shadow-xl text-center my-1 hover:shadow-2xl hover:bg-orange-400  transition-all"
+             bg-orange-600 text-slate-50 rounded h-full mini:text-[0.75em] phone:text-[1em] p-1 shadow-xl text-center my-1 hover:shadow-2xl hover:bg-orange-400  transition-all"
           >
             {t("cart")}
           </button>

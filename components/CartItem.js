@@ -215,10 +215,10 @@ const CartItem = ({
         <div className=" flex justify-center h-fit ">
           <div className={allowClick ? allowClickStyle : disallowClickStyle}>
             <div
-              onClick={increment}
+              onClick={decrement}
               className="pl-2 mini:text-4xl laptop:text-2xl hover:cursor-pointer text-white transition-all"
             >
-              +
+              -
             </div>
             <input
               // ref={itemRef}
@@ -245,10 +245,10 @@ const CartItem = ({
               focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
             />
             <div
-              onClick={decrement}
+              onClick={increment}
               className="pr-[0.5em] mini:text-4xl laptop:text-2xl hover:cursor-pointer text-white"
             >
-              -
+              +
             </div>
           </div>
         </div>
