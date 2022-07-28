@@ -9,15 +9,15 @@ import Footer from "./Footer";
 const Layout = ({ children, pathName }) => {
   return (
     <>
-      {pathName.includes("/checkout") || pathName.includes("/cart") ? (
-        <></>
+      {pathName.includes("/cart") ? (
+        <main> {children}</main>
       ) : (
-        <NavBar />
+        <>
+          <NavBar />
+          <main> {children}</main>
+          <Footer />
+        </>
       )}
-      <div className="">
-        <main className=""> {children}</main>
-      </div>
-      <Footer />
     </>
   );
 };

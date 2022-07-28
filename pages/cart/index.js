@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useEffect } from "react";
 import useState from "react-usestateref";
+import styles from "../../styles/Home.module.css";
 import nextI18nextConfig from "../../next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -157,8 +158,10 @@ const Cart = () => {
             })}
           </div>
 
-          <div className="flex-col my-[2em] bg-slate-800 text-white text-3xl justify-center mx-auto w-fit text-center items-center rounded p-4">
-            <h2>
+          <div
+            className={` ${styles.shadowBox} border-t border-slate-50 w-full h-[10vh] sticky bottom-0 flex flex-row bg-slate-800 text-white mini:text-xl laptop:text-3xl justify-center mx-auto  text-center items-center`}
+          >
+            <h2 className="w-full">
               {t("total_text1") +
                 "(" +
                 data.length +
@@ -168,7 +171,7 @@ const Cart = () => {
             </h2>
             <button
               onClick={handleCheckout}
-              className="p-2 bg-orange-600 text-white rounded text-3xl mt-5 w-[100%] hover:bg-orange-400 transition-all "
+              className="p-2 shadow-xl bg-orange-500 text-white  h-full  w-[50%] hover:bg-orange-300 transition-all "
             >
               {t("checkout")}
             </button>
