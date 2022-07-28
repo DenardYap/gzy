@@ -157,7 +157,7 @@ const Cart = () => {
               );
             })}
           </div>
-
+          {/*  */}
           <div
             className={` ${styles.shadowBox} border-t border-slate-50 w-full h-[10vh] sticky bottom-0 flex flex-row bg-slate-800 text-white mini:text-xl laptop:text-3xl justify-center mx-auto  text-center items-center`}
           >
