@@ -247,13 +247,14 @@ async function updateRedis(token) {
   });
   client.on("error", (err) => console.log("Redis Client Error", err));
   await client.connect();
-  checkCaches(client); //this ensure the cache is full and not empty
+  await checkCaches(client); //this ensure the cache is full and not empty
 
   console.log("updating redis...");
   // go ahead and update all the quantity
   let newAmounts = {};
   for (let i = 0; i < token.length; i++) {
     let curData = await client.hGet("mainCart", token[i].id);
+
     curData = JSON.parse(curData);
     curData.quantity = (
       parseInt(curData.quantity) - parseInt(token[i].amount)
@@ -294,9 +295,9 @@ export default async function handler(req, res) {
     event = stripe.webhooks.constructEvent(
       buf,
       sig,
-      process.env.NEXT_PUBLIC_END_POINT_SECRET
+      // process.env.NEXT_PUBLIC_END_POINT_SECRET
       // process.env.NEXT_PUBLIC_END_POINT_SECRET_TEST
-      // process.env.NEXT_PUBLIC_END_POINT_SECRET_LOCAL
+      process.env.NEXT_PUBLIC_END_POINT_SECRET_LOCAL
     );
   } catch (err) {
     console.log("Error!", err.message);
@@ -317,6 +318,7 @@ export default async function handler(req, res) {
       // format token in a way my function updateDatabase likes
       for (let i = 0; i < listOfKeys.length; i++) {
         let curKey = listOfKeys[i];
+        if (curKey == "referrer") continue;
         let curVal = session.metadata[curKey];
         token.push({ id: curKey, amount: curVal });
       }
