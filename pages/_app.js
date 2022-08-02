@@ -33,7 +33,12 @@ export const cartContext = React.createContext();
 function MyApp({ Component, pageProps, ...appProps }) {
   const [dynamicID, setDynamicID] = useState(null); // null when it's not on a dynamic page
   const [language, setLanguage] = useState(1); //1 for en, 2 for zh, 3 for zhc
-  const allowedEmails = ["bernerd@umich.edu", "gzypdykl@gmail.com"];
+  const allowedEmails = [
+    "bernerd@umich.edu",
+    "gzypdykl@gmail.com",
+    "guanzhiyanpd@gmail.com",
+    "maggieykw@hotmail.com",
+  ];
   const [permission, setPermission] = useState(false); // def7ault to false permission, for guest users and stuff
   const [user, setUser] = useState(null); // default to none
   onAuthStateChanged(auth, (user) => {

@@ -155,6 +155,13 @@ export async function getStaticProps({ locale }) {
   await client.quit(); // quit
 
   console.log("Sending data to frontend...");
+  data = data.sort((a, b) =>
+    ("" + a.imageTitleEn).localeCompare(b.imageTitleEn)
+  );
+
+  for (let i = 0; i < data.length; i++) {
+    console.log(data[i].imageTitleEn);
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),

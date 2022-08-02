@@ -167,6 +167,7 @@ export default function Item({ oriData, setAllowClick }) {
               alt={oriData.alt}
               layout="fill"
               objectFit="cover"
+              loading="eager"
               // width={"350%"}
               // height={"350%"}
             />

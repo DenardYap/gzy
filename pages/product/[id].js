@@ -169,7 +169,7 @@ export default function ItemPage(props) {
                 height={"500%"}
                 // objectFit="contain"
                 alt={props.data[0].imageAlt}
-                loading="lazy"
+                loading="eager"
               ></Image>
             </div>
           </div>

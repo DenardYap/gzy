@@ -26,7 +26,8 @@ async function sendEmail(
   city,
   state,
   country,
-  paymentIntentID
+  paymentIntentID,
+  referrer
 ) {
   console.log("sending email...");
   AWS.config.update({
@@ -37,15 +38,28 @@ async function sendEmail(
 
   // create reusable transporter object using the default SMTP transport
 
+  let referrerMap = {
+    1: "Yap Kah Ying",
+    2: "Yap Kah Wan",
+  };
+  let r = undefined;
+  if (referrer != undefined) {
+    r = referrerMap[parseInt(referrer)];
+  }
+  if (r == undefined) {
+    r = "No one";
+  }
   let Data = `Total Cost is: RM${parseInt(amount).toFixed(
     2
-  )}<br>Customer Name: ${name}<br>Customer Email: ${email}<br>Customer Phone: ${phone}<br>Address Line 1: ${line1}<br>Address Line 2: ${line2}<br>Postal Code: ${postal_code}<br>Area/City: ${city}<br>State: ${state}<br>Country: ${country}<br><br><br>Click this link https://dashboard.stripe.com/test/payments/${paymentIntentID} for more information`;
+  )}<br>Customer Name: ${name}<br>Customer Email: ${email}<br>Customer Phone: ${phone}<br>Address Line 1: ${line1}<br>Address Line 2: ${line2}<br>Postal Code: ${postal_code}<br>Area/City: ${city}<br>State: ${state}<br>Country: ${country}<br>Referrer: ${r}<br><br><br>Click this link https://dashboard.stripe.com/payments/${paymentIntentID} for more information`;
   // send mail with defined transport object
   let ToAddresses = [
     "bernerd@umich.edu",
     "mameehy@hotmail.com",
     "gzypdykl@gmail.com",
-  ]; //maggieykw@hotmail.com
+    "guanzhiyanpd@gmail.com",
+    "maggieykw@hotmail.com",
+  ];
 
   // Create sendEmail params
   var params = {
@@ -315,7 +329,8 @@ export default async function handler(req, res) {
         session.shipping.address.city,
         session.shipping.address.state,
         session.shipping.address.country,
-        session.payment_intent
+        session.payment_intent,
+        session.metadata["referrer"]
       );
       // let revalidateRoute =
       //   process.env.NODE_ENV == "production"

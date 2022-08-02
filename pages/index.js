@@ -12,6 +12,13 @@ import { createClient } from "redis";
 import { cartContext } from "./_app";
 import LoadingIcons from "react-loading-icons";
 
+let top3ID = [
+  "62e8d517e2abd3efd23fdff6",
+  "62e8d746e2abd3efd23fdff8",
+  "62e8c35f8e9d66c20337b2db",
+];
+
+let top3 = [];
 export default function Home(props) {
   /* 1 : english, 2 : chinese, 3 : traditioanl chinese */
   let language;
@@ -190,6 +197,7 @@ export default function Home(props) {
             src="/images/Snapseed 5.jpg"
             layout="fill"
             objectFit="cover"
+            loading="eager"
           ></Image>
         </div>
 
@@ -226,20 +234,18 @@ export default function Home(props) {
         </div>
         <div className={styles.itemList2}>
           {props.data.map((item) => {
-            if (count != itemsToDisplay) {
-              if (item.quantity === "0") {
-                // Render sold out item last
-                soldOutItem.push(item);
-              } else {
-                count++;
-                return (
-                  <Item
-                    oriData={item}
-                    key={item._id}
-                    setAllowClick={setAllowClick}
-                  ></Item>
-                );
-              }
+            if (
+              item._id == top3ID[0] ||
+              item._id == top3ID[1] ||
+              item._id == top3ID[2]
+            ) {
+              return (
+                <Item
+                  oriData={item}
+                  key={item._id}
+                  setAllowClick={setAllowClick}
+                ></Item>
+              );
             }
           })}
         </div>
@@ -306,7 +312,6 @@ export async function getStaticProps({ locale }) {
   for future reference such as shoppign cart and checkout page
   WE can do this is also because we dont have a lot of products, caching all
   of them only costs a few KBs, even less than that
-
   Using hashes, key will be ID, and field will be name and all that
   */
   const client = createClient({

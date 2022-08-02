@@ -84,6 +84,10 @@ export default async function handler(req, res) {
     metadata[item.id] = item.amount;
   });
 
+  if (req.cookies.referrer) {
+    metadata["referrer"] = req.cookies.referrer;
+  }
+
   token = token.map((item) => {
     return {
       price_data: {
