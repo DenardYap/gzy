@@ -84,7 +84,7 @@ export default async function handler(req, res) {
     metadata[item.id] = item.amount;
   });
 
-  if (req.cookies.referrer) {
+  if (req.body.referrer) {
     metadata["referrer"] = req.cookies.referrer;
   }
 

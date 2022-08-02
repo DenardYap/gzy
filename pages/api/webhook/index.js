@@ -44,7 +44,11 @@ async function sendEmail(
   };
   let r = undefined;
   if (referrer != undefined) {
-    r = referrerMap[parseInt(referrer)];
+    try {
+      r = referrerMap[parseInt(referrer)];
+    } catch (err) {
+      console.log("Cannot parse referrer", err);
+    }
   }
   if (r == undefined) {
     r = "No one";

@@ -35,6 +35,9 @@ const Cart = () => {
         "Content-Type": "application/json",
         Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
       },
+      body: JSON.stringify({
+        referrer: window.localStorage.getItem("referrer"),
+      }),
     })
       .then((res) => {
         if (res.ok) return res.json();
