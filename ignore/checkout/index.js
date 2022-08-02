@@ -113,7 +113,7 @@ const Checkout = () => {
                     <div className="flex flex-row items-start pb-3">
                       <div className="border-black border-solid shadow-md z-99 rounded-full w-[2.5em] h-[2.5em] relative">
                         <Image
-                          alt="gzy-logo"
+                          alt="Guan Zhi Yan Bird Nest"
                           className=" h-6 z-0 rounded-full"
                           src="/logo/logo_remastered_800.jpg "
                           // width={70}

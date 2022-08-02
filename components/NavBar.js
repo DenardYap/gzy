@@ -298,7 +298,7 @@ const NavBar = () => {
         <Link href="/" locale={router.locale}>
           <a className="flex items-center ml-[1em]">
             <Image
-              alt="gzy-logo"
+              alt="Guan Zhi Yan Bird Nest"
               className="min-w-[1.5em] min-h-[1.5em]"
               src="/logo/logo_main_slate.jpg"
               width={70}
