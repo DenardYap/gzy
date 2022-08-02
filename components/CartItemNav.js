@@ -68,7 +68,7 @@ const CartItemNav = ({ oriData, data }) => {
         <Link href={`/product/${data._id}`} locale={router.locale}>
           <a>
             <Image
-              loading="eager"
+              priority={true}
               src={data.image}
               alt={data.imageAlt}
               width={"125%"}

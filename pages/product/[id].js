@@ -160,6 +160,7 @@ export default function ItemPage(props) {
               className={`${styles.shadowBox} border-2 border-solid border-slate-400 h-fit`}
             >
               <Image
+                priority={true}
                 ref={imageRef}
                 src={props.data[0].image}
                 quality={100}

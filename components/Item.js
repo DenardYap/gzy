@@ -161,7 +161,7 @@ export default function Item({ oriData, setAllowClick }) {
           >
             <Image
               ref={imageRef}
-              loading="eager"
+              priority={true}
               className={styles.imager}
               src={oriData.image}
               alt={oriData.alt}

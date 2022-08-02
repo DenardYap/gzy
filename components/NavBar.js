@@ -298,6 +298,7 @@ const NavBar = () => {
         <Link href="/" locale={router.locale}>
           <a className="flex items-center ml-[1em]">
             <Image
+              priority={true}
               alt="Guan Zhi Yan Bird Nest"
               className="min-w-[1.5em] min-h-[1.5em]"
               src="/logo/logo_main_slate.jpg"
@@ -494,6 +495,7 @@ const NavBar = () => {
               <>
                 <div className="relative mini:hidden tablet:block rounded-full h-[2.5em] w-[2.5em] ml-[0.5em] mr-[1.5em] ">
                   <Image
+                    priority={true}
                     src={user.photoURL}
                     className="rounded-full"
                     objectFit="contain"

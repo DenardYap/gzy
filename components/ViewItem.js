@@ -440,6 +440,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
                     <h3 className="text-3xl font-bold pb-2">Current Image</h3>
                     <div className="relative h-[30em] w-[25em] shadow-xl mb-2">
                       <Image
+                        priority={true}
                         key={data._id}
                         src={data.image}
                         layout="fill"
@@ -480,6 +481,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
         <h2 className="text-2xl pb-[1em] underline ">{renderTitle()}</h2>
         <div className=" h-[20em] w-[20em] relative shadow-2xl border border-black mb-[2em]">
           <Image
+            priority={true}
             key={data._id}
             alt={data.imageAlt}
             src={data.image}
