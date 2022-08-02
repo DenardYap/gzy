@@ -56,7 +56,6 @@ export default function ProductList(props) {
               <option value="1">{t("fresh")}</option>
               <option value="2">{t("condensed")}</option>
               <option value="3">{t("dry")}</option>
-              <option value="4">{t("strips")}</option>
               <option value="5">{t("other")}</option>
               <option value="0">{t("all")}</option>
             </select>

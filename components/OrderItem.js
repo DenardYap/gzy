@@ -21,6 +21,7 @@ const OrderItem = ({ data }) => {
         <Link href={`/product/${data.id}`} locale={router.locale}>
           <div className="relative h-[7em] w-[7em] cursor-pointer ">
             <Image
+              key={data.id}
               src={data.image}
               layout="fill"
               objectFit="contain"

@@ -286,7 +286,6 @@ const Add = () => {
                 <option value="1"> Fresh</option>
                 <option value="2"> Condensed</option>
                 <option value="3"> Dry</option>
-                <option value="4"> Strips</option>
                 <option value="5"> Other</option>
               </select>
             </div>

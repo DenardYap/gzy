@@ -69,6 +69,7 @@ const CartItemNav = ({ oriData, data }) => {
           <a>
             <Image
               loading="eager"
+              key={data._id}
               src={data.image}
               alt={data.imageAlt}
               width={"125%"}

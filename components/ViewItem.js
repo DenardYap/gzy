@@ -431,7 +431,6 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
                         <option value="1"> Fresh</option>
                         <option value="2"> Condensed</option>
                         <option value="3"> Dry</option>
-                        <option value="4"> Strips</option>
                         <option value="5"> Other</option>
                       </select>
                     </div>
@@ -441,6 +440,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
                     <h3 className="text-3xl font-bold pb-2">Current Image</h3>
                     <div className="relative h-[30em] w-[25em] shadow-xl mb-2">
                       <Image
+                        key={data._id}
                         src={data.image}
                         layout="fill"
                         objectFit="cover"
@@ -480,6 +480,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
         <h2 className="text-2xl pb-[1em] underline ">{renderTitle()}</h2>
         <div className=" h-[20em] w-[20em] relative shadow-2xl border border-black mb-[2em]">
           <Image
+            key={data._id}
             alt={data.imageAlt}
             src={data.image}
             layout="fill"
