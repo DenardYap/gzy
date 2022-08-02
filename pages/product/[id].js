@@ -161,7 +161,6 @@ export default function ItemPage(props) {
             >
               <Image
                 ref={imageRef}
-                key={props.data[0]._id}
                 src={props.data[0].image}
                 quality={100}
                 // layout="fill"

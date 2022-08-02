@@ -180,7 +180,6 @@ const CartItem = ({
           <a>
             <div className="relative mini:h-[15em] laptop:h-[10em] mini:w-[15em] laptop:w-[10em] border-2 border-solid border-black">
               <Image
-                key={data._id}
                 src={data.image}
                 alt={data.imageAlt}
                 objectFit="cover"
