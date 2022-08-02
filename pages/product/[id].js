@@ -173,6 +173,7 @@ export default function ItemPage(props) {
               ></Image>
             </div>
           </div>
+          {/*  */}
           <div className={styles.textDiv}>
             <h2 className="mini:text-xl phone:text-2xl tablet:text-4xl laptop:text-6xl text-slate-800 items-end flex  rounded min-h-fit">
               {renderTitle()}
