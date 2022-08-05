@@ -34,12 +34,12 @@ export default async function handler(req, res) {
 
   const params = {
     Bucket: bucketName,
-    Key: `${req.query.key}.jpg`,
+    Key: `${req.query.key}.webp`,
     Expires: new Date(),
     Body: buf,
     CacheControl: "no-cache",
     ContentEncoding: "base64",
-    ContentType: "image/jpeg", // to be changed
+    ContentType: "image/webp", // to be changed
   };
 
   const uploadedImage = await s3

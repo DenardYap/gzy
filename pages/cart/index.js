@@ -35,9 +35,6 @@ const Cart = () => {
         "Content-Type": "application/json",
         Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
       },
-      body: JSON.stringify({
-        referrer: window.localStorage.getItem("referrer"),
-      }),
     })
       .then((res) => {
         if (res.ok) return res.json();
@@ -143,7 +140,7 @@ const Cart = () => {
               </h2>
             </div>
           </div>
-          <div className="flex-col flex h-fit">
+          <div className="flex-col flex h-fit mb-[5em]">
             {data.map((item) => {
               return (
                 <CartItem
@@ -162,7 +159,7 @@ const Cart = () => {
           </div>
           {/*  */}
           <div
-            className={` ${styles.shadowBox} border-t border-slate-50 w-full h-[10vh] sticky bottom-0 flex flex-row bg-slate-800 text-white mini:text-xl laptop:text-3xl justify-center mx-auto  text-center items-center`}
+            className={` ${styles.shadowBox} border-t border-slate-50 w-full h-[10vh] fixed bottom-0 flex flex-row bg-slate-800 text-white mini:text-xl laptop:text-3xl justify-center mx-auto  text-center items-center`}
           >
             <h2 className="w-full">
               {t("total_text1") +
@@ -174,7 +171,7 @@ const Cart = () => {
             </h2>
             <button
               onClick={handleCheckout}
-              className="p-2 shadow-xl bg-orange-500 text-white  h-full  w-[50%] hover:bg-orange-300 transition-all "
+              className="p-2 shadow-xl bg-orange-500 text-white   h-full  w-[50%] hover:bg-orange-300 transition-all "
             >
               {t("checkout")}
             </button>

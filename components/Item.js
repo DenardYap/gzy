@@ -69,10 +69,10 @@ export default function Item({ oriData, setAllowClick }) {
     } else if (!itemRef.current.value) {
       alert("Please make sure item quantity is at least 1");
     } else {
+      setAllowClick(false);
       itemRef.current.value = parseInt(itemRef.current.value).toString();
       // either data is empty, or cached, we just need to update the quantity
       // Make a post request to the backend
-      setAllowClick(false);
       let body = {
         max: oriData.quantity,
         id: oriData._id,
@@ -123,7 +123,6 @@ export default function Item({ oriData, setAllowClick }) {
       updateItems(oriData._id, curValue);
       toggleCart();
       setAllowClick(true);
-      console.log("hello");
       Swal.fire({
         title: t("done"),
         icon: "success",

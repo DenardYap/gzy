@@ -17,6 +17,7 @@ import {
 } from "../pages/_app";
 import LoadingIcons from "react-loading-icons";
 import app from "../util/firebase_util";
+
 import {
   getAuth,
   signInWithRedirect,
@@ -126,9 +127,6 @@ const NavBar = () => {
         "Content-Type": "application/json",
         Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
       },
-      body: JSON.stringify({
-        referrer: window.localStorage.getItem("referrer"),
-      }),
     })
       .then((res) => {
         if (res.ok) return res.json();
@@ -455,7 +453,7 @@ const NavBar = () => {
                   <div className="flex justify-around items-center ">
                     <Link href="/cart" locale={router.locale}>
                       <a>
-                        <button className="p-3 my-2 rounded bg-orange-600 text-xl text-slate-100 w-full hover:bg-orange-400 transition-colors">
+                        <button className="p-3 my-2 mr-1 rounded bg-orange-600 mini:text-[0.6em] phone:text-[0.85em] laptop:text-[1.1em] text-slate-100 w-full hover:bg-orange-400 transition-colors">
                           {" "}
                           {t("view_cart")}{" "}
                         </button>
@@ -465,7 +463,7 @@ const NavBar = () => {
                     <a>
                       <button
                         onClick={handleCheckout}
-                        className="p-3 my-2 rounded bg-orange-600 text-xl text-slate-100 w-full hover:bg-orange-400 transition-colors"
+                        className="p-3 my-2 ml-1 rounded bg-orange-600 mini:text-[0.6em] phone:text-[0.85em] laptop:text-[1.1em] text-slate-100 w-full hover:bg-orange-400 transition-colors"
                       >
                         {" "}
                         {t("checkout")}{" "}

@@ -41,15 +41,18 @@ export default async function handler(req, res) {
     try {
       let session = jwt.verify(req.cookies.checkoutToken, process.env.secret);
       // session = parseInt(session)
+      console.log("Cookies is", session);
       let checkoutSession = await stripe.checkout.sessions.retrieve(session);
       // empty cart
       if (checkoutSession.status == "complete") {
         // res.setHeader("Set-Cookie", serialize("cart", newToken, { path: "/" }));
         // then, go ahead and delete the cookies
 
+        // clear out referrer, checkout token and cart items
         res.setHeader("Set-Cookie", [
           "cart=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
           "checkoutToken=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
+          "referrer=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
         ]);
         console.log("checkoutToken deleted...");
         return res.status(200).json({ data: [] });
@@ -61,6 +64,7 @@ export default async function handler(req, res) {
         "cart=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
         "checkoutToken=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
       ]);
+      return res.status(200).json({ data: [] });
       // }
     }
   }

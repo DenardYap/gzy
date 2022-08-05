@@ -80,7 +80,10 @@ export default function Home(props) {
     /**Change image */
     mainImg.current.style.backgroundImage = imageList[curSlide - 1];
     mainImg.current.style.backgroundPositionY = -window.scrollY * 0.7 + "px";
-    dotsRef.current.style.bottom = window.scrollY * 0.7 + "px";
+    if (window.innerWidth < 1024) {
+      console.log("Is mobile");
+      dotsRef.current.style.bottom = window.scrollY * 0.7 + "px";
+    }
   }, [curSlide]);
   const router = useRouter();
   const { t } = useTranslation("common");
@@ -89,7 +92,11 @@ export default function Home(props) {
     function handleScroll() {
       let offset = window.scrollY;
       mainImg.current.style.backgroundPositionY = -offset * 0.7 + "px";
-      dotsRef.current.style.bottom = offset * 0.7 + "px";
+      if (window.innerWidth < 1024) {
+        console.log("Is mobile");
+        // only slide the dots when it's not in laptop/desktop
+        dotsRef.current.style.bottom = offset * 0.7 + "px";
+      }
       // remember to add media query here for lower scrolling rate or smaller vh
     }
     window.addEventListener("scroll", handleScroll);

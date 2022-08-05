@@ -41,6 +41,12 @@ function MyApp({ Component, pageProps, ...appProps }) {
   ];
   const [permission, setPermission] = useState(false); // def7ault to false permission, for guest users and stuff
   const [user, setUser] = useState(null); // default to none
+
+  const rootRoute =
+    process.env.NODE_ENV == "production"
+      ? process.env.NEXT_PUBLIC_productAPIpro
+      : process.env.NEXT_PUBLIC_productAPIdev;
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
@@ -54,6 +60,22 @@ function MyApp({ Component, pageProps, ...appProps }) {
   const [cartToggle, setToggle] = useState(false);
   const [items, setItems] = useState([]);
 
+  // update total user in database if this user hasn't visited this website
+  useEffect(() => {
+    async function incrementUser() {
+      if (!window.localStorage.getItem("visited")) {
+        window.localStorage.setItem("visited", "true");
+        await fetch(rootRoute + "increment", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+          },
+        });
+      }
+    }
+    incrementUser();
+  }, []);
   // checking permission
   useEffect(() => {
     if (!user) return;
@@ -70,7 +92,20 @@ function MyApp({ Component, pageProps, ...appProps }) {
   useEffect(() => {
     let params = queryString.parse(window.location.search);
     if (params.r) {
-      window.localStorage.setItem("referrer", params.r);
+      async function setReferrer() {
+        // window.localStorage.setItem("referrer", params.r);
+        await fetch(rootRoute + "setReferrer", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+          },
+          body: JSON.stringify({
+            referrer: params.r,
+          }),
+        });
+      }
+      setReferrer();
     }
     // console.log("req query num is:", params.z);
     if (!(window.location.href.indexOf("en") > -1)) {
@@ -114,7 +149,7 @@ function MyApp({ Component, pageProps, ...appProps }) {
         <title>Guan Zhi Yan Bird Nest</title>
         <link rel="icon" href="/favicon.ico" />
 
-        <meta charset="UTF-8" />
+        <meta charSet="UTF-8" />
         <meta
           name="description"
           content="Guan Zhi Yan Bird Nest has been selling high-quality, pure, delicate, and nutritious bird nests in Malaysia for more than 20 years. We process bird nests in a hygienic and chemical-free environment without adding any food colorings or bleach into our bird nests, which again ensures they not only taste great but also 100% natural. Bird nests have always been regarded as a health delicacy for the rich and affluent due to the high pricing. Tedious & labor-intensive harvesting and processing steps of bird nests continue to keep the product at such high pricing level. As strong believers in the health benefits of bird nests, our company envisions making bird nests more affordable so as to allow more people to enjoy the health benefits of bird nests consumption. Our bird nests come directly from our company's Swiftlet Farms, allowing us to be in full control of our Bird nest quality."

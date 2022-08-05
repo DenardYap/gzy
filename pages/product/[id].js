@@ -8,8 +8,11 @@ import Image from "next/image";
 import { cartContext, languageContext, dynamicContext } from "../_app";
 import { useContext, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import LoadingIcons from "react-loading-icons";
+import Swal from "sweetalert2";
 
 export default function ItemPage(props) {
+  const [allowClick, setAllowClick] = useState(true);
   const router = useRouter();
 
   const [renderReady, setRenderReady] = useState(false);
@@ -83,7 +86,7 @@ export default function ItemPage(props) {
   async function handleBuy() {
     // make sure the item doesn't exceed the max limit
     // also make sure the item is not 0
-    if (itemRef.current.value === "0") {
+    if (parseInt(itemRef.current.value) <= 0) {
       alert("Please make sure item quantity is at least 1");
     } else if (
       parseInt(itemRef.current.value) > parseInt(itemRef.current.max)
@@ -93,7 +96,11 @@ export default function ItemPage(props) {
       );
     } else if (itemRef.current.value[0] === "0") {
       alert("Please make sure the item quantity doesn't start with 0");
+    } else if (!itemRef.current.value) {
+      alert("Please make sure item quantity is at least 1");
     } else {
+      setAllowClick(false);
+      itemRef.current.value = parseInt(itemRef.current.value).toString();
       let body = {
         max: props.data[0].quantity,
         id: props.data[0]._id,
@@ -112,17 +119,45 @@ export default function ItemPage(props) {
       });
       if (res.status == 404) {
         res = await res.json();
-        alert(res.error);
+        setAllowClick(true);
+        // swal("Oops!", res.error, "error");
+        Swal.fire({
+          title: t("oops"),
+          text: t("error_text_max"),
+          icon: "error",
+          color: "#1e293b",
+          // showConfirmButton: false,
+          confirmButtonColor: "#1e293b",
+        });
         return;
       } else if (res.status == 500) {
         //programmer's error
         console.log("500 error, programmer please check");
+        setAllowClick(true);
+        // swal("Oops!", "An error occurs, please contact the seller!", "error");
+        Swal.fire({
+          title: t("oops"),
+          text: t("error_text"),
+          icon: "error",
+          color: "#1e293b",
+          // showConfirmButton: false,
+          confirmButtonColor: "#1e293b",
+        });
         return;
       }
       res = await res.json();
       updateItems(props.data[0]._id, curValue);
       toggleCart();
-      console.log("Done adding to cart!");
+      setAllowClick(true);
+      Swal.fire({
+        title: t("done"),
+        icon: "success",
+        timer: 700,
+        timerProgressBar: true,
+        color: "#1e293b",
+        showConfirmButton: false,
+        // confirmButtonColor: "#fb923c",
+      });
     } // else
   }
 
@@ -151,6 +186,13 @@ export default function ItemPage(props) {
   // }, []);
   return (
     <>
+      {allowClick ? (
+        <></>
+      ) : (
+        <div className="w-full h-full top-0 right-0 bottom-0 left-0 bg-black opacity-50	fixed z-10 flex justify-center items-center">
+          <LoadingIcons.Oval height={300} width={300} />
+        </div>
+      )}
       {!renderReady ? (
         <div className="text-2xl">Loading...</div>
       ) : (
@@ -273,6 +315,7 @@ export async function getStaticProps({ params, locale }) {
     revalidate: 5,
   };
 }
+
 export async function getStaticPaths({ locales }) {
   const { db } = await connectToDatabase();
   let data = await db.collection("product").find().toArray();
