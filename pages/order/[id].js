@@ -25,7 +25,7 @@ const Order = (props) => {
       console.log("render is ready!");
       setRenderReady(true);
     }
-  }, []);
+  }, [props]);
   // if (!props.data || props.data.length == 0) {
   //   return <div>Loading...</div>;
   // }

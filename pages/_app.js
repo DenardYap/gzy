@@ -34,6 +34,8 @@ function MyApp({ Component, pageProps, ...appProps }) {
   const [dynamicID, setDynamicID] = useState(null); // null when it's not on a dynamic page
   const [language, setLanguage] = useState(1); //1 for en, 2 for zh, 3 for zhc
   const allowedEmails = [
+    "mameehy@hotmail.com",
+    "makerclub.tulc@gmail.com",
     "bernerd@umich.edu",
     "gzypdykl@gmail.com",
     "guanzhiyanpd@gmail.com",
