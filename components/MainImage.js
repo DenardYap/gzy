@@ -96,7 +96,7 @@ const MainImage = ({ num, setAllowClick }) => {
   }
 
   useEffect(() => {
-    imgRef.current.style.backgroundImage = `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg${num}.jpg")`;
+    imgRef.current.style.backgroundImage = `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg${num}.webp")`;
   }, []);
   return (
     <div className="flex flex-col justify-between bg-slate-200 w-full p-5">

@@ -160,7 +160,7 @@ export async function getStaticProps({ locale }) {
   );
 
   for (let i = 0; i < data.length; i++) {
-    console.log(data[i].imageTitleEn);
+    console.log(data[i].image);
   }
   return {
     props: {

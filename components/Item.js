@@ -162,6 +162,7 @@ export default function Item({ oriData, setAllowClick }) {
               ref={imageRef}
               priority={true}
               className={styles.imager}
+              key={oriData.image}
               src={oriData.image}
               alt={oriData.alt}
               layout="fill"

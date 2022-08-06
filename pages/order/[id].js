@@ -20,16 +20,13 @@ const Order = (props) => {
 
   const [renderReady, setRenderReady] = useState(false);
   useEffect(() => {
-    console.log("checking render...");
     if (!router.isFallback) {
-      console.log("render is ready!");
       setRenderReady(true);
     }
   }, [props]);
   // if (!props.data || props.data.length == 0) {
   //   return <div>Loading...</div>;
   // }
-  const [renderWait, setRenderWait] = useState(true);
   const [dynamicID, setDynamicID] = useContext(dynamicContext);
   const { t } = useTranslation("common");
   const language = useContext(languageContext);

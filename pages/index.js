@@ -13,9 +13,9 @@ import { cartContext } from "./_app";
 import LoadingIcons from "react-loading-icons";
 
 let top3ID = [
-  "62e8d517e2abd3efd23fdff6",
-  "62e8d746e2abd3efd23fdff8",
-  "62e8c35f8e9d66c20337b2db",
+  "62ede8861adcc2358ce4587f",
+  "62ede9e71adcc2358ce45887",
+  "62edea271adcc2358ce45889",
 ];
 
 let top3 = [];

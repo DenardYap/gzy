@@ -66,7 +66,21 @@ const Add = () => {
       setAllowClick(true);
       Swal.fire({
         title: "Image too large",
-        text: "Please make sure the size is less than 2MB",
+        text: "Please make sure the size is less than 2MB, you can compress it using websites like https://imagecompressor.com/",
+        icon: "error",
+        color: "#1e293b",
+        confirmButtonColor: "#1e293b",
+      });
+      return;
+    }
+
+    let imageExtension = e.target.image.value.split(".").pop().toLowerCase();
+    if (imageExtension != "webp") {
+      setAllowClick(true);
+      Swal.fire({
+        title:
+          "Image must be .webp (cannot be .jpeg, .png, or other format) to improve website performance!",
+        text: "Please convert it to .webp using websites like https://convertio.co/jpg-webp/ or https://cloudconvert.com/jpg-to-webp",
         icon: "error",
         color: "#1e293b",
         confirmButtonColor: "#1e293b",
@@ -116,7 +130,7 @@ const Add = () => {
           process.env.NEXT_PUBLIC_cloudFrontURL +
           "/" +
           key +
-          ".jpg",
+          ".webp",
         type: e.target.type.value,
       }),
     });
