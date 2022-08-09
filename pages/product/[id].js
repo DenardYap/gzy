@@ -170,6 +170,7 @@ export default function ItemPage(props) {
   }
 
   function renderDesc() {
+    console.log(props.data[0].descriptionEn);
     return language == 1
       ? props.data[0].descriptionEn
       : language == 2
@@ -269,7 +270,7 @@ export default function ItemPage(props) {
                 {t("cart")}
               </button>
             </div>
-            <p className="mini:text-[0.75em] phone:text-[0.9em] tablet:text-[1.2em]  text-slate-700 inline-block break-words rounded pt-[1em]">
+            <p className="whitespace-pre-wrap	 mini:text-[0.75em] phone:text-[0.9em] tablet:text-[1.2em]  text-slate-700 inline-block break-words rounded pt-[1em]">
               {renderDesc()}
             </p>
           </div>
@@ -305,7 +306,6 @@ export async function getStaticProps({ params, locale }) {
     };
   }
 
-  console.log("fetching data in [id].js4");
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
@@ -321,7 +321,6 @@ export async function getStaticPaths({ locales }) {
   let data = await db.collection("product").find().toArray();
 
   // can use cached data here...
-  console.log("fetching data in [id].js");
   data = JSON.parse(JSON.stringify(data));
 
   /* For dynamic route, i18next need to do this */
@@ -334,7 +333,6 @@ export async function getStaticPaths({ locales }) {
       }))
     )
     .flat(); // Flatten array to avoid nested arrays
-  console.log("fetching data in [id]2.js");
   return {
     paths,
     fallback: true,

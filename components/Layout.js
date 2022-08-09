@@ -9,7 +9,7 @@ import Footer from "./Footer";
 const Layout = ({ children, pathName }) => {
   return (
     <>
-      {pathName.includes("/cart") ? (
+      {pathName.includes("/cart") || pathName.includes("/checkout") ? (
         <main> {children}</main>
       ) : (
         <>

@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { EmailAuthCredential } from "firebase/auth";
+import malaysianState from "../util/malaysiaState";
 
 export default function CheckoutForm({ setAllowClick }) {
   const stripe = useStripe();
   const elements = useElements();
+  const [currentPhoneNumber, setCurrentPhoneNumber] = useState("");
+
+  let [curState, setCurState] = useState("Johor");
 
   const rootRoute =
     process.env.NODE_ENV == "production"
-      ? process.env.NEXT_PUBLIC_CHECKOUT_APIpro
-      : process.env.NEXT_PUBLIC_CHECKOUT_APIdev;
+      ? process.env.NEXT_PUBLIC_CHECKOUT_API_CUSTOMpro
+      : process.env.NEXT_PUBLIC_CHECKOUT_API_CUSTOMdev;
 
   const cardStyle = {
     iconStyle: "solid",
@@ -116,6 +121,48 @@ export default function CheckoutForm({ setAllowClick }) {
     }
   };
 
+  function handleState(e) {
+    setCurState(e.target.value);
+  }
+
+  function renderAreas() {
+    return malaysianState[curState].map((curArea) => {
+      return <option value={curArea}>{curArea}</option>;
+    });
+  }
+  function handlePhone(e) {
+    e.preventDefault();
+    if (e.target.value.length >= 13) return;
+    if (e.target.value.length == 4) {
+      // 0126 -> 012-6
+      if (currentPhoneNumber.length == 3) {
+        setCurrentPhoneNumber((currentPhoneNumber) => {
+          let newNumber = currentPhoneNumber;
+          newNumber += "-";
+          return newNumber + e.target.value[3];
+        });
+      } else {
+        setCurrentPhoneNumber((currentPhoneNumber) => {
+          return currentPhoneNumber.slice(0, 3);
+        });
+      }
+    } else if (e.target.value.length == 8) {
+      if (currentPhoneNumber.length == 7) {
+        setCurrentPhoneNumber((currentPhoneNumber) => {
+          let newNumber = currentPhoneNumber;
+          newNumber += " ";
+          return newNumber + e.target.value[7];
+        });
+      } else {
+        setCurrentPhoneNumber((currentPhoneNumber) => {
+          return currentPhoneNumber.slice(0, 7);
+        });
+      }
+    } else {
+      setCurrentPhoneNumber(e.target.value);
+    }
+  }
+
   return (
     <form
       // onClick={handleSubmit}
@@ -158,6 +205,7 @@ export default function CheckoutForm({ setAllowClick }) {
             State
           </label>
           <select
+            onChange={handleState}
             id="state-name"
             name="stateName"
             className={`outline-0	p-1 pl-2 rounded text-slate-600 mb-2 `}
@@ -170,12 +218,9 @@ export default function CheckoutForm({ setAllowClick }) {
             <option value="Melaka">Melaka</option>
             <option value="Negeri Sembilan">Negeri Sembilan</option>
             <option value="Pahang">Pahang</option>
-            <option value="Penang">Penang</option>
             <option value="Perak">Perak</option>
-            <option value="Perlis">Perlis</option>
             <option value="Putrajaya">Putrajaya</option>
-            <option value="Sabah">Sabah</option>
-            <option value="Sarawak">Sarawak</option>
+            <option value="Perlis">Perlis</option>
             <option value="Selangor">Selangor</option>
             <option value="Terengganu">Terengganu</option>
           </select>
@@ -191,9 +236,9 @@ export default function CheckoutForm({ setAllowClick }) {
           <select
             id="area-name"
             name="areaName"
-            className={`outline-0	p-1 pl-2 rounded text-slate-600 mb-2`}
+            className={`outline-0	p-1 pl-2 rounded text-slate-600 mb-2 w-[15vw]`}
           >
-            <option value="Terengganu">null</option>
+            {renderAreas()}
           </select>
         </div>
         <div className="flex flex-col   w-full ml-4">
@@ -209,7 +254,7 @@ export default function CheckoutForm({ setAllowClick }) {
             type="tel"
             pattern="[0-9]{5}"
             name="postalName"
-            className={`outline-0	p-1 pl-2 rounded text-slate-600 mb-2`}
+            className={`outline-0	p-1 pl-2 rounded text-slate-600 mb-2 w-[10vw]`}
           ></input>
         </div>
       </div>
@@ -238,10 +283,12 @@ export default function CheckoutForm({ setAllowClick }) {
             Phone number
           </label>
           <input
+            onChange={handlePhone}
             id="input-phone"
             type="tel"
             name="inputPhone"
-            pattern="[0]{1}[1]{1}[0-9]{1}[0-9]{7}"
+            value={currentPhoneNumber}
+            pattern="[0]{1}[1]{1}[0-9]{1}-[0-9]{3} [0-9]{4}"
             className={`outline-0	p-1 pl-2 rounded text-slate-600 w-full`}
             placeholder="012-3456789"
             required
