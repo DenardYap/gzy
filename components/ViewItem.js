@@ -405,7 +405,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
                         min="0"
                         name="descriptionEn"
                         minLength={1}
-                        maxLength={800}
+                        maxLength={950}
                       ></textarea>
                     </div>
                     <div className="flex flex-col mx-2 my-[0.5em]">
@@ -419,7 +419,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
                         min="0"
                         name="description"
                         minLength={1}
-                        maxLength={200}
+                        maxLength={300}
                       ></textarea>
                     </div>
                     <div className="flex flex-col mx-2 my-[0.5em]">
@@ -433,7 +433,7 @@ const ViewItem = ({ data, allowClick, setAllowClick, operation }) => {
                         min="0"
                         name="descriptionZhc"
                         minLength={1}
-                        maxLength={200}
+                        maxLength={300}
                       ></textarea>
                     </div>
 

@@ -36,4 +36,6 @@ yarn-error.log*
 
 # testing
 test.js
+test.py
 upload_test.js
+/ignore
