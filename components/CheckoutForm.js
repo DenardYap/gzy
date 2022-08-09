@@ -127,7 +127,11 @@ export default function CheckoutForm({ setAllowClick }) {
 
   function renderAreas() {
     return malaysianState[curState].map((curArea) => {
-      return <option value={curArea}>{curArea}</option>;
+      return (
+        <option key={curArea} value={curArea}>
+          {curArea}
+        </option>
+      );
     });
   }
   function handlePhone(e) {
