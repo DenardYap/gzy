@@ -3,7 +3,6 @@ import { permissionContext, userContext } from "../_app";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import nextI18nextConfig from "../../next-i18next.config";
-import { data } from "autoprefixer";
 import OrderHistory from "../../components/OrderHistory";
 import LoadingIcons from "react-loading-icons";
 

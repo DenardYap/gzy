@@ -30,9 +30,9 @@ export default function Home(props) {
   const dots = [dot1, dot2, dot3];
   /**To be changed to loading image from CDN/Database */
   const imageList = [
-    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg1.jpg")`,
-    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg2.jpg")`,
-    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg3.jpg")`,
+    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg1.webp")`,
+    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg2.webp")`,
+    `url("https://${process.env.NEXT_PUBLIC_cloudFrontURL}/main_aimg3.webp")`,
   ];
   const [curSlide, setCurSlide] = useState(1);
   // let slideShowNum = 3;
@@ -198,13 +198,12 @@ export default function Home(props) {
           className={`${styles.shadowBox} px-4 py-5  w-[61%] tablet:mt-0 mini:mt-[4em] phone:mt-[2em] min-h-[65vh] mx-5 relative flex justify-start items-center`}
         >
           <Image
-            priority={true}
+            priority
             alt="bird's nest bottle"
             className=""
             src="/images/Snapseed 5.jpg"
             layout="fill"
             objectFit="cover"
-            loading="eager"
           ></Image>
         </div>
 
@@ -288,7 +287,7 @@ export default function Home(props) {
             className={`${styles.shadowBox} mini:min-h-[50vh] mini:w-[70vw] laptop:min-h-[65vh] laptop:w-[36vw]  relative mini:right-[0em] mini:bottom-[1em] laptop:bottom-0 laptop:right-[4em] px-3 py-2 rounded bg-slate-100`}
           >
             <Image
-              priority={true}
+              priority
               alt="factory picture"
               src="/images/factory1.jpg"
               layout="fill"

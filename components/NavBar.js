@@ -284,7 +284,7 @@ const NavBar = () => {
   return (
     <nav
       ref={navBarRef}
-      className="	w-full flex justify-center items-center bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5  dark:bg-gray-800 sticky top-0 z-10 shadow-lg"
+      className="	w-full flex justify-center items-center bg-slate-100 border-gray-200 px-2 sm:px-4 py-2.5  sticky top-0 z-10 shadow-lg"
     >
       {/* layover of the whole page once the button is pressed */}
       {allowClick ? (
@@ -313,7 +313,7 @@ const NavBar = () => {
         <div className="flex   justify-end  md:order-2 items-center">
           <div className="h-[3em] mt-3" ref={dropdownBox}>
             <button
-              className="transition-all mini:ml-[1em] tablet:ml-0 mr-[1em] whitespace-nowrap text-slate-50 bg-slate-800 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="transition-all mini:ml-[1em] tablet:ml-0 mr-[1em] whitespace-nowrap text-slate-50 bg-slate-800 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center "
               type="button"
               id="lg-button"
               ref={lgBtn}
@@ -532,7 +532,7 @@ const NavBar = () => {
             }}
             data-collapse-toggle="mobile-menu-3"
             type="button"
-            className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg laptop:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg laptop:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
             aria-controls="mobile-menu-3"
             aria-expanded="false"
           >
@@ -588,7 +588,7 @@ const NavBar = () => {
                       setBurger(false);
                     }}
                     ref={homeRef}
-                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 "
                     aria-current="page"
                   >
                     {t("home")}
@@ -603,7 +603,7 @@ const NavBar = () => {
                       setBurger(false);
                     }}
                     ref={productRef}
-                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0   "
                     aria-current="page"
                   >
                     {t("products")}
@@ -618,7 +618,7 @@ const NavBar = () => {
                       setBurger(false);
                     }}
                     ref={aboutRef}
-                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  "
                     aria-current="page"
                   >
                     {t("about")}
@@ -633,7 +633,7 @@ const NavBar = () => {
                       setBurger(false);
                     }}
                     ref={factoryRef}
-                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    className="transition-all  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0"
                     aria-current="page"
                   >
                     {t("factory")}
@@ -647,7 +647,7 @@ const NavBar = () => {
                       setBurgerInit(false);
                       setBurger(false);
                     }}
-                    className="transition-all flex-row flex justify-center items-center  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    className="transition-all flex-row flex justify-center items-center  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0   "
                     aria-current="page"
                   >
                     {t("view_cart_small")}
@@ -665,7 +665,7 @@ const NavBar = () => {
                       setBurger(false);
                       handleCheckout();
                     }}
-                    className="transition-all cursor-pointer  flex-row flex justify-center items-center  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                    className="transition-all cursor-pointer  flex-row flex justify-center items-center  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0   "
                   >
                     {t("checkout_small")}
                     <MdOutlinePayment className="ml-2" />
@@ -685,7 +685,7 @@ const NavBar = () => {
               <Link href="/" locale={router.locale}>
                 <a
                   ref={homeRef}
-                  className="transition-all  hidden tablet870:block py-5  pl-3 text-slate-700 mt-2 border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0  md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 "
+                  className="transition-all  hidden tablet870:block py-5  pl-3 text-slate-700 mt-2 border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0"
                   aria-current="page"
                 >
                   {t("home")}
@@ -700,7 +700,7 @@ const NavBar = () => {
               >
                 <a
                   ref={productRef}
-                  className="transition-all hidden tablet:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="transition-all hidden tablet:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  "
                 >
                   {t("products")}
                 </a>
@@ -710,7 +710,7 @@ const NavBar = () => {
               <Link href="/about" locale={router.locale}>
                 <a
                   ref={aboutRef}
-                  className="transition-all hidden laptop:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="transition-all hidden laptop:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  "
                 >
                   {t("about")}
                 </a>
@@ -720,7 +720,7 @@ const NavBar = () => {
               <Link href="/factory" locale={router.locale}>
                 <a
                   ref={factoryRef}
-                  className="transition-all hidden laptop:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="transition-all hidden laptop:block py-5  pl-3 text-slate-700 mt-2 border-b md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  "
                 >
                   {t("factory")}
                 </a>

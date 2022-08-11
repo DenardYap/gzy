@@ -1,4 +1,3 @@
-import { data } from "autoprefixer";
 import Stripe from "stripe";
 import { connectToDatabase } from "../../../util/mongodb";
 import { serialize } from "cookie";

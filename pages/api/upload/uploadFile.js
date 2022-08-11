@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
   const params = {
     Bucket: bucketName,
-    Key: `main_aimg${req.query.num}.jpg`,
+    Key: `main_aimg${req.query.num}.webp`,
     // Key: `last_testing${req.query.num}.jpg`,
     Expires: new Date(),
     Body: buf,
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     // ContentType: "image/jpg",
 
     ContentEncoding: "base64",
-    ContentType: "image/jpeg",
+    ContentType: "image/webp",
   };
   console.log("uploading image2...");
 

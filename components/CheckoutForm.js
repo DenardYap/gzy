@@ -2,13 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { EmailAuthCredential } from "firebase/auth";
 import malaysianState from "../util/malaysiaState";
+import { MdLocalShipping } from "react-icons/md";
+import { useTranslation } from "next-i18next";
 
-export default function CheckoutForm({ setAllowClick }) {
+export default function CheckoutForm({ setShipFee, setAllowClick }) {
+  const { t } = useTranslation("common");
   const stripe = useStripe();
   const elements = useElements();
   const [currentPhoneNumber, setCurrentPhoneNumber] = useState("");
 
-  let [curState, setCurState] = useState("Johor");
+  let [curState, setCurState] = useState("Negeri Sembilan");
 
   const rootRoute =
     process.env.NODE_ENV == "production"
@@ -23,7 +26,7 @@ export default function CheckoutForm({ setAllowClick }) {
         color: "#475569",
         fontWeight: "600",
         // fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-        fontSize: "20px",
+        fontSize: "1.15em",
         fontSmoothing: "antialiased",
         ":-webkit-autofill": {
           color: "#fce883",
@@ -167,11 +170,29 @@ export default function CheckoutForm({ setAllowClick }) {
     }
   }
 
+  function renderPrice() {
+    if (curState == "Negeri Sembilan") {
+      setShipFee(0.0);
+      return "0.00";
+    } else if (
+      curState == "Johor" ||
+      curState == "Perak" ||
+      curState == "Kelantan" ||
+      curState == "Terengganu"
+    ) {
+      setShipFee(15.0);
+      return "15.00";
+    } else {
+      setShipFee(5.0);
+      return "5.00";
+    }
+  }
+
   return (
     <form
       // onClick={handleSubmit}
       onSubmit={handleSubmit}
-      className="w-[40vw] min-h-[70vh] bg-slate-600 p-[1em] rounded shadow-xl text-center text-slate-600"
+      className="mini:w-[90vw]  laptop:w-[40vw] min-h-[70vh] bg-slate-600 p-[1em] rounded-sm shadow-xl text-center text-slate-600"
     >
       {/* <h2 className="font-semibold text-4xl mb-[1em] text-slate-50">
         Credit Card
@@ -179,15 +200,15 @@ export default function CheckoutForm({ setAllowClick }) {
 
       <label
         htmlFor="input-address1"
-        className="flex justify-start items-center text-slate-50 p-1 text-xl"
+        className="flex justify-start items-center text-slate-50 p-1 mini:text-md tablet:text-xl"
       >
-        Address
+        {t("Address")}
       </label>
       <input
         id="input-address1"
         name="inputAddress1"
         type="text"
-        className={`outline-0	p-1 pl-2 rounded text-slate-600 w-full`}
+        className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 w-full`}
         placeholder="Address Line 1"
         required
       ></input>
@@ -195,96 +216,110 @@ export default function CheckoutForm({ setAllowClick }) {
         id="inputAddress2"
         type="text"
         name="inputAddress2"
-        className={`outline-0	p-1 pl-2 rounded text-slate-600 w-full my-2 mb-5`}
+        className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 w-full my-2 mb-5`}
         placeholder="Address Line 2"
       ></input>
 
-      <div className="flex flex-row justify-between items-center mb-5">
-        <div className="flex flex-col   w-full">
-          <label
-            htmlFor="state-name"
-            name="stateName"
-            className="flex justify-start items-center text-slate-50 p-1 text-xl "
-          >
-            State
-          </label>
-          <select
-            onChange={handleState}
-            id="state-name"
-            name="stateName"
-            className={`outline-0	p-1 pl-2 rounded text-slate-600 mb-2 `}
-          >
-            <option value="Johor">Johor</option>
-            <option value="Kedah">Kedah</option>
-            <option value="Kelantan">Kelantan</option>
-            <option value="Kuala Lumpur">Kuala Lumpur</option>
-            <option value="Labuan">Labuan</option>
-            <option value="Melaka">Melaka</option>
-            <option value="Negeri Sembilan">Negeri Sembilan</option>
-            <option value="Pahang">Pahang</option>
-            <option value="Perak">Perak</option>
-            <option value="Putrajaya">Putrajaya</option>
-            <option value="Perlis">Perlis</option>
-            <option value="Selangor">Selangor</option>
-            <option value="Terengganu">Terengganu</option>
-          </select>
+      <div className="flex mini:flex-col laptop:flex-row justify-between items-center ">
+        <div className="flex laptop:flex-row laptop:w-[70%] mini:w-full">
+          <div className="flex flex-col   w-full">
+            <label
+              htmlFor="state-name"
+              name="stateName"
+              className="flex justify-start items-center text-slate-50 p-1 mini:text-md tablet:text-xl "
+            >
+              {t("State")}
+            </label>
+            <select
+              onChange={handleState}
+              id="state-name"
+              name="stateName"
+              className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 mb-2 w-[100%]`}
+            >
+              <option value="Negeri Sembilan">Negeri Sembilan</option>
+              <option value="Johor">Johor</option>
+              <option value="Kedah">Kedah</option>
+              <option value="Kelantan">Kelantan</option>
+              <option value="Kuala Lumpur">Kuala Lumpur</option>
+              <option value="Labuan">Labuan</option>
+              <option value="Melaka">Melaka</option>
+              <option value="Pahang">Pahang</option>
+              <option value="Perak">Perak</option>
+              <option value="Putrajaya">Putrajaya</option>
+              <option value="Perlis">Perlis</option>
+              <option value="Selangor">Selangor</option>
+              <option value="Terengganu">Terengganu</option>
+            </select>
+          </div>
+          <div className="flex flex-col   w-full ml-4">
+            <label
+              htmlFor="area-name"
+              className="flex justify-start items-center text-slate-50 p-1 mini:text-md tablet:text-xl "
+              name="areaName"
+            >
+              {t("Area")}
+            </label>
+            <select
+              id="area-name"
+              name="areaName"
+              className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 mb-2 w-[100%]`}
+            >
+              {renderAreas()}
+            </select>
+          </div>
         </div>
-        <div className="flex flex-col   w-full ml-4">
-          <label
-            htmlFor="area-name"
-            className="flex justify-start items-center text-slate-50 p-1 text-xl "
-            name="areaName"
-          >
-            Area
-          </label>
-          <select
-            id="area-name"
-            name="areaName"
-            className={`outline-0	p-1 pl-2 rounded text-slate-600 mb-2 w-[15vw]`}
-          >
-            {renderAreas()}
-          </select>
-        </div>
-        <div className="flex flex-col   w-full ml-4">
+        <div className="flex flex-col mini:w-full laptop:w-[30%] mini:ml-0 laptop:ml-4">
           <label
             htmlFor="postal-name"
-            className="flex justify-start items-center text-slate-50 p-1 text-xl "
+            className="flex  justify-start items-start text-slate-50 p-1 mini:text-md tablet:text-xl "
             name="postalName"
           >
             {" "}
-            Postal Code
+            {t("Postal")}
           </label>
           <input
             type="tel"
             pattern="[0-9]{5}"
             name="postalName"
-            className={`outline-0	p-1 pl-2 rounded text-slate-600 mb-2 w-[10vw]`}
+            className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 mb-2 w-[100%]`}
           ></input>
         </div>
       </div>
-
+      <div className="text-slate-50  flex justify-start items-center mini:text-sm tablet:text-md mb-5">
+        <div className="flex mini:flex-col laptop:flex-row mini:justify-start laptop:justify-between  items-start w-full">
+          <div className="flex flex-row justify-center items-center">
+            <MdLocalShipping className="mr-[0.5em] text-[1.5em]">
+              {" "}
+            </MdLocalShipping>
+            <h3> {t("ship_time")} </h3>
+          </div>
+          <h3>
+            {t("delivery_fee")}: RM{renderPrice()}{" "}
+          </h3>
+        </div>
+      </div>
       <label
         htmlFor="input-name"
-        className="flex justify-start items-center text-slate-50 p-1 text-xl"
+        className="flex justify-start items-center text-slate-50 p-1 mini:text-md tablet:text-xl"
       >
-        Name
+        {t("Name")}
       </label>
       <input
         id="input-name"
         type="text"
         name="inputName"
-        className={`outline-0	p-1 pl-2 rounded text-slate-600 w-full mb-5`}
+        className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 w-full mb-5`}
         placeholder="Your name"
         required
       ></input>
 
-      <div className="flex flex-row justify-between mb-5 ">
-        <div className="flex flex-col w-full">
+      <div className="flex mini:flex-col laptop:flex-row justify-between mb-5">
+        <div className="flex flex-col w-[100%]">
           <label
             htmlFor="input-phone"
-            className="flex justify-start items-center text-slate-50 p-1 text-xl"
+            className="flex justify-start items-center text-slate-50 p-1 mini:text-md tablet:text-xl "
           >
-            Phone number
+            {t("phone_number")}
           </label>
           <input
             onChange={handlePhone}
@@ -293,24 +328,24 @@ export default function CheckoutForm({ setAllowClick }) {
             name="inputPhone"
             value={currentPhoneNumber}
             pattern="[0]{1}[1]{1}[0-9]{1}-[0-9]{3} [0-9]{4}"
-            className={`outline-0	p-1 pl-2 rounded text-slate-600 w-full`}
+            className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 w-full`}
             placeholder="012-3456789"
             required
           ></input>
         </div>
 
-        <div className="flex flex-col w-full ml-4 ">
+        <div className="flex flex-col w-[100%] mini:ml-0  laptop:ml-4 ">
           <label
             htmlFor="input-email"
-            className="flex justify-start items-center text-slate-50 p-1 text-xl"
+            className="flex justify-start items-center text-slate-50 p-1 mini:text-md tablet:text-xl"
           >
-            Email
+            {t("Email")}
           </label>
           <input
             id="input-email"
             type="email"
             name="inputEmail"
-            className={`outline-0	p-1 pl-2 rounded text-slate-600 `}
+            className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 w-full`}
             placeholder="johndoe@example.com"
             required
           ></input>
@@ -320,13 +355,13 @@ export default function CheckoutForm({ setAllowClick }) {
         id="card-element"
         autocomplete="cc-number"
         options={cardStyle}
-        className="bg-slate-50 p-[0.5em] my-[0.5em] rounded shadow-xl w-full"
+        className="bg-slate-50 p-[0.5em] my-[0.5em] rounded-sm shadow-xl w-full"
       ></CardElement>
       <button
         // onClick={handleSubmit}
-        className="font-semibold text-2xl w-full bg-slate-50 p-[0.5em] my-[0.5em] rounded hover:bg-orange-400 hover:text-white transition-all"
+        className="font-semibold text-2xl w-full  hover:bg-red-400 p-[0.5em] my-[0.5em] rounded-sm bg-orange-400 text-white transition-all"
       >
-        Pay
+        {t("Pay")}
       </button>
     </form>
   );

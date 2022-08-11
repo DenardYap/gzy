@@ -91,6 +91,7 @@
   "Email": "Email",
   "Address1": "Address Line 1",
   "Address2": "Address Line 2",
+  
   "Postal": "Postal",
   "City": "City",
   "State": "State",
@@ -100,5 +101,16 @@
   "done": "Done!",
   "error_text": "An error occurs, please contact the seller!",
   "error_text_max": "You have exceeded the available amount of this item! You cannot buy more!",
-  "item_name": "Item's name"
+  "item_name": "Item's name",
+
+  "product_summary": "Product Summary",
+  "shipping_fee": "Shipping Fee",
+  "item": "item",
+  "Address": "Address",
+  "Area": "Area",
+  "ship_time": "Ship within 1 - 3 Business Day",
+  "delivery_fee": "Delivery Fee",
+  "phone_number": "Phone Number",
+  "Pay": "Pay"
+
 }

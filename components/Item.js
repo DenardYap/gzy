@@ -160,7 +160,6 @@ export default function Item({ oriData, setAllowClick }) {
           >
             <Image
               ref={imageRef}
-              priority={true}
               className={styles.imager}
               key={oriData.image}
               src={oriData.image}

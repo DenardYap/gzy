@@ -100,6 +100,14 @@
   "done": "完成！",
   "error_text": "技术问题，如果有需要的话请联系卖家！",
   "error_text_max": "您超过了此产品的数量！不能购买更多了！",
-  "item_name": "商品名称"
-
+  "item_name": "商品名称",
+  "product_summary": "产品概要",
+  "shipping_fee": "运费",
+  "item": "物品",
+  "Address": "地址",
+  "Area": "地区",
+  "ship_time": "1 - 3 个工作日到货",
+  "delivery_fee": "运费",
+  "phone_number": "电话号码",
+  "Pay": "支付"
 }
