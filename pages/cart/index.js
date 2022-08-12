@@ -169,12 +169,14 @@ const Cart = () => {
                 ")" +
                 `: RM${parseInt(total).toFixed(2)}`}
             </h2>
-            <button
-              onClick={handleCheckout}
-              className="p-2 shadow-xl bg-orange-500 text-white   h-full  w-[50%] hover:bg-orange-300 transition-all "
-            >
-              {t("checkout")}
-            </button>
+            <Link href="\checkout" locale={router.locale} passHref>
+              <button
+                // onClick={handleCheckout}
+                className="p-2 shadow-xl bg-orange-500 text-white   h-full  w-[50%] hover:bg-orange-300 transition-all "
+              >
+                {t("checkout")}
+              </button>
+            </Link>
           </div>
         </>
       )}

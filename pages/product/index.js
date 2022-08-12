@@ -17,7 +17,7 @@ const type = {
   ALL: "0",
 };
 export default function ProductList(props) {
-  const [curType, setCurType] = useState(type.FRESH);
+  const [curType, setCurType] = useState(type.FRESH); // try type.ALL
   const { t } = useTranslation("common");
   const [allowClick, setAllowClick] = useState(true);
   let soldOutItem = [];

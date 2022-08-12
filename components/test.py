@@ -1,28 +1,28 @@
-from collections import defaultdict
-def subarraySum(nums, k: int) -> int:
+def findKthLargest(nums, k: int) -> int:
     
-    # IDEA: use prefix-sum
-    
-    prefixSum = defaultdict(int)
-    prefixSum[0] = 1
-    count = 0
-    curSum = 0
-    # k = 5, arr = [2, 3, 5, -1, -9, 5, 3, 3, -10]
-    #           [0, 2, 5, 10, 9,  5]
-    
-    # idea: we try to "chop off" the head and see if the chopped array
-    #       is still equal to k, if so, we plus count 
-    
-    for num in nums:
-        curSum += num
-        if curSum - k in prefixSum:
-            count += prefixSum[curSum - k]
-        if curSum in prefixSum:
-            prefixSum[curSum] += 1
-        else:
-            prefixSum[curSum] = 1
-        
-    
-    return count
+    def quick_select(arr, start, end, k):
+        pivot = arr[end]
+        i = start
+        for j in range(start, end):
+            if arr[j] <= pivot:
+                print(arr[j], pivot)
+                arr[i], arr[j] = arr[j], arr[i]
+                i += 1
+        arr[i], arr[end] = arr[end], arr[i]
 
-print(subarraySum([2, 3, 5,-1,-4], 5))
+        print("End")
+        # print(i, k - 1)
+        if i < k - 1:
+            return quick_select(arr, i+1, end, k)
+        elif i > k - 1:
+            return quick_select(arr, start, i-1, k)
+        else:
+            return arr[i]
+
+    return quick_select(nums, 0, len(nums) - 1, len(nums) + 1 - k)
+
+print(findKthLargest([3,2,1,5,6,4], 2))
+
+import random
+a = random.choices(2, [-1, 9, 2])
+print(a)

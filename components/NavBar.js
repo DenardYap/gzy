@@ -459,17 +459,16 @@ const NavBar = () => {
                         </button>
                       </a>
                     </Link>
-                    {/* <Link href="/checkout" locale={router.locale}> */}
-                    <a>
-                      <button
-                        onClick={handleCheckout}
-                        className="p-3 my-2 ml-1 rounded bg-orange-600 mini:text-[0.6em] phone:text-[0.85em] laptop:text-[1.1em] text-slate-100 w-full hover:bg-orange-400 transition-colors"
-                      >
-                        {" "}
-                        {t("checkout")}{" "}
-                      </button>
-                    </a>
-                    {/* </Link> */}
+                    <Link href="/checkout" locale={router.locale}>
+                      <a>
+                        <button
+                          // onClick={handleCheckout}
+                          className="p-3 my-2 ml-1 rounded bg-orange-600 mini:text-[0.6em] phone:text-[0.85em] laptop:text-[1.1em] text-slate-100 w-full hover:bg-orange-400 transition-colors"
+                        >
+                          {t("checkout")}{" "}
+                        </button>
+                      </a>
+                    </Link>
                   </div>
                 </div>
               )}

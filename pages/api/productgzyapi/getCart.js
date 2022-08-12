@@ -4,7 +4,7 @@ import { serialize } from "cookie";
 import Stripe from "stripe";
 const redis = require("redis");
 const jwt = require("jsonwebtoken");
-const stripe = new Stripe(process.env.SECRET_KEY_TEST);
+const stripe = new Stripe(process.env.NEXT_PUBLIC_SECRET_KEY);
 
 async function checkCaches(client) {
   let mainData;
@@ -27,6 +27,7 @@ async function checkCaches(client) {
 }
 
 // return every single item in the cart, for display in shopping cart, check out, and cart page
+// also update the cache if necessary
 export default async function handler(req, res) {
   // decrypt jwt key in the cookies and send it back to the front end
   // the cart may not be updated yet
@@ -39,12 +40,15 @@ export default async function handler(req, res) {
   if (req.cookies.checkoutToken != null) {
     console.log("decrypting checkoutToken...");
     try {
-      let session = jwt.verify(req.cookies.checkoutToken, process.env.secret);
+      let paymentIntentID = jwt.verify(
+        req.cookies.checkoutToken,
+        process.env.secret
+      );
       // session = parseInt(session)
-      console.log("Cookies is", session);
-      let checkoutSession = await stripe.checkout.sessions.retrieve(session);
+      // Todo: might need to change to payment intent object
+      let paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentID);
       // empty cart
-      if (checkoutSession.status == "complete") {
+      if (paymentIntent.status == "succeeded") {
         // res.setHeader("Set-Cookie", serialize("cart", newToken, { path: "/" }));
         // then, go ahead and delete the cookies
 

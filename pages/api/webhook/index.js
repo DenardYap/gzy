@@ -16,6 +16,7 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 let AWS = require("aws-sdk");
 async function sendEmail(
+  items_bought,
   amount,
   email,
   name,
@@ -55,7 +56,14 @@ async function sendEmail(
   }
   let Data = `Total Cost is: RM${parseInt(amount).toFixed(
     2
-  )}<br>Customer Name: ${name}<br>Customer Email: ${email}<br>Customer Phone: ${phone}<br>Address Line 1: ${line1}<br>Address Line 2: ${line2}<br>Postal Code: ${postal_code}<br>Area/City: ${city}<br>State: ${state}<br>Country: ${country}<br>Referrer: ${r}<br><br><br>Click this link https://dashboard.stripe.com/payments/${paymentIntentID} for more information`;
+  )}<br>Customer Name: ${name}<br>Customer Email: ${email}<br>Customer Phone: ${phone}<br>Address Line 1: ${line1}<br>Address Line 2: ${line2}<br>Postal Code: ${postal_code}<br>Area/City: ${city}<br>State: ${state}<br>Country: ${country}<br>Referrer: ${r}<br><br>ITEMS BOUGHT:<br>`;
+
+  for (let i = 0; i < items_bought.length; i++) {
+    Data += `${items_bought[i].imageTitle}: ${
+      items_bought[i].amount
+    } x RM${parseFloat(items_bought[i].price).toFixed(2)}<br>`;
+  }
+  Data += `<br><br><br>Click this link https://dashboard.stripe.com/payments/${paymentIntentID} for more information`;
   // send mail with defined transport object
   let ToAddresses = [
     "bernerd@umich.edu",
@@ -194,28 +202,30 @@ async function updateTracking(session, token) {
       imageTitleZhc: newCurData.imageTitleZhc,
       imageTitleEn: newCurData.imageTitleEn,
     };
-    console.log(curRow);
     items_bought.push(curRow);
   }
 
   await db.collection("tracking").insertOne({
     timestamp: new Date(),
     items_bought,
-    amount: session.amount_total / 100,
+    amount: session.amount / 100,
     line_1: session.shipping.address.line1,
     line_2: session.shipping.address.line2,
-    email: session.customer_details.email,
-    name: session.customer_details.name,
-    phone: session.customer_details.phone,
+    email: session.receipt_email,
+    name: session.shipping.name,
+    phone: session.shipping.phone,
     postal_code: session.shipping.address.postal_code,
     city: session.shipping.address.city,
     state: session.shipping.address.state,
     country: session.shipping.address.country,
-    _id: session.payment_intent,
+    _id: session.id,
     status: 1, // 1 (new) -> 2 (updated) -> 3 (completed) (delete completed?)
   });
   console.log("updated tracking...");
   await client.quit();
+
+  // return a list of items bought
+  return items_bought;
 }
 
 async function checkCaches(client) {
@@ -295,9 +305,9 @@ export default async function handler(req, res) {
     event = stripe.webhooks.constructEvent(
       buf,
       sig,
-      // process.env.NEXT_PUBLIC_END_POINT_SECRET
+      process.env.NEXT_PUBLIC_END_POINT_SECRET
       // process.env.NEXT_PUBLIC_END_POINT_SECRET_TEST
-      process.env.NEXT_PUBLIC_END_POINT_SECRET_LOCAL
+      // process.env.NEXT_PUBLIC_END_POINT_SECRET_LOCAL
     );
   } catch (err) {
     console.log("Error!", err.message);
@@ -308,7 +318,7 @@ export default async function handler(req, res) {
   // Handle the event
   console.log("handling event...");
   switch (event.type) {
-    case "checkout.session.completed":
+    case "payment_intent.succeeded":
       console.log("Handling success payment, updating database...");
       // res.status(200).send(`SUCCESS!`);
       const session = event.data.object;
@@ -323,19 +333,20 @@ export default async function handler(req, res) {
         token.push({ id: curKey, amount: curVal });
       }
       await updateDatabase(token);
-      await updateTracking(session, token);
+      let items_bought = await updateTracking(session, token);
       await sendEmail(
-        session.amount_total / 100,
-        session.customer_details.email,
-        session.customer_details.name,
-        session.customer_details.phone,
+        items_bought,
+        session.amount / 100,
+        session.receipt_email,
+        session.shipping.name,
+        session.shipping.phone,
         session.shipping.address.line1,
         session.shipping.address.line2,
         session.shipping.address.postal_code,
         session.shipping.address.city,
         session.shipping.address.state,
         session.shipping.address.country,
-        session.payment_intent,
+        session.id,
         session.metadata["referrer"]
       );
       // let revalidateRoute =

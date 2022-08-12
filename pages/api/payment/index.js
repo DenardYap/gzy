@@ -1,9 +1,8 @@
 import Stripe from "stripe";
 import { connectToDatabase } from "../../../util/mongodb";
 import { serialize } from "cookie";
-import { CardCvcElement, Elements } from "@stripe/react-stripe-js";
 const jwt = require("jsonwebtoken");
-const stripe = new Stripe(process.env.SECRET_KEY_TEST);
+const stripe = new Stripe(process.env.NEXT_PUBLIC_SECRET_KEY);
 //ASDASD
 async function validateData(token) {
   const { db } = await connectToDatabase();

@@ -45,13 +45,6 @@ export default function CheckoutForm({ setShipFee, setAllowClick }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // console.log("STREET1 NAME IS:", typeof e.target.inputAddress1.value);
-    // console.log("STREET2 NAME IS:", typeof e.target.inputAddress2.value);
-    // console.log("STATE NAME IS:", typeof e.target.stateName.value);
-    // console.log("AREA NAME IS:", typeof e.target.areaName.value);
-    // console.log("NAME IS:", typeof e.target.inputName.value);
-    // console.log("PHONE IS:", typeof e.target.inputPhone.value);
-    // console.log("EMAIL IS:", typeof e.target.inputEmail.value);
     const cardElementContainer = document.querySelector("#card-element");
     console.log("Card element container is", cardElementContainer);
     let cardElementCompleted = cardElementContainer.classList.contains(
@@ -65,63 +58,51 @@ export default function CheckoutForm({ setShipFee, setAllowClick }) {
     if (!stripe || !elements) {
       return;
     }
-    const { clientSecret, success_url, cancel_url } = await fetch(rootRoute, {
+
+    // create a payment method to pass it to the backend
+    const { err, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card: elements.getElement(CardElement),
+    });
+    if (err) {
+      console.log(err);
+      window.location =
+        process.env.NODE_ENV === "production"
+          ? "https://www.guanzhiyan.com/failed"
+          : "http://localhost:3000/failed";
+
+      return;
+    }
+    const { success_url, cancel_url, error } = await fetch(rootRoute, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
       },
-      // body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+      body: JSON.stringify({
+        paymentMethod,
+        email: e.target.inputEmail.value,
+        city: e.target.areaName.value,
+        line1: e.target.inputAddress1.value,
+        line2: e.target.inputAddress2.value,
+        postal_code: e.target.postalName.value,
+        state: e.target.stateName.value,
+        name: e.target.inputName.value,
+        phone: e.target.inputPhone.value,
+      }),
     }).then((res) => {
       return res.json();
     });
-    // create payment
-    const payload = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: e.target.inputName.value,
-        },
-      },
-
-      receipt_email: e.target.inputEmail.value,
-      shipping: {
-        address: {
-          city: e.target.areaName.value,
-          country: "Malaysia",
-          line1: e.target.inputAddress1.value,
-          line2: e.target.inputAddress2.value,
-          postal_code: e.target.postalName.value,
-          state: e.target.stateName.value,
-        },
-        name: e.target.inputName.value,
-        phone: e.target.inputPhone.value,
-      },
-      receipt_email: e.target.inputEmail.value,
-    });
-    if (payload.error) {
-      alert("Payment Failed");
-      console.log(payload.error);
-      // window.location = cancel_url;
-    } else {
-      /**Update database + clear cart */
-      let res = await fetch(rootRoute + "update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-        },
-      });
-      if (res.status == 200) {
-        alert("Payment success!");
-        window.location = success_url;
-      } else {
-        alert("Payment Failed");
-        res = await res.json();
-        console.log(res.error);
-        window.location = cancel_url;
-      }
+    if (error) {
+      // display meaningful messages
+      // alert(error);
+      console.log(error);
+      window.location = cancel_url;
+      setAllowClick(true);
+      return;
     }
+    window.location = success_url;
+    setAllowClick(true);
   };
 
   function handleState(e) {
