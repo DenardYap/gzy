@@ -41,7 +41,7 @@
   "bhours": "营业时间",
   "mon": "星期一",
   "sun": "星期日",
-  "rest": "星期一至星期日",
+  "rest": "星期一至星期六",
   "closed": "假日休息",
   "contact": "联系",
   "disclaimer": "免责声明",

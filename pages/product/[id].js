@@ -200,17 +200,17 @@ export default function ItemPage(props) {
         <div className={styles.mainDiv}>
           <div className="flex justify-center  mx-[1em]">
             <div
-              className={`${styles.shadowBox} border-2 border-solid border-slate-400 h-fit`}
+              className={`${styles.shadowBox} mini:w-[15em] phone:w-[20em] tablet:w-[30em] mini:h-[12em] phone:h-[17em] tablet:h-[27em] relative border-2 border-solid border-slate-400`}
             >
               <Image
                 priority={true}
                 ref={imageRef}
                 src={props.data[0].image}
                 quality={100}
-                // layout="fill"
-                width={"500%"}
-                height={"500%"}
-                // objectFit="contain"
+                layout="fill"
+                // width={"500%"}
+                // height={"500%"}
+                objectFit="contain"
                 alt={props.data[0].imageAlt}
                 loading="eager"
               ></Image>

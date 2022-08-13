@@ -41,7 +41,7 @@
   "bhours": "Business Hours",
   "mon": "Monday",
   "sun": "Sunday",
-  "rest": "Monday - Sunday",
+  "rest": "Monday - Saturday",
   "closed": "closed on Holidays",
   "contact": "Contact",
   "disclaimer": "Disclaimer",
