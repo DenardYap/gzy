@@ -166,10 +166,10 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
           newNumber += "-";
           trigger = true;
         } else if (trigger) {
-          if (i == 7 && currentPhoneNumber[8] != " ") {
+          if (i == 6) {
             newNumber += " ";
           }
-        } else if (i == 8 && currentPhoneNumber[8] != " ") {
+        } else if (i == 7 && currentPhoneNumber[7] != " ") {
           newNumber += " ";
         }
         if (
@@ -179,7 +179,7 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
           continue;
         if (
           e.target.value[i] == " " &&
-          (e.target.value[e.target.value.length - 1] == " " || i != 8)
+          (e.target.value[e.target.value.length - 1] == " " || i != 7)
         )
           continue;
 
@@ -345,7 +345,7 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
             value={currentPhoneNumber}
             pattern="[0]{1}[1]{1}[0-9]{1}-[0-9]{3} [0-9]{4}"
             className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 w-full`}
-            placeholder="012-3456789"
+            placeholder="012-345 6789"
             required
           ></input>
         </div>

@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import { connectToDatabase } from "../../../util/mongodb";
 import { serialize } from "cookie";
 const jwt = require("jsonwebtoken");
-const stripe = new Stripe(process.env.NEXT_PUBLIC_SECRET_KEY);
+const stripe = new Stripe(process.env.NEXT_PUBLIC_SECRET_KEY_TEST);
 //ASDASD
 async function validateData(token) {
   const { db } = await connectToDatabase();

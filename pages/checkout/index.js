@@ -35,7 +35,9 @@ const Checkout = () => {
   const [shipFee, setShipFee] = useState("15.00");
   useEffect(() => {
     async function fetchStripe() {
-      const cur = await loadStripe(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY);
+      const cur = await loadStripe(
+        process.env.NEXT_PUBLIC_PUBLISHABLE_KEY_TEST
+      );
       setStripePromise(cur);
     }
     fetchStripe();
