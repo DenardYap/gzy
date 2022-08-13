@@ -4,7 +4,7 @@ import { serialize } from "cookie";
 import Stripe from "stripe";
 const redis = require("redis");
 const jwt = require("jsonwebtoken");
-const stripe = new Stripe(process.env.NEXT_PUBLIC_SECRET_KEY_TEST);
+const stripe = new Stripe(process.env.NEXT_PUBLIC_SECRET_KEY);
 
 async function checkCaches(client) {
   let mainData;
@@ -107,16 +107,16 @@ export default async function handler(req, res) {
       console.log("Closing connections...");
       await client.quit();
       // reset token if it's invalid
-      if (err.name == "JsonWebTokenError") {
-        let newToken = jwt.sign(JSON.stringify([]), process.env.secret); // make it empty
-        res.setHeader(
-          "Set-Cookie",
-          serialize("cart", newToken, {
-            path: "/",
-          })
-        );
-        // return res.status(404).json({})
-      }
+      // if (err.name == "JsonWebTokenError") {
+      let newToken = jwt.sign(JSON.stringify([]), process.env.secret); // make it empty
+      res.setHeader(
+        "Set-Cookie",
+        serialize("cart", newToken, {
+          path: "/",
+        })
+      );
+      // return res.status(404).json({})
+      // }
       return res.status(404).json({ data: [] });
     }
   }

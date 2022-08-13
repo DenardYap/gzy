@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import { connectToDatabase } from "../../../util/mongodb";
 import { serialize } from "cookie";
 const jwt = require("jsonwebtoken");
-const stripe = new Stripe(process.env.NEXT_PUBLIC_SECRET_KEY_TEST);
+const stripe = new Stripe(process.env.NEXT_PUBLIC_SECRET_KEY);
 //ASDASD
 async function validateData(token) {
   const { db } = await connectToDatabase();
@@ -23,7 +23,7 @@ async function validateData(token) {
       return 1;
     } else if (
       parseInt(token[i].amount) <= 0 ||
-      parseInt(token[i].amount > parseInt(data[0].quantity))
+      parseInt(token[i].amount) > parseInt(data[0].quantity)
     ) {
       console.log(
         "The amount you are trying to buy exceeded our stock, please try lowering the amount!"
