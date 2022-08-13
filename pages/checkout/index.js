@@ -32,17 +32,14 @@ const Checkout = () => {
   const [items, setItems] = useState(null);
   const [total, setTotal] = useState(0);
   const [allowClick, setAllowClick] = useState(true);
-  const [shipFee, setShipFee] = useState(5);
+  const [shipFee, setShipFee] = useState("15.00");
   useEffect(() => {
     async function fetchStripe() {
-      const cur = await loadStripe(
-        process.env.NEXT_PUBLIC_PUBLISHABLE_KEY
-      );
+      const cur = await loadStripe(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY);
       setStripePromise(cur);
     }
     fetchStripe();
   }, []);
-  console.log("Stripe promise is:", stripePromise);
 
   useEffect(() => {
     async function fetchData() {
@@ -171,6 +168,7 @@ const Checkout = () => {
                     <div className={`${styles.shadowBox} bg-slate-50`}>
                       <Elements stripe={stripePromise}>
                         <CheckoutForm
+                          shipFee={shipFee}
                           setShipFee={setShipFee}
                           setAllowClick={setAllowClick}
                         />

@@ -109,5 +109,7 @@
   "ship_time": "1-3個工作日到貨",
   "delivery_fee": "運費",
   "phone_number": "電話號碼",
-  "Pay":"支付"
+  "Pay":"支付",
+  "card_error": "您的信用卡出錯了，請嘗試使用其他卡",
+  "card_error_two": "請提供一個有效的信用卡號碼"
 }

@@ -73,7 +73,13 @@ export default async function handler(req, res) {
       );
     }
     // todo: return failed url here too
-    return res.status(404).json({ cancel_url, error: "unauthorized cookie" });
+    return res.status(404).json({
+      cancel_url,
+      errorEn: "Something's wrong with your shopping cart, Please retry!",
+      error: "您的购物篮出错了，请重新尝试！",
+      errorZhc: "您的購物籃出錯了，請重新嘗試！",
+      redirect: true,
+    });
   }
   const valid = await validateData(token);
   if (valid != 3) {
@@ -81,15 +87,25 @@ export default async function handler(req, res) {
     let newToken = jwt.sign(JSON.stringify([]), process.env.secret); // make it empty
     res.setHeader("Set-Cookie", serialize("cart", newToken, { path: "/" }));
     let error;
+    let errorEn;
+    let errorZhc;
     if (valid == 1) {
-      error = "This item doesn't exist, it's not in sales anymore!";
+      errorEn =
+        "Some items in your shopping cart are sold out, please try again!";
+      error = "有些在您的购物篮的东西已经卖完了，请重新尝试！";
+      errorZhc = "有些在您的購物籃的東西已經賣完了，請重新嘗試！";
     } else {
-      error =
-        "The amount you are trying to buy exceeded our stock, please try lowering the amount!";
+      errorEn =
+        "Some items in your shopping cart are more than what we have, please try lowering the amount!";
+      error = "有些在您的购物篮的东西超出了我们目前的存货，请重新尝试！";
+      errorZhc = "有些在您的購物籃的東西超出了我們目前的存貨，請重新嘗試！";
     }
     return res.status(404).json({
       cancel_url,
       error,
+      errorEn,
+      errorZhc,
+      redirect: true,
     });
   }
   /**Create a meta data, where we need the amount and id */
@@ -113,7 +129,7 @@ export default async function handler(req, res) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: total,
       currency: "myr",
-      payment_method: req.body.paymentMethod.id,
+      payment_method: req.body.id,
       confirm: true,
       description,
       payment_method_types: ["card"],
@@ -149,6 +165,13 @@ export default async function handler(req, res) {
     });
   } catch (err) {
     console.log("Error 500! Programmer please check:", err);
-    res.status(500).json({ cancel_url, error: "internal server error" });
+    res.status(500).json({
+      cancel_url,
+      errorEn: err.message,
+      error:
+        "您的行用卡出错了，可能是资金不足，被盗/遗失卡，过期，或者是错误的卡验证码，请重试或者用另一种卡",
+      errorZhc:
+        "您的行用卡出錯了，可能是資金不足，被盜/遺失卡，過期，或者是錯誤的卡驗證碼，請重試或者用另一種卡",
+    });
   }
 }

@@ -111,6 +111,8 @@
   "ship_time": "Ship within 1 - 3 Business Day",
   "delivery_fee": "Delivery Fee",
   "phone_number": "Phone Number",
-  "Pay": "Pay"
+  "Pay": "Pay",
+  "card_error" : "Something's wrong with your card, please try a different card if the problem persists.",
+  "card_error_two": "Please provide a valid credit card detail"
 
 }

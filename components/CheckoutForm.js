@@ -1,17 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { EmailAuthCredential } from "firebase/auth";
 import malaysianState from "../util/malaysiaState";
 import { MdLocalShipping } from "react-icons/md";
+import { languageContext } from "../pages/_app";
 import { useTranslation } from "next-i18next";
+import Swal from "sweetalert2";
 
-export default function CheckoutForm({ setShipFee, setAllowClick }) {
+export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
+  const language = useContext(languageContext);
   const { t } = useTranslation("common");
   const stripe = useStripe();
   const elements = useElements();
   const [currentPhoneNumber, setCurrentPhoneNumber] = useState("");
-
-  let [curState, setCurState] = useState("Negeri Sembilan");
+  3;
+  let areaRef = useRef();
+  const [curState, setCurState] = useState("Negeri Sembilan");
+  const [curArea, setCurArea] = useState("Jelebu");
+  const [triggered, setTriggered] = useState(false);
 
   const rootRoute =
     process.env.NODE_ENV == "production"
@@ -46,12 +52,17 @@ export default function CheckoutForm({ setShipFee, setAllowClick }) {
     e.preventDefault();
 
     const cardElementContainer = document.querySelector("#card-element");
-    console.log("Card element container is", cardElementContainer);
     let cardElementCompleted = cardElementContainer.classList.contains(
       "StripeElement--complete"
     );
     if (!cardElementCompleted) {
-      alert("Please provide a valid credit card detail");
+      Swal.fire({
+        title: t("oops"),
+        text: t("card_error_two"), // TODO: Might need different language!
+        icon: "error",
+        color: "#1e293b",
+        confirmButtonColor: "#1e293b",
+      });
       return;
     }
     setAllowClick(false);
@@ -64,40 +75,58 @@ export default function CheckoutForm({ setShipFee, setAllowClick }) {
       type: "card",
       card: elements.getElement(CardElement),
     });
-    if (err) {
-      console.log(err);
-      window.location =
-        process.env.NODE_ENV === "production"
-          ? "https://www.guanzhiyan.com/failed"
-          : "http://localhost:3000/failed";
+    if (err || !paymentMethod) {
+      Swal.fire({
+        title: t("oops"),
+        text: t("card_error"),
+        icon: "error",
+        color: "#1e293b",
+        confirmButtonColor: "#1e293b",
+      });
 
+      setAllowClick(true);
       return;
     }
-    const { success_url, cancel_url, error } = await fetch(rootRoute, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
-      },
-      body: JSON.stringify({
-        paymentMethod,
-        email: e.target.inputEmail.value,
-        city: e.target.areaName.value,
-        line1: e.target.inputAddress1.value,
-        line2: e.target.inputAddress2.value,
-        postal_code: e.target.postalName.value,
-        state: e.target.stateName.value,
-        name: e.target.inputName.value,
-        phone: e.target.inputPhone.value,
-      }),
-    }).then((res) => {
-      return res.json();
-    });
+    const { success_url, cancel_url, error, errorEn, errorZhc, redirect } =
+      await fetch(rootRoute, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_HEADER,
+        },
+        body: JSON.stringify({
+          id: paymentMethod.id,
+          email: e.target.inputEmail.value,
+          city: e.target.areaName.value,
+          line1: e.target.inputAddress1.value,
+          line2: e.target.inputAddress2.value,
+          postal_code: e.target.postalName.value,
+          state: e.target.stateName.value,
+          name: e.target.inputName.value,
+          phone: e.target.inputPhone.value,
+        }),
+      }).then((res) => {
+        return res.json();
+      });
     if (error) {
       // display meaningful messages
       // alert(error);
-      console.log(error);
-      window.location = cancel_url;
+      let text = error;
+      if (language == 1) {
+        text = errorEn;
+      } else if (language == 3) {
+        text = errorZhc;
+      }
+
+      Swal.fire({
+        title: t("oops"),
+        text, // TODO: Might need different language!
+        icon: "error",
+        color: "#1e293b",
+        confirmButtonColor: "#1e293b",
+      });
+
+      if (redirect) window.location = cancel_url;
       setAllowClick(true);
       return;
     }
@@ -107,6 +136,11 @@ export default function CheckoutForm({ setShipFee, setAllowClick }) {
 
   function handleState(e) {
     setCurState(e.target.value);
+    setCurArea(malaysianState[e.target.value][0]);
+  }
+
+  function handleArea(e) {
+    setCurArea(e.target.value);
   }
 
   function renderAreas() {
@@ -121,53 +155,53 @@ export default function CheckoutForm({ setShipFee, setAllowClick }) {
   function handlePhone(e) {
     e.preventDefault();
     if (e.target.value.length >= 13) return;
-    if (e.target.value.length == 4) {
+    if (e.target.value.length >= 4) {
       // 0126 -> 012-6
-      if (currentPhoneNumber.length == 3) {
-        setCurrentPhoneNumber((currentPhoneNumber) => {
-          let newNumber = currentPhoneNumber;
+      let newNumber = "";
+
+      let trigger = false;
+      for (let i = 0; i < e.target.value.length; i++) {
+        if (newNumber.length >= 12) break;
+        if (i == 3 && currentPhoneNumber[3] != "-") {
           newNumber += "-";
-          return newNumber + e.target.value[3];
-        });
-      } else {
-        setCurrentPhoneNumber((currentPhoneNumber) => {
-          return currentPhoneNumber.slice(0, 3);
-        });
-      }
-    } else if (e.target.value.length == 8) {
-      if (currentPhoneNumber.length == 7) {
-        setCurrentPhoneNumber((currentPhoneNumber) => {
-          let newNumber = currentPhoneNumber;
+          trigger = true;
+        } else if (trigger) {
+          if (i == 7 && currentPhoneNumber[8] != " ") {
+            newNumber += " ";
+          }
+        } else if (i == 8 && currentPhoneNumber[8] != " ") {
           newNumber += " ";
-          return newNumber + e.target.value[7];
-        });
-      } else {
-        setCurrentPhoneNumber((currentPhoneNumber) => {
-          return currentPhoneNumber.slice(0, 7);
-        });
+        }
+        if (
+          e.target.value[i] == "-" &&
+          (e.target.value[e.target.value.length - 1] == "-" || i != 3)
+        )
+          continue;
+        if (
+          e.target.value[i] == " " &&
+          (e.target.value[e.target.value.length - 1] == " " || i != 8)
+        )
+          continue;
+
+        newNumber += e.target.value[i];
       }
+      setCurrentPhoneNumber(newNumber);
     } else {
       setCurrentPhoneNumber(e.target.value);
     }
   }
 
-  function renderPrice() {
-    if (curState == "Negeri Sembilan") {
-      setShipFee(0.0);
-      return "0.00";
-    } else if (
-      curState == "Johor" ||
-      curState == "Perak" ||
-      curState == "Kelantan" ||
-      curState == "Terengganu"
+  useEffect(() => {
+    if (
+      curArea == "Rembau" ||
+      curArea == "Port Dickson" ||
+      curArea == "Seremban"
     ) {
-      setShipFee(15.0);
-      return "15.00";
+      setShipFee("0.00");
     } else {
-      setShipFee(5.0);
-      return "5.00";
+      setShipFee("15.00");
     }
-  }
+  }, [curArea]);
 
   return (
     <form
@@ -241,6 +275,7 @@ export default function CheckoutForm({ setShipFee, setAllowClick }) {
               {t("Area")}
             </label>
             <select
+              onChange={handleArea}
               id="area-name"
               name="areaName"
               className={`outline-0	p-1 pl-2 rounded-sm text-slate-600 mb-2 w-[100%]`}
@@ -275,7 +310,7 @@ export default function CheckoutForm({ setShipFee, setAllowClick }) {
             <h3> {t("ship_time")} </h3>
           </div>
           <h3>
-            {t("delivery_fee")}: RM{renderPrice()}{" "}
+            {t("delivery_fee")}: RM{shipFee}{" "}
           </h3>
         </div>
       </div>
