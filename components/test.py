@@ -4,7 +4,7 @@ import os
 import random
 import re
 import sys
-
+from collections import deque
 #
 # Complete the 'filterBadWords' function below.
 #
@@ -54,6 +54,11 @@ class Trie:
             # if has front asterisk on any of the bad word 
             startPoint = cur.children["*"]
             cur = startPoint
+            
+            visited = set()
+            q = deque()
+            q.append(word[0])
+            
             for c in word:
                 
                 if c in cur.children:
