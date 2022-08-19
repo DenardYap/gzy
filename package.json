@@ -47,7 +47,8 @@
     "sha256": "^0.2.0",
     "sharp": "^0.30.7",
     "stripe": "^9.12.0",
-    "sweetalert2": "^11.4.23"
+    "sweetalert2": "^11.4.23",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.5",

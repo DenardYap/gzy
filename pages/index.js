@@ -21,6 +21,7 @@ let top3ID = [
 let top3 = [];
 export default function Home(props) {
   /* 1 : english, 2 : chinese, 3 : traditioanl chinese */
+  console.log("WWWWWWWWWWWW");
   let language;
   const [allowClick, setAllowClick] = useState(true);
 
