@@ -134,7 +134,7 @@ function MyApp({ Component, pageProps, ...appProps }) {
       // document.getElementsByTagName("body")[0].style.fontFamily =
       //   "/font/mashanzheng.ttf";
       console.log("Current lang", "en");
-      let english_font = new FontFace("Varela", "url(/font/varela.ttf)");
+      let english_font = new FontFace("Varela", "url(/font/Varela.ttf)");
       english_font.load().then((loaded_face) => {
         console.log(loaded_face);
         document.getElementsByTagName("body")[0].style.fontFamily = "Varela";
