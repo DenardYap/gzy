@@ -130,7 +130,7 @@ const NavBar = () => {
     })
       .then((res) => {
         if (res.ok) return res.json();
-        alert("Payment failed, please rety, or contact the seller!");
+        alert("Payment failed, please retry, or contact the seller!");
         setAllowClick(true);
         Swal.fire({
           title: t("oops"),
