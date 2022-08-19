@@ -113,6 +113,18 @@
   "phone_number": "Phone Number",
   "Pay": "Pay",
   "card_error" : "Something's wrong with your card, please try a different card if the problem persists.",
-  "card_error_two": "Please provide a valid credit card detail"
+  "card_error_two": "Please provide a valid credit card detail",
+
+  "payment_success": "Payment Success",
+  "shipped_shortly": "Your items will be shipped shortly",
+  "track_package": "To track your package, check the confirmation email at your email address",
+  "didnt_received": "Didn't receive an email? Check your",
+  "spam": "Junk/Spam",
+  "folder": "folder",
+  "payment_failed": "Payment Failed",
+  "something_wrong": "Something went wrong, please try again",
+  "have_time": "If you have time, please take a minute to ",
+  "rate": "rate our website!"
+
 
 }

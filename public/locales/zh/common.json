@@ -111,5 +111,16 @@
   "phone_number": "电话号码",
   "Pay": "支付",
   "card_error": "您的信用卡出错了，请尝试使用其他卡",
-  "card_error_two": "请提供一个有效的信用卡号码"
+  "card_error_two": "请提供一个有效的信用卡号码",
+
+  "payment_success": "付款成功",
+  "shipped_shortly": "您的包裹将会在最短时间内寄送！",
+  "track_package": "如果您要查看包裹的状况, 检查您邮箱中的确认邮件",
+  "didnt_received": "没收到邮件？查查看您的",
+  "spam": "垃圾邮件（Junk/Spam）",
+  "folder": "文件夹 （folder）",
+  "payment_failed": "付款失败",
+  "something_wrong": "出错了！请重新尝试！",
+  "have_time": "如果您有时间的话，请花一两分钟",
+  "rate": "评评我们的网站！"
 }

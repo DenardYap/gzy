@@ -12,8 +12,8 @@ const Failed = () => {
         size={350}
         className="text-red-500 mb-[1em]"
       ></ImCancelCircle>
-      <h2 className="text-7xl ">Payment Failed</h2>
-      <h3 className="text-4xl">Something went wrong, please try again</h3>
+      <h2 className="text-7xl ">{t("payment_failed")}</h2>
+      <h3 className="text-4xl">{t("something_wrong")}</h3>
     </div>
   );
 };
