@@ -1,5 +1,4 @@
 .topGrid {
-    display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     width: 100%;
     background-color: rgb(30 41 59);
@@ -9,16 +8,20 @@
     padding: 0 5px 0 5px;
 }
 
-
 .orderGrid {
     text-align: center;
     display :grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-areas:
-        "image title quantity   price  subtitle";
+        "image title quantity price  subtitle";
         
-  align-items: center;
+    align-items: center;
+    
+    border-bottom: 1px;
+    border-style: solid;
+    border-color: black;
+    padding-top: 0.5em;
     /* height: 3em; */
     
 }
@@ -56,9 +59,40 @@
 }
 
 .customerGrid{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     word-break: break-word;    
     font-size: medium;
     text-align: center;
+}
+
+
+@media screen and (min-width: 240px) {
+    .topGrid {
+        display: none;
+        
+    }
+    
+    .customerGrid{
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr;
+    }
+    
+    .orderGrid {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .topGrid {
+        display: grid;
+    }
+    
+    .customerGrid{
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .orderGrid {
+        display: grid;
+    }
 }

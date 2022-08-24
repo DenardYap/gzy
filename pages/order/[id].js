@@ -112,13 +112,14 @@ const Order = (props) => {
       ) : (
         <>
           <div className="mt-10 mb-2 mx-[1em] underline">
+            {/* TODO: MQ */}
             {date ? <h2> Order placed on {formatDate()}</h2> : <></>}
           </div>
-          <div className="flex flex-col rounded bg-slate-200 text-gray-400 p-5 mx-[1em] mb-10 min-h-[75vh] ">
-            <h2 className="mini:text-2xl laptop:text-4xl  mb-3   text-slate-800">
+          <div className="flex flex-col rounded bg-slate-200 text-gray-400 mini:p-3 laptop:p-5 mx-[1em] mb-10 min-h-[75vh] ">
+            <h2 className="mini:text-3xl laptop:text-left mini:text-center laptop:text-4xl  mb-3   text-slate-800">
               {t("delivery_status")}
             </h2>
-            <div className="flex mini:flex-col  laptop:flex-row justify-around items-center text-9xl bg-slate-50 p-5 rounded shadow-2xl">
+            <div className="flex mini:flex-col  laptop:flex-row justify-around items-center mini:text-[8rem] tablet:text-[12rem] laptop:text-[8rem] bg-slate-50 p-5 rounded shadow-2xl">
               <div className="flex flex-col  items-center text-center">
                 <FaShoppingCart className="text-green-400   "></FaShoppingCart>
                 <h2 className="text-xl text-green-400 font-semibold">
@@ -193,8 +194,8 @@ const Order = (props) => {
             <h2 className="text-4xl underline  mb-3 my-10  text-slate-800">
               {t("your_orders")}
             </h2>
-            <div className="flex flex-col">
-              <div className={styles.topGrid}>
+            <div className=" flex flex-col">
+              <div className={`${styles.topGrid}`}>
                 <h3>{t("Image")}</h3>
                 <h3>{t("Name")}</h3>
                 <h3>{t("Quantity")}</h3>
@@ -221,7 +222,7 @@ const Order = (props) => {
             {data ? (
               <>
                 <div
-                  className={`${styles.customerGrid}  justify-around text-xl bg-slate-800 text-slate-50 `}
+                  className={`${styles.customerGrid} mini:hidden laptop:grid  justify-around text-xl bg-slate-800 text-slate-50 `}
                 >
                   <h2>{t("Name")}</h2>
                   <h2>{t("Phone")}</h2>
@@ -234,16 +235,25 @@ const Order = (props) => {
                   <h2>{t("Country")}</h2>
                 </div>
                 <div
-                  className={`${styles.customerGrid}  justify-around text-xl bg-slate-50 text-slate-800 rounded shadow-2xl`}
+                  className={`${styles.customerGrid} mini:grid justify-around text-xl bg-slate-50 text-slate-800 rounded shadow-2xl`}
                 >
+                  <div className="laptop:hidden underline">{t("Name")}</div>
                   <h2>{data.name}</h2>
+                  <div className="laptop:hidden underline">{t("Phone")}</div>
                   <h2>{data.phone}</h2>
+                  <div className="laptop:hidden underline">{t("Email")}</div>
                   <h2>{data.email}</h2>
+                  <div className="laptop:hidden underline">{t("Address1")}</div>
                   <h2>{data.line_1}</h2>
+                  <div className="laptop:hidden underline">{t("Address2")}</div>
                   <h2>{data.line_2}</h2>
+                  <div className="laptop:hidden underline">{t("Postal")}</div>
                   <h2>{data.postal_code}</h2>
+                  <div className="laptop:hidden underline">{t("City")}</div>
                   <h2>{data.city}</h2>
+                  <div className="laptop:hidden underline">{t("State")}</div>
                   <h2>{data.state}</h2>
+                  <div className="laptop:hidden underline">{t("Country")}</div>
                   <h2>{data.country}</h2>
                 </div>
               </>

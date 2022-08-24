@@ -124,7 +124,8 @@
   "payment_failed": "Payment Failed",
   "something_wrong": "Something went wrong, please try again",
   "have_time": "If you have time, please take a minute to ",
-  "rate": "rate our website!"
+  "rate": "rate our website!",
+  "wechat_text": "Please scan the QR code below"
 
 
 }
