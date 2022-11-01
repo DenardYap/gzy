@@ -309,7 +309,6 @@ export default async function handler(req, res) {
       // process.env.NEXT_PUBLIC_END_POINT_SECRET_TEST
       // process.env.NEXT_PUBLIC_END_POINT_SECRET_LOCAL
     );
-    // a
   } catch (err) {
     console.log("Error!", err.message);
     res.status(400).send(`Webhook Error: ${err.message}`);

@@ -658,17 +658,19 @@ const NavBar = () => {
                 <></>
               ) : (
                 <li className="flex items-center justify-center shadow-md h-[2em] border-b-2 w-full border-solid border-slate-600">
+                <Link href="/checkout" locale={router.locale}>
                   <div
                     onClick={() => {
                       setBurgerInit(false);
                       setBurger(false);
-                      handleCheckout();
+                      // handleCheckout();
                     }}
                     className="transition-all cursor-pointer  flex-row flex justify-center items-center  text-slate-700  border-b  md:border-b-4 md:border-solid md:border-transparent hover:bg-black md:hover:border-b-4 md:hover:border-solid 	md:hover:border-amber-400 md:hover:bg-transparent  md:p-0   "
                   >
                     {t("checkout_small")}
                     <MdOutlinePayment className="ml-2" />
                   </div>
+                  </Link>
                 </li>
               )}
             </ul>

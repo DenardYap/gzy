@@ -11,7 +11,7 @@ async function validateData(token) {
     // check if the amount is correct
     // lastly, also add a price and imageTitle key into the object
     const ObjectId = require("mongodb").ObjectId;
-    data = await db
+    let data = await db
       .collection("product")
       .find({ _id: ObjectId(token[i].id.toString()) })
       .toArray();
