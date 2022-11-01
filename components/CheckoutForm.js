@@ -91,7 +91,7 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
       return;
     }
     console.log("Hello world3")
-
+    console.log(process.env.NEXT_PUBLIC_CHECKOUT_API_CUSTOMpro)
     const { success_url, cancel_url, error, errorEn, errorZhc, redirect } =
       await fetch(rootRoute, {
         method: "POST",
@@ -111,12 +111,14 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
           phone: e.target.inputPhone.value,
         }),
       }).then((res) => {
+        console.log("Hello world4")
         return res.json();
       });
     if (error) {
       // display meaningful messages
       // alert(error);
       let text = error;
+      console.log("Hello world5")
       if (language == 1) {
         text = errorEn;
       } else if (language == 3) {
