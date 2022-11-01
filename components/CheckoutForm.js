@@ -8,7 +8,6 @@ import { useTranslation } from "next-i18next";
 import Swal from "sweetalert2";
 
 export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
-  console.log("Hello world0")
   const language = useContext(languageContext);
   const { t } = useTranslation("common");
   const stripe = useStripe();
@@ -56,7 +55,6 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
     let cardElementCompleted = cardElementContainer.classList.contains(
       "StripeElement--complete"
     );
-    console.log("Hello world1")
     if (!cardElementCompleted) {
       Swal.fire({
         title: t("oops"),
@@ -71,7 +69,6 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
     if (!stripe || !elements) {
       return;
     }
-    console.log("Hello world2")
 
     // create a payment method to pass it to the backend
     const { err, paymentMethod } = await stripe.createPaymentMethod({
@@ -90,8 +87,6 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
       setAllowClick(true);
       return;
     }
-    console.log("Hello world3")
-    console.log(process.env.NEXT_PUBLIC_CHECKOUT_API_CUSTOMpro)
     const { success_url, cancel_url, error, errorEn, errorZhc, redirect } =
       await fetch(rootRoute, {
         method: "POST",
@@ -111,14 +106,12 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
           phone: e.target.inputPhone.value,
         }),
       }).then((res) => {
-        console.log("Hello world4")
         return res.json();
       });
     if (error) {
       // display meaningful messages
       // alert(error);
       let text = error;
-      console.log("Hello world5")
       if (language == 1) {
         text = errorEn;
       } else if (language == 3) {
