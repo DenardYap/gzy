@@ -175,6 +175,7 @@ async function sendEmail(
       console.error(err, err.stack);
     });
   console.log("sent customer email!");
+  return 1;
 }
 
 async function updateTracking(session, token) {
@@ -293,6 +294,7 @@ async function updateDatabase(token) {
       `Updated id ${token[i].id}, new amount is now ${newAmounts[token[i].id]}`
     );
   }
+  return 1;
 }
 
 export default async function handler(req, res) {
@@ -332,9 +334,9 @@ export default async function handler(req, res) {
         let curVal = session.metadata[curKey];
         token.push({ id: curKey, amount: curVal });
       }
-      await updateDatabase(token);
+      let databaseUpdated = await updateDatabase(token);
       let items_bought = await updateTracking(session, token);
-      await sendEmail(
+      let emailSent = await sendEmail(
         items_bought,
         session.amount / 100,
         session.receipt_email,
@@ -372,5 +374,5 @@ export default async function handler(req, res) {
   }
 
   // Return a 200 response to acknowledge receipt of the event
-  res.status(200).json({ message: "successfully updated database" });
+  res.status(200).json({ databaseUpdated, emailSent });
 }
