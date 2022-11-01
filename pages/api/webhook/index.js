@@ -319,6 +319,8 @@ export default async function handler(req, res) {
 
   // Handle the event
   console.log("handling event...");
+  let databaseUpdated;
+  let emailSent;
   switch (event.type) {
     case "payment_intent.succeeded":
       console.log("Handling success payment, updating database...");
@@ -334,9 +336,9 @@ export default async function handler(req, res) {
         let curVal = session.metadata[curKey];
         token.push({ id: curKey, amount: curVal });
       }
-      let databaseUpdated = await updateDatabase(token);
+      databaseUpdated = await updateDatabase(token);
       let items_bought = await updateTracking(session, token);
-      let emailSent = await sendEmail(
+      emailSent = await sendEmail(
         items_bought,
         session.amount / 100,
         session.receipt_email,
