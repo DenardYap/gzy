@@ -259,6 +259,7 @@ export default function CheckoutForm({ shipFee, setShipFee, setAllowClick }) {
               <option value="Labuan">Labuan</option>
               <option value="Melaka">Melaka</option>
               <option value="Pahang">Pahang</option>
+              <option value="Penang">Penang</option>
               <option value="Perak">Perak</option>
               <option value="Putrajaya">Putrajaya</option>
               <option value="Perlis">Perlis</option>
