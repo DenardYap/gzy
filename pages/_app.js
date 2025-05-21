@@ -51,11 +51,15 @@ function MyApp({ Component, pageProps, ...appProps }) {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      console.log("User is signed in", user);
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       setUser(user);
       /**Do some permission check here */
       // ...
+    } else {
+      // User is signed out
+      console.log("User is signed out");
     }
   });
 

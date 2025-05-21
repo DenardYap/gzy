@@ -44,6 +44,7 @@ export default async function handler(req, res) {
         req.cookies.checkoutToken,
         process.env.secret
       );
+
       // session = parseInt(session)
       // Todo: might need to change to payment intent object
       let paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentID);

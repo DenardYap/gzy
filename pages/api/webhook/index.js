@@ -15,6 +15,8 @@ const redis = require("redis");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 let AWS = require("aws-sdk");
+
+// a webhook that sends email when a payment is received
 async function sendEmail(
   items_bought,
   amount,

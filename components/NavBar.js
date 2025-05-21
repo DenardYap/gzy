@@ -21,11 +21,13 @@ import app from "../util/firebase_util";
 import {
   getAuth,
   signInWithRedirect,
+  signInWithPopup,
   setPersistence,
   inMemoryPersistence,
   browserLocalPersistence,
   getRedirectResult,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signOut,
 } from "firebase/auth";
 import { ImCancelCircle } from "react-icons/im";
@@ -151,9 +153,35 @@ const NavBar = () => {
       });
   }
   /**AUTH */
+  // OLD CODE
+  // async function handleAuth() {
+  //   await signInWithRedirect(auth, provider);
+  // }
+
   async function handleAuth() {
-    await signInWithRedirect(auth, provider);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      // This gives you a Google Access Token. You can use it to access Google APIs.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+
+      // The signed-in user info.
+      const user = result.user;
+      console.log("User signed in:", user);
+      // Do something with the user or update your state
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.customData?.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+
+      console.error(
+        `Sign-in error for ${email}: [${errorCode}] ${errorMessage}`
+      );
+    }
   }
+
+  
   async function handleLogout() {
     signOut(auth)
       .then(() => {
@@ -168,6 +196,7 @@ const NavBar = () => {
   useEffect(() => {
     getRedirectResult(auth)
       .then(async (result) => {
+        console.log("Result: ", result);
         if (!result) {
           console.log("no result");
           return;
@@ -190,6 +219,17 @@ const NavBar = () => {
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
       });
+
+      
+    // Persistent user login status
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      console.log("firebaseUser", firebaseUser)
+      if (firebaseUser) {
+        setUser(firebaseUser);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
   /********/
 

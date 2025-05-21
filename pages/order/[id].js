@@ -277,7 +277,6 @@ export async function getStaticProps({ params, locale }) {
     .toArray();
   try {
     data = JSON.parse(JSON.stringify(data));
-    console.log("here1");
     if (data.length == 0) {
       console.log("item doesn't exist");
       return {
@@ -291,7 +290,6 @@ export async function getStaticProps({ params, locale }) {
       notFound: true,
     };
   }
-  console.log("here2");
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"], nextI18nextConfig)),
